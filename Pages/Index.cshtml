@@ -1,0 +1,19 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Samtalen";
+}
+
+
+<div class="card-columns">
+    @foreach (var forkortelse in Model.Forkortelser)
+    {
+        <div class="card">
+            <div class="card-img" style="background-image: url('@forkortelse.Forkortes');"></div>
+            <div class="card-body">
+                <h5 class="card-title">@forkortelse.Oprindelse</h5>
+            </div>
+        </div>
+    }
+</div>
+
