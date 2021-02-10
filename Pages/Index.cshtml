@@ -1,9 +1,13 @@
 ﻿@page
+@using Crafts.Components
 @model IndexModel
 @{
     ViewData["Title"] = "Samtalen";
 }
 
+
+@* Indsæt blogindlægsoverblik *@
+@(await Html.RenderComponentAsync<BlogindlaegListe>(RenderMode.ServerPrerendered))
 
 <div class="card-columns">
     @foreach (var forkortelse in Model.Forkortelser)
@@ -17,3 +21,6 @@
     }
 </div>
 
+
+@* Brug af BLazorkomponenter *@
+<script src="_framework/blazor.server.js"></script>

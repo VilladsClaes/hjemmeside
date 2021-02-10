@@ -31,6 +31,8 @@ namespace Crafts.Models
         [JsonPropertyName("Tekst")]
         public string BlogindlaegTekst { get; set; }
 
+        public string Billede { get; set; }
+
 
 
 

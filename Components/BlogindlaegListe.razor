@@ -1,0 +1,128 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@using Crafts.Models
+@using Crafts.Services
+@inject JsonFileBlogindlaegService BlogindlaegService
+
+<h3>BlogindlaegListe</h3>
+
+
+
+<div class="card-columns">
+    @foreach (var indlaeg in BlogindlaegService.GetBlogindlaeg())
+    {
+        <div class="card">
+            <div class="card-img" style="background-image: url('@indlaeg.Billede');"></div>
+            <div class="card-body">
+                <h5 class="card-title">@indlaeg.BlogindlaegOverskrift</h5>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">
+                    <button @onclick="(e => VaelgIndlaeg(indlaeg.Id))" data-toggle="modal" data-target="#indlaegModal" class="btn btn-primary">
+                        Mere...
+                    </button>
+                </small>
+            </div>
+        </div>
+
+    }
+</div>
+
+@* Tjek om der er valgt et produkt, og hvis der er så vis den modal *@
+@if (valgtIndlaeg != null)
+{
+    <div class="modal fade" id="indlaegModal" tabindex="-1" role="dialog" aria-labelledby="productTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productTitle">@valgtIndlaeg.BlogindlaegOverskrift</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="card">
+                        <div class="card-img" style="background-image: url('@valgtIndlaeg.Billede');">
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">@valgtIndlaeg.BlogindlaegTekst</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    @if (bedoemmelsesAntal == 0)
+                    {
+                        <span> Vær den første til at give dette en bedømmelse</span>
+                    }
+                    else
+                    {
+                        <span>@bedoemmelsesAntal @bedoemmelseLabel</span>
+                    }
+
+                    @for (int i = 0; i <= 5; i++)
+                    {
+                        var nuvaerendeStjerne = i;
+                        if (i <= nuvaerendeBedoemmelse)
+                        {
+                           
+                            <i class="bi bi-star-fill" @onclick="(e => SubmitRating(nuvaerendeStjerne))"></i>
+                        }
+                        else
+                        {
+                            
+                            <i class="bi bi-star" @onclick="(e => SubmitRating(nuvaerendeStjerne))"></i>
+
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    Blogindlaeg valgtIndlaeg;
+    int valgtIndlaegID;
+
+    void VaelgIndlaeg(int IndlaegID)
+    {
+        valgtIndlaegID = IndlaegID;
+        valgtIndlaeg = BlogindlaegService.GetBlogindlaeg().First(x => x.Id == IndlaegID);
+        //Opdatér bedømmelse
+        GetnuvaerendeBedoemmelse();
+    }
+
+    int nuvaerendeBedoemmelse = 0;
+    int bedoemmelsesAntal = 0;
+    string bedoemmelseLabel;
+
+    void GetnuvaerendeBedoemmelse()
+    {
+        if (valgtIndlaeg.Ratings == null)
+        {
+            nuvaerendeBedoemmelse = 0;
+            bedoemmelsesAntal = 0;
+        }
+        else
+        {
+            bedoemmelsesAntal = valgtIndlaeg.Ratings.Count();
+            bedoemmelseLabel = bedoemmelsesAntal > 1 ? "bedømmelser" : "bedømmelse";
+            //Lav gennemsnit
+            nuvaerendeBedoemmelse = valgtIndlaeg.Ratings.Sum() / bedoemmelsesAntal;
+        }
+
+        Console.WriteLine($"Nuværende Bedømmelse for blogindlæg#{valgtIndlaeg.Id} er {nuvaerendeBedoemmelse}");
+
+
+    }
+
+    void SubmitRating(int rating)
+    {
+        Console.WriteLine($"Bedømmelse givet til blogindlæg#{valgtIndlaeg.Id} på {rating}");
+        //Gå ind og skriv bedømmelse i JSON
+        BlogindlaegService.TilfoejBedoemelse(valgtIndlaegID, rating);
+        VaelgIndlaeg(valgtIndlaegID);
+
+    }
+}

@@ -28,6 +28,9 @@ namespace Crafts
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+
+            //Brug af BlazorKomponenter
+            services.AddServerSideBlazor();
             //Hvis man tilføjer og vil bruge Controllers, skal man lige indlæse den dependency
             services.AddControllers();
             //Transient er en ting som kommer og går
@@ -74,6 +77,9 @@ namespace Crafts
 
                 //Hvis man vil bruge Controllers til at route
                 endpoints.MapControllers();
+
+                //Brug af BlazorKomponenter
+                endpoints.MapBlazorHub();
 
 
                 //});
