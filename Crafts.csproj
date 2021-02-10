@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Crafts</RootNamespace>
+    <UserSecretsId>718ff415-5768-4cc8-8bbb-c82af99c82c1</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
