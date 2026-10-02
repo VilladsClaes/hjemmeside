@@ -1,0 +1,43 @@
+# Kopierer hjemmesiden til webhotellet via FTP, hver gang der pushes til master.
+# Kun ændrede filer bliver sendt. Login-oplysningerne ligger som "secrets" i GitHub
+# (Settings → Secrets and variables → Actions) og står aldrig i koden.
+name: Udgiv til webhotel
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch: # gør det muligt at starte en udgivelse manuelt fra fanen "Actions"
+
+concurrency:
+  group: udgiv
+  cancel-in-progress: false
+
+jobs:
+  udgiv:
+    runs-on: ubuntu-latest
+    env:
+      HAR_FTP: ${{ secrets.FTP_SERVER != '' }}
+    steps:
+      - name: Mangler FTP-oplysninger?
+        if: env.HAR_FTP != 'true'
+        run: echo "::warning::FTP-secrets er ikke sat op endnu, så intet blev uploadet. Se README.md."
+
+      - name: Hent koden
+        if: env.HAR_FTP == 'true'
+        uses: actions/checkout@v4
+
+      - name: Upload via FTP
+        if: env.HAR_FTP == 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_BRUGER }}
+          password: ${{ secrets.FTP_ADGANGSKODE }}
+          server-dir: ${{ secrets.FTP_MAPPE }}   # skal slutte med / f.eks. public_html/
+          protocol: ftps                          # krypteret. Skift til ftp hvis webhotellet ikke understøtter det
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            .claude/**
+            README.md

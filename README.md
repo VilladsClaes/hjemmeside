@@ -1,6 +1,21 @@
-# mig.villadsclaes.dk
+# Villads Claes — personlig hjemmeside
 
-Villads Claes' personlige hjemmeside. Ren HTML, CSS og JavaScript uden build-trin og uden afhængigheder.
+Ren HTML, CSS og JavaScript uden build-trin og uden afhængigheder. Siden ligger på mit eget webhotel og bliver opdateret automatisk fra GitHub.
+
+## Sådan hænger det sammen
+
+```
+ Din computer           GitHub                 Webhotellet
+ ────────────   push    ──────────   FTP       ────────────
+ Du retter  ───────────▶ Gemmer  ────────────▶ Siden vises
+ filerne                 historik  (automatisk) for verden
+```
+
+1. **Din computer:** Her retter du filerne.
+2. **GitHub:** Gemmer alle versioner (så du altid kan fortryde) og kører automatikken.
+3. **Webhotellet:** Viser siden for besøgende. GitHub kopierer de ændrede filer hertil via FTP, hver gang du pusher.
+
+Automatikken står i `.github/workflows/udgiv.yml`. Du kan følge med i fanen **Actions** på GitHub: grøn ✓ betyder, at siden er opdateret, og rødt ✗ betyder, at noget gik galt (klik på det for at se hvad).
 
 ## Struktur
 
@@ -10,29 +25,50 @@ cv.html         CV (kan gemmes som PDF via knappen eller Ctrl+P)
 css/style.css   Al styling. Farverne ligger som variabler øverst i filen
 js/main.js      Hilsen efter tidspunkt, lyst/mørkt tema, menu og scroll-animation
 img/            Læg dine billeder her
-CNAME           Domænet til GitHub Pages
 ```
 
-## Ret indholdet
+## Opsætning (skal kun gøres én gang)
 
-Søg efter `✏️` i `index.html` og `cv.html`. Alt i `[firkantede parenteser]` er pladsholdere, du skal erstatte.
+### 1. Find dine FTP-oplysninger hos webhotellet
 
-- **Billede af dig:** læg det i `img/villads.jpg`, og fjern kommentaren omkring `<img>` i `.portrait` og `.cv-photo`.
-- **Drømmestatus:** `tag-sun` = I gang, `tag-fjord` = En dag, `tag-sage` = Opnået.
-- **Kompetenceniveau i CV:** ret `--level: 80%`.
-- **Farver:** ret variablerne i `:root` øverst i `css/style.css`.
+Log ind i webhotellets kontrolpanel, og find siden om **FTP**. Notér:
 
-## Kør lokalt
+| Hvad | Eksempel | Bruges som |
+|---|---|---|
+| FTP-server (host) | `linux123.unoeuro-server.com` eller `ftp.villadsclaes.dk` | `FTP_SERVER` |
+| Brugernavn | `villadsclaes.dk` | `FTP_BRUGER` |
+| Adgangskode | (din FTP-adgangskode) | `FTP_ADGANGSKODE` |
+| Mappen siden skal ligge i | `public_html/` | `FTP_MAPPE` |
 
-```bash
-python -m http.server 5173
-```
+Mappen skal slutte med `/`. Skal siden ligge på et underdomæne som `mig.villadsclaes.dk`, opretter du først underdomænet i kontrolpanelet og ser, hvilken mappe det peger på.
 
-Åbn derefter http://localhost:5173.
+### 2. Gem oplysningerne som "secrets" på GitHub
 
-## Udgiv på GitHub Pages
+Secrets er krypterede: Ingen kan læse dem igen, heller ikke dig, og de står aldrig i koden.
 
-1. Læg filerne i repoet `VilladsClaes/hjemmeside`, og push til `main`.
-2. Gå til **Settings → Pages**, og vælg *Deploy from a branch*, `main`, `/ (root)`.
-3. Ved din DNS-udbyder: opret en `CNAME`-record for `mig` med værdien `villadsclaes.github.io`.
-4. Slå **Enforce HTTPS** til, når certifikatet er klar.
+1. Åbn repoet på github.com → **Settings** → **Secrets and variables** → **Actions**.
+2. Klik **New repository secret** fire gange og opret `FTP_SERVER`, `FTP_BRUGER`, `FTP_ADGANGSKODE` og `FTP_MAPPE`. Navnene skal staves præcis sådan.
+
+### 3. Første udgivelse
+
+Gå til fanen **Actions** → **Udgiv til webhotel** → **Run workflow**. Efter et minut er siden live.
+
+## Hverdagen: ret og udgiv
+
+1. Ret filerne (søg efter `✏️` i `index.html` og `cv.html`. Alt i `[firkantede parenteser]` er pladsholdere).
+2. Se resultatet lokalt: `python -m http.server 5173`, og åbn http://localhost:5173.
+3. Gem og send til GitHub. I VS Code kan du bruge Source Control-fanen (skriv en besked → **Commit** → **Sync**). Fra en terminal:
+
+   ```bash
+   git add -A
+   git commit -m "Beskriv hvad du har ændret"
+   git push
+   ```
+
+4. Vent et minut. Så er siden opdateret.
+
+## Fejlfinding
+
+- **Rødt ✗ i Actions med "timeout" eller "TLS":** Webhotellet understøtter måske ikke krypteret FTP. Ret `protocol: ftps` til `protocol: ftp` i `.github/workflows/udgiv.yml`.
+- **"Login incorrect":** Ret `FTP_BRUGER` eller `FTP_ADGANGSKODE` under Settings → Secrets.
+- **Siden viser ikke ændringerne:** Tryk Ctrl+F5 i browseren for at hente den nyeste version.
