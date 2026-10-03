@@ -24,7 +24,7 @@ jobs:
 
       - name: Hent koden
         if: env.HAR_FTP == 'true'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Upload via FTP
         if: env.HAR_FTP == 'true'

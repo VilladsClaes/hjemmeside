@@ -40,7 +40,7 @@ Log ind i webhotellets kontrolpanel, og find siden om **FTP**. Notér:
 | Adgangskode | (din FTP-adgangskode) | `FTP_ADGANGSKODE` |
 | Mappen siden skal ligge i | `public_html/` | `FTP_MAPPE` |
 
-Mappen skal slutte med `/`. Skal siden ligge på et underdomæne som `mig.villadsclaes.dk`, opretter du først underdomænet i kontrolpanelet og ser, hvilken mappe det peger på.
+Mappen skal slutte med `/`. På Simply.com får et underdomæne sin egen mappe i roden af FTP-login. `mig.villadsclaes.dk` bruger derfor mappen `mig/`, og det er den, der står i `FTP_MAPPE`.
 
 ### 2. Gem oplysningerne som "secrets" på GitHub
 
