@@ -1,0 +1,1149 @@
+<!doctype html>
+<html lang="da" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Legeplads · Villads Claes</title>
+  <meta name="description" content="80 små eksperimenter med CSS, SVG, JavaScript og brugergrænseflader.">
+  <meta name="theme-color" content="#f6f4ef">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/legeplads.css">
+</head>
+<body>
+  <a class="skip" href="#indhold">Spring til indhold</a>
+
+  <header class="site-header">
+    <nav class="wrap nav" aria-label="Hovedmenu">
+      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span>Villads</a>
+      <ul class="nav-links" id="menu">
+        <li><a href="./#om-mig">Om mig</a></li>
+        <li><a href="./#projekter">Projekter</a></li>
+        <li><a href="./#droemme">Drømme</a></li>
+        <li><a href="./#personaer">Personaer</a></li>
+        <li><a href="./#familie">Familie</a></li>
+        <li><a href="legeplads.html" aria-current="page">Legeplads</a></li>
+        <li><a href="./#kontakt">Kontakt</a></li>
+        <li><a class="nav-cta" href="cv.html">CV</a></li>
+      </ul>
+      <div class="nav-tools">
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Skift mellem lyst og mørkt tema">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <button class="icon-btn menu-btn" type="button" data-menu aria-controls="menu" aria-expanded="false" aria-label="Åbn menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="indhold" class="playground-page">
+    <section class="playground-hero">
+      <div class="wrap">
+        <a class="back-link" href="./">← Tilbage til forsiden</a>
+        <p class="eyebrow">Kode, leg og små detaljer</p>
+        <h1>En lille digital legeplads</h1>
+        <p class="lead">Interaktive eksperimenter med typografi, bevægelse, SVG og brugergrænseflader. Prøv dem — de fleste virker både med mus, tastatur og touch.</p>
+        <a class="btn btn-primary" href="#eksperimenter">Gå på opdagelse <span aria-hidden="true">↓</span></a>
+        <span class="playground-count">80 små eksperimenter</span>
+      </div>
+    </section>
+
+    <section class="section" id="eksperimenter" aria-label="Interaktive eksperimenter">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Prøv selv</span>
+          <h2>Små idéer, levende UI</h2>
+          <p>Effekterne er bygget til denne side uden de gamle JavaScript-biblioteker og eksterne demo-assets.</p>
+        </div>
+
+        <div class="experiment-grid">
+          <article class="experiment reveal" id="markoer">
+            <div class="experiment-heading"><span class="experiment-number">01</span><div><h3>En markør med personlighed</h3><p>Bevæg markøren hen over kortet og linket.</p></div></div>
+            <div class="demo demo-cursor">
+              <span class="cursor-demo" aria-hidden="true"></span>
+              <span class="cursor-demo-ring" aria-hidden="true"></span>
+              <p>Følg prikken — prøv linket herunder.</p>
+              <a class="demo-link hover-target" href="#understregning">Et link med hover</a>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="understregning" data-delay="50">
+            <div class="experiment-heading"><span class="experiment-number">02</span><div><h3>Understregning fra den rigtige side</h3><p>Linjen følger den kant, markøren kommer fra.</p></div></div>
+            <div class="demo demo-links">
+              <a class="direction-link" href="#vaegt">Kom ind fra venstre</a>
+              <a class="direction-link" href="#bogstaver">Prøv fra højre</a>
+              <button class="direction-link" type="button">Det virker også på knapper</button>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="vaegt">
+            <div class="experiment-heading"><span class="experiment-number">03</span><div><h3>Bølgende skrifttykkelse</h3><p>Variabel typografi gør overskriften levende.</p></div></div>
+            <div class="demo demo-weight">
+              <p class="weight-wave" aria-label="Ord kan danse">Ord kan danse</p>
+              <span class="demo-note">Animationen sættes automatisk på pause, hvis du foretrækker mindre bevægelse.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="bogstaver" data-delay="50">
+            <div class="experiment-heading"><span class="experiment-number">04</span><div><h3>Klikbare bogstaver</h3><p>Hvert bogstav har sin egen lille hoppe-animation.</p></div></div>
+            <div class="demo demo-letters" aria-label="Klik på bogstaverne">
+              <span class="letter-buttons" role="group" aria-label="VILLADS">
+                <button type="button" aria-label="V">V</button><button type="button" aria-label="I">I</button>
+                <button type="button" aria-label="L">L</button><button type="button" aria-label="L">L</button>
+                <button type="button" aria-label="A">A</button><button type="button" aria-label="D">D</button>
+                <button type="button" aria-label="S">S</button>
+              </span>
+              <span class="demo-note">Klik eller brug Tab og Enter.</span>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="blade">
+            <div class="experiment-heading"><span class="experiment-number">05</span><div><h3>Blade i brisen</h3><p>En let SVG-kant med langsom, rolig bevægelse.</p></div></div>
+            <div class="demo demo-leaves">
+              <p>En grøn pause i bunden af sektionen.</p>
+              <svg class="leaf-border" viewBox="0 0 900 130" preserveAspectRatio="none" aria-hidden="true">
+                <path class="leaf-stem" d="M0 124 Q220 103 440 120 T900 110"/>
+                <g class="leaf-group leaf-a" fill="currentColor"><path d="M105 119Q68 76 93 39Q132 67 105 119Z"/><path d="M107 117Q122 73 162 68Q155 111 107 117Z"/></g>
+                <g class="leaf-group leaf-b" fill="currentColor"><path d="M285 112Q253 71 278 30Q315 63 285 112Z"/><path d="M287 110Q306 68 345 64Q334 104 287 110Z"/></g>
+                <g class="leaf-group leaf-c" fill="currentColor"><path d="M480 119Q446 78 472 37Q511 71 480 119Z"/><path d="M482 117Q500 76 542 73Q528 112 482 117Z"/></g>
+                <g class="leaf-group leaf-d" fill="currentColor"><path d="M684 112Q651 69 678 29Q716 64 684 112Z"/><path d="M686 110Q704 69 746 63Q732 103 686 110Z"/></g>
+                <g class="leaf-group leaf-e" fill="currentColor"><path d="M823 119Q796 83 817 48Q851 78 823 119Z"/><path d="M825 117Q844 81 877 77Q867 110 825 117Z"/></g>
+              </svg>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="korn">
+            <div class="experiment-heading"><span class="experiment-number">06</span><div><h3>Filmkorn</h3><p>En stille tekstur skabt uden billedfiler.</p></div></div>
+            <div class="demo demo-grain"><span>En smule analog varme</span></div>
+          </article>
+
+          <article class="experiment reveal" id="rumgalleri" data-delay="50">
+            <div class="experiment-heading"><span class="experiment-number">07</span><div><h3>Skift stemning</h3><p>Vælg en farvesat scene — ingen eksterne billeder.</p></div></div>
+            <div class="demo demo-room">
+              <div class="room-preview" data-room="1" role="img" aria-label="Lyst rum med en gylden sol"></div>
+              <div class="room-choices" role="group" aria-label="Vælg rum">
+                <button type="button" data-room-choice="1" aria-pressed="true">Morgen</button>
+                <button type="button" data-room-choice="2" aria-pressed="false">Skov</button>
+                <button type="button" data-room-choice="3" aria-pressed="false">Aften</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="geometri">
+            <div class="experiment-heading"><span class="experiment-number">08</span><div><h3>Geometri på hover</h3><p>Vælg et ord, og find dets form.</p></div></div>
+            <div class="demo demo-shapes">
+              <ul class="shape-list" aria-label="Vælg en form">
+                <li><button type="button" data-shape-choice="0" aria-pressed="true">Nysgerrighed</button></li>
+                <li><button type="button" data-shape-choice="1" aria-pressed="false">Samarbejde</button></li>
+                <li><button type="button" data-shape-choice="2" aria-pressed="false">Læring</button></li>
+                <li><button type="button" data-shape-choice="3" aria-pressed="false">Kreativitet</button></li>
+              </ul>
+              <svg class="shape-stage" viewBox="0 0 220 150" role="img" aria-label="Nysgerrighed, vist som en cirkel">
+                <circle class="shape shape-active" cx="110" cy="75" r="49"/>
+                <rect class="shape" x="62" y="27" width="96" height="96" rx="9"/>
+                <path class="shape" d="M110 21 165 119H55Z"/>
+                <path class="shape" d="M110 19 166 75 110 131 54 75Z"/>
+              </svg>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="moenster">
+            <div class="experiment-heading"><span class="experiment-number">09</span><div><h3>Et mønster i bevægelse</h3><p>CSS tegner og roterer det gentagne farvemønster.</p></div></div>
+            <div class="demo demo-pattern"><span>Gentag · drej · gentag</span></div>
+          </article>
+
+          <article class="experiment reveal" id="elastisk-svg" data-delay="50">
+            <div class="experiment-heading"><span class="experiment-number">10</span><div><h3>Elastisk SVG-omrids</h3><p>En levende streg rundt om initialerne.</p></div></div>
+            <div class="demo demo-svg">
+              <svg viewBox="0 0 360 130" role="img" aria-label="VC tegnet med en animeret streg">
+                <text x="180" y="91" text-anchor="middle">VC</text>
+              </svg>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="diagonal-slider">
+            <div class="experiment-heading"><span class="experiment-number">11</span><div><h3>Skrå billedovergang</h3><p>Skift scene, og se farvefelterne feje hen over kortet.</p></div></div>
+            <div class="demo demo-slider">
+              <div class="slider-scene" data-slide="0" role="img" aria-label="Scene 1 af 3"><span class="slider-caption">Fjordlys</span></div>
+              <div class="slider-controls">
+                <button type="button" data-slide-step="-1" aria-label="Forrige scene">←</button>
+                <span class="slide-count" aria-live="polite">01 / 03</span>
+                <button type="button" data-slide-step="1" aria-label="Næste scene">→</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="mosaik" data-delay="50">
+            <div class="experiment-heading"><span class="experiment-number">12</span><div><h3>Mosaik på lærred</h3><p>Et lille canvas-billede, der samles flise for flise.</p></div></div>
+            <div class="demo demo-canvas">
+              <canvas class="mosaic-canvas" width="480" height="260" role="img" aria-label="Abstrakt farvemosaik"></canvas>
+              <div class="canvas-controls"><button class="btn btn-ghost mosaic-button" type="button">Byg mosaikken igen</button><span class="canvas-status" aria-live="polite">Klar til en ny mosaik.</span></div>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="by">
+            <div class="experiment-heading"><span class="experiment-number">13</span><div><h3>En lille 3D-by</h3><p>Træk i skyderen for at dreje byen — eller brug piletasterne.</p></div></div>
+            <div class="demo demo-city">
+              <div class="city-scene">
+                <div class="city-rotate">
+                  <div class="city-sky"><span class="city-sun"></span><span class="city-cloud cloud-one">☁</span><span class="city-cloud cloud-two">☁</span></div>
+                  <div class="city-ground">
+                    <div class="city-building building-one"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                    <div class="city-building building-two"><i></i><i></i><i></i><i></i></div>
+                    <div class="city-building building-three"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                    <span class="city-tree tree-one">🌳</span><span class="city-tree tree-two">🌳</span>
+                  </div>
+                </div>
+              </div>
+              <label class="city-control">Drej byen <input class="city-slider" type="range" min="-35" max="35" value="0" aria-label="Drej den lille by"></label>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="ordur">
+            <div class="experiment-heading"><span class="experiment-number">14</span><div><h3>Klokken med ord</h3><p>Et lille ur, der skriver tiden på dansk.</p></div></div>
+            <div class="demo demo-clock"><span class="word-clock" aria-live="off">Klokken er …</span><span class="clock-digits"></span></div>
+          </article>
+
+          <article class="experiment reveal" id="profil" data-delay="50">
+            <div class="experiment-heading"><span class="experiment-number">15</span><div><h3>Et profilkort, der folder ud</h3><p>Åbn kortet for at se flere detaljer.</p></div></div>
+            <div class="demo demo-profile">
+              <div class="profile-card">
+                <span class="profile-avatar" aria-hidden="true">VC</span>
+                <div class="profile-copy"><strong>Villads Claes</strong><span>Lærer · webudvikler</span></div>
+                <button class="profile-toggle" type="button" aria-expanded="false" aria-controls="profile-details">Vis detaljer</button>
+                <div class="profile-details" id="profile-details" hidden><p>Jeg gør komplekse idéer lettere at forstå — i undervisning og på nettet.</p><a href="mailto:villadsclaes@gmail.com">Skriv til mig</a></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="billetter">
+            <div class="experiment-heading"><span class="experiment-number">16</span><div><h3>Små billetkort</h3><p>Vælg en billet for at folde beskrivelsen ud.</p></div></div>
+            <div class="demo demo-tickets">
+              <button class="ticket" type="button" aria-expanded="false"><span class="ticket-label">Læring</span><strong>Gode spørgsmål</strong><span class="ticket-detail" hidden>Nysgerrighed åbner døre.</span></button>
+              <button class="ticket ticket-sun" type="button" aria-expanded="false"><span class="ticket-label">Samarbejde</span><strong>Bedre sammen</strong><span class="ticket-detail" hidden>De bedste løsninger skabes i fællesskab.</span></button>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="vippekort" data-delay="50">
+            <div class="experiment-heading"><span class="experiment-number">17</span><div><h3>Et kort, der følger hånden</h3><p>Bevæg markøren over kortet — eller tryk på knappen.</p></div></div>
+            <div class="demo demo-tilt">
+              <div class="tilt-card">
+                <span class="tilt-orbit" aria-hidden="true">✦</span>
+                <span class="eyebrow">Nysgerrighed</span><strong>Små forsøg.<br>Store idéer.</strong>
+                <button class="tilt-reset" type="button">Nulstil kort</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="dialog">
+            <div class="experiment-heading"><span class="experiment-number">18</span><div><h3>En modal med lysstreg</h3><p>Et tilgængeligt dialogvindue med åbn/luk-animation.</p></div></div>
+            <div class="demo demo-modal">
+              <button class="btn btn-primary modal-open" type="button">Åbn dialog</button>
+              <dialog class="laser-dialog" aria-labelledby="dialog-title">
+                <div class="dialog-light" aria-hidden="true"></div>
+                <button class="dialog-close" type="button" aria-label="Luk dialog">×</button>
+                <span class="eyebrow">Et lille øjeblik</span><h3 id="dialog-title">Gode idéer må gerne lyse.</h3>
+                <p>Dialogen kan lukkes med knappen eller Escape. Fokus bliver i vinduet, mens det er åbent.</p>
+                <button class="btn btn-ghost dialog-done" type="button">Luk vinduet</button>
+              </dialog>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="lyd" data-delay="50">
+            <div class="experiment-heading"><span class="experiment-number">19</span><div><h3>En tone, du selv starter</h3><p>En syntetisk, blid tone — ingen lyd afspilles automatisk.</p></div></div>
+            <div class="demo demo-audio">
+              <button class="audio-toggle" type="button" aria-pressed="false" aria-label="Afspil den syntetiske tone"><span aria-hidden="true">▶</span></button>
+              <div class="audio-copy"><strong>Syntetisk tone</strong><span class="audio-status" aria-live="polite">Tryk for at starte</span></div>
+              <label class="volume-control">Lydstyrke <input class="volume-slider" type="range" min="0" max="100" value="18"></label>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="tilstand">
+            <div class="experiment-heading"><span class="experiment-number">20</span><div><h3>Skift arbejdsmode</h3><p>En switch, der både kan klikkes og styres med tastatur.</p></div></div>
+            <div class="demo demo-toggle">
+              <label class="mode-switch"><span>Fokusmode</span><input class="mode-checkbox" type="checkbox" role="switch" aria-checked="false"><span class="switch-track" aria-hidden="true"><span></span></span></label>
+              <p class="mode-message" aria-live="polite">Klar til nye idéer.</p>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="overskrift-hover" data-codepen="hover tekst animation css paralax snap back overskrift">
+            <div class="experiment-heading"><span class="experiment-number">21</span><div><h3>Bogstaver med hover-liv</h3><p>En overskrift, der strækker sig blidt, når du peger på den.</p></div></div>
+            <div class="demo demo-hover-title">
+              <h4 class="hover-title" aria-label="Små idéer vokser"><span aria-hidden="true"><span>Små</span> <span>idéer</span> <span>vokser</span></span></h4>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="tekststreg" data-delay="50" data-codepen="tekst hover animation linie gennem skåret overstreget">
+            <div class="experiment-heading"><span class="experiment-number">22</span><div><h3>En streg gennem ordene</h3><p>Farven glider hen over teksten ved hover eller tastaturfokus.</p></div></div>
+            <div class="demo demo-line-text">
+              <a class="line-text" href="./#kontakt"><span>Gør komplekse idéer klare</span></a>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="scroll-tekst" data-codepen="tekst animation scroll paralax">
+            <div class="experiment-heading"><span class="experiment-number">23</span><div><h3>Ord i parallakse</h3><p>Rækkerne bevæger sig forskelligt, mens du scroller gennem siden.</p></div></div>
+            <div class="demo demo-scroll-words" data-scroll-words>
+              <span class="scroll-word scroll-word-one">LÆR</span>
+              <span class="scroll-word scroll-word-two">SKAB</span>
+              <span class="scroll-word scroll-word-three">DEL</span>
+              <span class="scroll-hint">Scroll lidt — bevægelsen følger med.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="historie-slider" data-codepen="slider galleri tekst artikel knap skift">
+            <div class="experiment-heading"><span class="experiment-number">24</span><div><h3>En lille fortælling</h3><p>Skift mellem tre korte sider med tekst og farve.</p></div></div>
+            <div class="demo demo-story">
+              <div class="story-slide" aria-live="polite" aria-atomic="true">
+                <span class="story-kicker">01 · Nysgerrighed</span>
+                <h4>Det begynder med et godt spørgsmål.</h4>
+                <p>Man behøver ikke kende alle svarene for at tage det første skridt.</p>
+              </div>
+              <div class="story-controls">
+                <button type="button" data-story-step="-1" aria-label="Forrige fortælling">←</button>
+                <span class="story-count" aria-live="off">01 / 03</span>
+                <button type="button" data-story-step="1" aria-label="Næste fortælling">→</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="klip-slider" data-delay="50" data-codepen="gallery slider animation">
+            <div class="experiment-heading"><span class="experiment-number">25</span><div><h3>Slider med klippe-overgang</h3><p>En CSS-form åbner næste scene med en skrå kant.</p></div></div>
+            <div class="demo demo-clip">
+              <div class="clip-scene" data-clip-scene="0" aria-live="polite">
+                <span class="clip-index">01</span><strong>En idé tager form</strong>
+              </div>
+              <div class="clip-controls">
+                <button type="button" data-clip-step="-1" aria-label="Forrige scene">←</button>
+                <span class="clip-count" aria-live="off">01 / 03</span>
+                <button type="button" data-clip-step="1" aria-label="Næste scene">→</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="lagvaelger" data-codepen="baggrund udskift hover">
+            <div class="experiment-heading"><span class="experiment-number">26</span><div><h3>Baggrunden følger dit valg</h3><p>Vælg et projekt, og scenen skifter med det — også med tastaturet.</p></div></div>
+            <div class="demo demo-layers">
+              <div class="layer-scene" data-layer-scene="0" role="img" aria-label="Roligt fjordlandskab"></div>
+              <div class="layer-projects" role="group" aria-label="Vælg en scene">
+                <button type="button" data-layer-choice="0" aria-pressed="true">Læring</button>
+                <button type="button" data-layer-choice="1" aria-pressed="false">Samskabelse</button>
+                <button type="button" data-layer-choice="2" aria-pressed="false">Digitalt design</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="kortspil" data-codepen="kort billde hover lukkeknap deck mobil">
+            <div class="experiment-heading"><span class="experiment-number">27</span><div><h3>Kort, der folder ud</h3><p>Vælg et kort for at folde dets indhold frem.</p></div></div>
+            <div class="demo demo-deck">
+              <div class="deck-cards">
+                <article class="deck-card deck-card-one">
+                  <span class="deck-card-mark" aria-hidden="true">01</span>
+                  <h4>Gode idéer</h4><p class="deck-detail" hidden>Begynder tit med at lytte og stille spørgsmål.</p>
+                  <button type="button" aria-expanded="false">Vis mere</button>
+                </article>
+                <article class="deck-card deck-card-two">
+                  <span class="deck-card-mark" aria-hidden="true">02</span>
+                  <h4>Gode løsninger</h4><p class="deck-detail" hidden>Bliver bedre, når flere perspektiver mødes.</p>
+                  <button type="button" aria-expanded="false">Vis mere</button>
+                </article>
+              </div>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="lokalt-billede" data-delay="50" data-codepen="fil upload js custom design billede image">
+            <div class="experiment-heading"><span class="experiment-number">28</span><div><h3>Prøv dit eget billede</h3><p>Vælg et billede, og se en lokal forhåndsvisning.</p></div></div>
+            <div class="demo demo-upload">
+              <label class="upload-drop" for="image-file">
+                <span class="upload-icon" aria-hidden="true">＋</span>
+                <strong>Vælg et billede</strong>
+                <span>JPG, PNG, GIF eller WebP · maks. 5 MB</span>
+                <input id="image-file" class="image-file" type="file" accept="image/jpeg,image/png,image/gif,image/webp">
+              </label>
+              <div class="upload-preview" hidden>
+                <img class="upload-image" alt="Din valgte forhåndsvisning">
+                <button class="upload-clear" type="button">Fjern billede</button>
+              </div>
+              <span class="upload-status" aria-live="polite">Billedet forlader ikke denne browser.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="foldeprofil" data-codepen="profil accordian menu">
+            <div class="experiment-heading"><span class="experiment-number">29</span><div><h3>En profil med fold-ud-menu</h3><p>Vis én sektion ad gangen, uden at miste overblikket.</p></div></div>
+            <div class="demo demo-accordion">
+              <div class="profile-accordion">
+                <div class="accordion-item">
+                  <h4><button type="button" aria-expanded="true" aria-controls="accordion-learning">Læring <span aria-hidden="true">+</span></button></h4>
+                  <div class="accordion-panel" id="accordion-learning"><p>Trygge rammer gør det lettere at spørge, prøve og udvikle sig.</p></div>
+                </div>
+                <div class="accordion-item">
+                  <h4><button type="button" aria-expanded="false" aria-controls="accordion-technology">Teknologi <span aria-hidden="true">+</span></button></h4>
+                  <div class="accordion-panel" id="accordion-technology" hidden><p>Digitale værktøjer skal være forståelige og nyttige for dem, der bruger dem.</p></div>
+                </div>
+                <div class="accordion-item">
+                  <h4><button type="button" aria-expanded="false" aria-controls="accordion-community">Fællesskab <span aria-hidden="true">+</span></button></h4>
+                  <div class="accordion-panel" id="accordion-community" hidden><p>Samarbejde giver plads til nye perspektiver og bedre idéer.</p></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="knapvaerksted" data-codepen="knapper hover border firkantede effekter css">
+            <div class="experiment-heading"><span class="experiment-number">30</span><div><h3>Et lille knapværksted</h3><p>Tre CSS-hoveridéer — prøv dem med mus eller tastatur.</p></div></div>
+            <div class="demo demo-buttons">
+              <button class="craft-button craft-button-fill" type="button">Farvefejning</button>
+              <button class="craft-button craft-button-frame" type="button">Ramme rundt</button>
+              <button class="craft-button craft-button-lift" type="button">Løft et øjeblik</button>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="projektfilter" data-codepen="flexbox filter card søgefunktion">
+            <div class="experiment-heading"><span class="experiment-number">31</span><div><h3>Find et projekt</h3><p>Filtrér efter tema eller søg i beskrivelserne.</p></div></div>
+            <div class="demo demo-filter">
+              <label class="project-search-label" for="project-search">Søg i projekter</label>
+              <input class="project-search" id="project-search" type="search" placeholder="Prøv fx læring eller web">
+              <div class="project-filter-controls" role="group" aria-label="Filtrér projekter efter tema">
+                <button type="button" data-project-filter="all" aria-pressed="true">Alle</button>
+                <button type="button" data-project-filter="learning" aria-pressed="false">Læring</button>
+                <button type="button" data-project-filter="web" aria-pressed="false">Web</button>
+                <button type="button" data-project-filter="community" aria-pressed="false">Fællesskab</button>
+              </div>
+              <div class="project-results" aria-live="polite">
+                <article class="project-result" data-project-categories="learning community"><strong>Hverdagsheltene</strong><span>Formidling og fællesskab</span></article>
+                <article class="project-result" data-project-categories="web"><strong>Digitale guides</strong><span>Webudvikling og brugervenlighed</span></article>
+                <article class="project-result" data-project-categories="learning"><strong>Trygge læringsrum</strong><span>Undervisning og læring</span></article>
+                <article class="project-result" data-project-categories="community web"><strong>Arbejdsfestivalen</strong><span>Eventledelse og samarbejde</span></article>
+              </div>
+              <p class="filter-status" aria-live="polite">Viser 4 projekter</p>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="ordkort" data-codepen="flashcards app sprog api">
+            <div class="experiment-heading"><span class="experiment-number">32</span><div><h3>Et lille ordkort</h3><p>Vend kortet, lær et ord, og blad mellem kortene.</p></div></div>
+            <div class="demo demo-flashcards">
+              <button class="flashcard" type="button" aria-label="Vend ordkortet">
+                <span class="flashcard-face flashcard-front">
+                  <span class="flashcard-index">01 / 05</span>
+                  <strong>nysgerrig</strong><span>Tryk for at vende kortet</span>
+                </span>
+                <span class="flashcard-face flashcard-back" hidden>
+                  <span class="flashcard-index">BETYDNING</span>
+                  <strong>Villig til at undersøge, spørge og lære noget nyt.</strong><span>Tryk for at vende tilbage</span>
+                </span>
+              </button>
+              <div class="flashcard-controls">
+                <button type="button" data-flash-step="-1" aria-label="Forrige ord">←</button>
+                <button type="button" class="flashcard-shuffle">Bland</button>
+                <button type="button" data-flash-step="1" aria-label="Næste ord">→</button>
+              </div>
+              <span class="flashcard-known" aria-live="polite">Dit lille sæt indeholder 5 ord.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="billeddialog" data-codepen="galleri pop up">
+            <div class="experiment-heading"><span class="experiment-number">33</span><div><h3>Et galleri i et lille vindue</h3><p>Vælg en scene for at åbne dens større beskrivelse.</p></div></div>
+            <div class="demo demo-art-gallery">
+              <div class="art-gallery" role="group" aria-label="Vælg en illustration">
+                <button type="button" class="art-tile art-tile-one" data-art="0" aria-label="Åbn illustration: Fjordlys"><span>Fjordlys</span></button>
+                <button type="button" class="art-tile art-tile-two" data-art="1" aria-label="Åbn illustration: Grønne lag"><span>Grønne lag</span></button>
+                <button type="button" class="art-tile art-tile-three" data-art="2" aria-label="Åbn illustration: Aftenro"><span>Aftenro</span></button>
+                <button type="button" class="art-tile art-tile-four" data-art="3" aria-label="Åbn illustration: Nye spor"><span>Nye spor</span></button>
+              </div>
+              <dialog class="art-dialog" aria-labelledby="art-dialog-title">
+                <button type="button" class="art-dialog-close" aria-label="Luk galleri">×</button>
+                <div class="art-large" aria-hidden="true"></div>
+                <span class="eyebrow">Lille galleri</span>
+                <h3 id="art-dialog-title">Fjordlys</h3>
+                <p class="art-dialog-copy">En rolig, abstrakt scene bygget af farver og former.</p>
+              </dialog>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="gardin-galleri" data-codepen="gardin galleri">
+            <div class="experiment-heading"><span class="experiment-number">34</span><div><h3>Fire idéer folder sig ud</h3><p>Vælg et panel — de andre giver plads, og Escape lukker igen.</p></div></div>
+            <div class="demo demo-curtains">
+              <div class="curtain-gallery" role="group" aria-label="Vælg et idépanel">
+                <button type="button" class="curtain-panel curtain-one" aria-expanded="false">
+                  <span class="curtain-number">01</span><strong>Spørg</strong><span class="curtain-copy" hidden>Et godt spørgsmål åbner en ny dør.</span>
+                </button>
+                <button type="button" class="curtain-panel curtain-two" aria-expanded="false">
+                  <span class="curtain-number">02</span><strong>Lyt</strong><span class="curtain-copy" hidden>Giv plads til erfaringer og perspektiver.</span>
+                </button>
+                <button type="button" class="curtain-panel curtain-three" aria-expanded="false">
+                  <span class="curtain-number">03</span><strong>Skab</strong><span class="curtain-copy" hidden>Gør en lille idé til noget, man kan prøve.</span>
+                </button>
+                <button type="button" class="curtain-panel curtain-four" aria-expanded="false">
+                  <span class="curtain-number">04</span><strong>Del</strong><span class="curtain-copy" hidden>En god løsning bliver stærkere sammen.</span>
+                </button>
+              </div>
+              <span class="curtain-status" aria-live="polite">Vælg et panel for at folde det ud.</span>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="ordfabrik" data-codepen="canvas til billedefil ordbog formular">
+            <div class="experiment-heading"><span class="experiment-number">35</span><div><h3>En personlig lille ordbog</h3><p>Skriv et ord og en forklaring — og hent dit kort som SVG.</p></div></div>
+            <div class="demo demo-wordmaker">
+              <form class="wordmaker-form">
+                <label>Opslagsord <input class="wordmaker-word" type="text" maxlength="32" value="nysgerrighed"></label>
+                <label>Ordklasse
+                  <select class="wordmaker-type">
+                    <option value="navneord">Navneord</option><option value="tillægsord">Tillægsord</option><option value="udsagnsord">Udsagnsord</option>
+                  </select>
+                </label>
+                <label>Forklaring <textarea class="wordmaker-definition" maxlength="160" rows="2">Lysten til at stille spørgsmål og opdage noget, man ikke vidste før.</textarea></label>
+                <label>Signatur <input class="wordmaker-author" type="text" maxlength="36" value="Villads"></label>
+                <button class="btn btn-primary wordmaker-download" type="button">Hent ordbogskort som SVG</button>
+                <span class="wordmaker-status" aria-live="polite">Kortet opdateres, mens du skriver.</span>
+              </form>
+              <div class="wordmaker-card" role="img" aria-label="Ordbogskort: nysgerrighed">
+                <span class="wordmaker-initial">Nn</span>
+                <span class="wordmaker-label">ET LILLE OPSLAG</span>
+                <strong class="wordmaker-preview-word">nysgerrighed</strong>
+                <span class="wordmaker-preview-type">(navneord)</span>
+                <p class="wordmaker-preview-definition">Lysten til at stille spørgsmål og opdage noget, man ikke vidste før.</p>
+                <span class="wordmaker-example">Eksempel på nysgerrighed</span>
+                <span class="wordmaker-preview-author">Signeret Villads</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="temperaturleg" data-codepen="emoji temperaturmåler slider udskift billede">
+            <div class="experiment-heading"><span class="experiment-number">36</span><div><h3>Hvordan føles temperaturen?</h3><p>Træk i skyderen og se humøret skifte med graderne.</p></div></div>
+            <div class="demo demo-temperature">
+              <span class="temperature-emoji" role="img" aria-label="Behageligt">😊</span>
+              <label class="temperature-label" for="temperature-slider">Temperatur</label>
+              <input id="temperature-slider" class="temperature-slider" type="range" min="0" max="40" value="20">
+              <output class="temperature-value" for="temperature-slider" aria-live="polite">20 °C</output>
+              <span class="temperature-description">Lige tilpas</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="vendespil" data-codepen="huskespil memory game vendespil">
+            <div class="experiment-heading"><span class="experiment-number">37</span><div><h3>Et lille huskespil</h3><p>Vend to kort ad gangen — find alle seks par.</p></div></div>
+            <div class="demo demo-memory">
+              <div class="memory-score">
+                <span>Træk <strong class="memory-moves">0</strong></span>
+                <span>Tid <strong class="memory-time">00:00</strong></span>
+                <button type="button" class="memory-restart">Bland igen</button>
+              </div>
+              <div class="memory-grid" role="group" aria-label="Huskespil med seks par"></div>
+              <span class="memory-status" aria-live="polite">Vælg et kort for at begynde.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="opgaveliste" data-codepen="js css todo list">
+            <div class="experiment-heading"><span class="experiment-number">38</span><div><h3>En lille opgaveliste</h3><p>Tilføj ting, markér dem færdige, eller ryd op i listen.</p></div></div>
+            <div class="demo demo-todo">
+              <form class="todo-form">
+                <label class="visually-hidden" for="todo-entry">Ny opgave</label>
+                <input class="todo-entry" id="todo-entry" type="text" maxlength="100" placeholder="Hvad skal du have gjort?">
+                <button class="todo-add" type="submit">Tilføj</button>
+              </form>
+              <div class="todo-filters" role="group" aria-label="Vis opgaver">
+                <button type="button" data-todo-filter="all" aria-pressed="true">Alle</button>
+                <button type="button" data-todo-filter="open" aria-pressed="false">I gang</button>
+                <button type="button" data-todo-filter="done" aria-pressed="false">Færdige</button>
+              </div>
+              <ul class="todo-list" aria-live="polite">
+                <li class="todo-empty">Din liste venter på den første opgave.</li>
+              </ul>
+              <span class="todo-status" aria-live="polite">Opgaver gemmes kun, mens siden er åben.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="blomst" data-codepen="svg js blomst farve effekt">
+            <div class="experiment-heading"><span class="experiment-number">39</span><div><h3>En blomst af farver</h3><p>En lille SVG-roset, hvor du vælger farveskalaen.</p></div></div>
+            <div class="demo demo-bloom">
+              <svg class="bloom-svg" viewBox="0 0 200 200" role="img" aria-labelledby="bloom-title bloom-description">
+                <title id="bloom-title">Farverig SVG-blomst</title>
+                <desc id="bloom-description">En roset af farverige kronblade, som skifter farve med skyderen.</desc>
+                <defs><ellipse id="bloom-petal" cx="100" cy="62" rx="13" ry="43"></ellipse></defs>
+                <g class="bloom-rosette"></g>
+                <circle cx="100" cy="100" r="17" fill="#fff2c5"></circle>
+                <circle cx="100" cy="100" r="8" fill="#d99b58"></circle>
+              </svg>
+              <label class="bloom-control" for="bloom-hue">Farvetone <output class="bloom-hue-value" for="bloom-hue">210°</output>
+                <input id="bloom-hue" class="bloom-hue" type="range" min="0" max="359" value="210">
+              </label>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="partikelfelt" data-codepen="partikler app mouse follow">
+            <div class="experiment-heading"><span class="experiment-number">40</span><div><h3>Et lille felt af partikler</h3><p>Før musen hen over prikkerne og se dem søge mod markøren.</p></div></div>
+            <div class="demo demo-particles">
+              <canvas class="particle-canvas" aria-hidden="true"></canvas>
+              <span class="particle-caption">Et roligt lille univers · ingen eksterne biblioteker</span>
+              <span class="particle-status visually-hidden" aria-live="polite"></span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="trykknap" data-codepen="3d knap hover">
+            <div class="experiment-heading"><span class="experiment-number">41</span><div><h3>En knap med dybde</h3><p>Hover eller tryk — knappen synker, som var den bygget i lag.</p></div></div>
+            <div class="demo demo-press-button">
+              <button type="button" class="press-button">Prøv et tryk</button>
+              <span class="press-button-status" aria-live="polite">En lille 3D-effekt, også med tastatur.</span>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="mønsterbygger" data-codepen="baggrund svg mønster pattern effekt slider">
+            <div class="experiment-heading"><span class="experiment-number">42</span><div><h3>Byg et gentaget mønster</h3><p>Juster cirklerne, vælg en farve, og hent mønsteret som SVG.</p></div></div>
+            <div class="demo demo-pattern-maker">
+              <form class="pattern-controls">
+                <label>Størrelse <output class="pattern-size-value" for="pattern-size">100 px</output>
+                  <input id="pattern-size" class="pattern-size" type="range" min="48" max="160" value="100">
+                </label>
+                <label>Radius <output class="pattern-radius-value" for="pattern-radius">30 px</output>
+                  <input id="pattern-radius" class="pattern-radius" type="range" min="6" max="70" value="30">
+                </label>
+                <label>Streg <output class="pattern-stroke-value" for="pattern-stroke">2 px</output>
+                  <input id="pattern-stroke" class="pattern-stroke" type="range" min="1" max="8" value="2">
+                </label>
+                <label>Farve <input class="pattern-color" type="color" value="#d69c69"></label>
+                <button class="btn btn-primary pattern-download" type="button">Hent SVG</button>
+                <span class="pattern-status" aria-live="polite">Mønstret opdateres med det samme.</span>
+              </form>
+              <svg class="pattern-preview" viewBox="0 0 440 220" role="img" aria-label="Gentaget mønster af sammenhængende cirkler">
+                <defs><pattern id="linked-circle-pattern" class="linked-circle-pattern" patternUnits="userSpaceOnUse" width="100" height="100"><circle class="pattern-ring" data-pattern-x="0" data-pattern-y="0" cx="50" cy="50" r="30"></circle><circle class="pattern-ring" data-pattern-x="-1" data-pattern-y="0" cx="0" cy="50" r="30"></circle><circle class="pattern-ring" data-pattern-x="1" data-pattern-y="0" cx="100" cy="50" r="30"></circle><circle class="pattern-ring" data-pattern-x="0" data-pattern-y="-1" cx="50" cy="0" r="30"></circle><circle class="pattern-ring" data-pattern-x="0" data-pattern-y="1" cx="50" cy="100" r="30"></circle></pattern></defs>
+                <rect width="440" height="220" fill="#1f2e39"></rect>
+                <rect class="pattern-fill" width="440" height="220" fill="url(#linked-circle-pattern)"></rect>
+              </svg>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="emoji-vaerksted" data-codepen="emoji fabrik app">
+            <div class="experiment-heading"><span class="experiment-number">43</span><div><h3>Et lille emoji-værksted</h3><p>Vælg et ansigt og læg et tilbehør ovenpå — prøv din egen kombination.</p></div></div>
+            <div class="demo demo-emoji-maker">
+              <div class="emoji-maker-preview">
+                <span class="emoji-maker-face" role="img" aria-label="Glad">😊</span>
+                <span class="emoji-maker-accessory" aria-hidden="true"></span>
+              </div>
+              <div class="emoji-maker-controls">
+                <fieldset class="emoji-face-options">
+                  <legend>Vælg ansigtsudtryk</legend>
+                  <label><input type="radio" name="emoji-face" value="😊" data-name="Glad" checked><span>😊<small>Glad</small></span></label>
+                  <label><input type="radio" name="emoji-face" value="🤩" data-name="Begejstret"><span>🤩<small>Begejstret</small></span></label>
+                  <label><input type="radio" name="emoji-face" value="😎" data-name="Cool"><span>😎<small>Cool</small></span></label>
+                  <label><input type="radio" name="emoji-face" value="😴" data-name="Træt"><span>😴<small>Træt</small></span></label>
+                  <label><input type="radio" name="emoji-face" value="🥳" data-name="Festklar"><span>🥳<small>Festklar</small></span></label>
+                </fieldset>
+                <fieldset class="emoji-accessory-options">
+                  <legend>Vælg tilbehør</legend>
+                  <label><input type="radio" name="emoji-accessory" value="" data-name="Intet" checked><span>Ingen</span></label>
+                  <label><input type="radio" name="emoji-accessory" value="⭐" data-name="Stjerne"><span>⭐</span></label>
+                  <label><input type="radio" name="emoji-accessory" value="☕" data-name="Kaffe"><span>☕</span></label>
+                  <label><input type="radio" name="emoji-accessory" value="🌿" data-name="Blad"><span>🌿</span></label>
+                  <label><input type="radio" name="emoji-accessory" value="💡" data-name="Idé"><span>💡</span></label>
+                </fieldset>
+              </div>
+              <span class="emoji-maker-status" aria-live="polite">Glad uden tilbehør — klar til nye kombinationer.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="vaelgkompetencer" data-codepen="checkbox afkrydsningsfelt formular">
+            <div class="experiment-heading"><span class="experiment-number">44</span><div><h3>Vælg det, du tager med</h3><p>Små afkrydsningsfelter med en hjælpsom opsummering.</p></div></div>
+            <div class="demo demo-checklist">
+              <fieldset class="checklist-options">
+                <legend>Vælg dine styrker</legend>
+                <label><input type="checkbox" value="Nysgerrighed"><span>Nysgerrighed</span></label>
+                <label><input type="checkbox" value="Formidling"><span>Formidling</span></label>
+                <label><input type="checkbox" value="Samarbejde"><span>Samarbejde</span></label>
+                <label><input type="checkbox" value="Kreativitet"><span>Kreativitet</span></label>
+                <label><input type="checkbox" value="Tålmodighed"><span>Tålmodighed</span></label>
+                <label><input type="checkbox" value="Mod på at prøve"><span>Mod på at prøve</span></label>
+              </fieldset>
+              <div class="checklist-footer">
+                <span class="checklist-status" aria-live="polite">Vælg de styrker, der passer på dig.</span>
+                <button class="checklist-clear" type="button">Ryd valg</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="vaerdiskala" data-codepen="evaluering formular skala 1-5">
+            <div class="experiment-heading"><span class="experiment-number">45</span><div><h3>En lille skala</h3><p>Vælg, hvor meget energi idéen giver dig, fra 1 til 5.</p></div></div>
+            <div class="demo demo-rating">
+              <fieldset class="rating-options">
+                <legend>Hvor meget energi giver idéen dig?</legend>
+                <div class="rating-buttons" role="group" aria-label="Vurder idéens energi fra 1 til 5">
+                  <button type="button" data-rating="1" aria-pressed="false" aria-label="1 af 5, meget lidt">1</button>
+                  <button type="button" data-rating="2" aria-pressed="false" aria-label="2 af 5, lidt">2</button>
+                  <button type="button" data-rating="3" aria-pressed="false" aria-label="3 af 5, en del">3</button>
+                  <button type="button" data-rating="4" aria-pressed="false" aria-label="4 af 5, meget">4</button>
+                  <button type="button" data-rating="5" aria-pressed="false" aria-label="5 af 5, masser">5</button>
+                </div>
+              </fieldset>
+              <div class="rating-footer">
+                <span class="rating-status" aria-live="polite">Vælg et tal — dit svar bliver kun her på siden.</span>
+                <button class="rating-reset" type="button">Nulstil</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="billedkort-hover" data-codepen="billede hover link mouseover knap">
+            <div class="experiment-heading"><span class="experiment-number">46</span><div><h3>Et billede med en invitation</h3><p>Hold musen over billedet — eller brug Tab — for at se linket.</p></div></div>
+            <div class="demo demo-image-reveal">
+              <a class="image-reveal-card" href="#eksperimenter">
+                <span class="image-reveal-art" aria-hidden="true"><span class="image-reveal-sun"></span><span class="image-reveal-hill hill-back"></span><span class="image-reveal-hill hill-front"></span></span>
+                <span class="image-reveal-overlay"><strong>Se nærmere</strong><span>En lille åbning til en ny idé <span aria-hidden="true">→</span></span></span>
+                <span class="visually-hidden">Åbn legepladsens eksperimenter</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="flydende-felter" data-codepen="css input formular stilart felter">
+            <div class="experiment-heading"><span class="experiment-number">47</span><div><h3>Felter, der finder deres plads</h3><p>Etiketten flytter sig ved fokus og bliver stående, når feltet har indhold.</p></div></div>
+            <div class="demo demo-floating-fields">
+              <label class="floating-field">
+                <input class="floating-input" type="text" name="name" autocomplete="name" placeholder=" " required>
+                <span class="floating-label">Dit navn</span>
+                <span class="floating-underline" aria-hidden="true"></span>
+              </label>
+              <label class="floating-field">
+                <input class="floating-input" type="email" name="email" autocomplete="email" placeholder=" " required>
+                <span class="floating-label">Din e-mail</span>
+                <span class="floating-underline" aria-hidden="true"></span>
+              </label>
+              <span class="floating-field-note">Felterne er kun en lokal demo — intet bliver sendt.</span>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="cta-vaerksted" data-codepen="cta knapper animation udvalg">
+            <div class="experiment-heading"><span class="experiment-number">48</span><div><h3>Tre knapper med lidt ekstra liv</h3><p>Prøv en rolig puls, et lille ryk eller en pil, der finder vej.</p></div></div>
+            <div class="demo demo-cta-gallery">
+              <button class="cta-sample cta-breathe" type="button"><span>Tag et kig</span><span class="cta-sample-label">Puls</span></button>
+              <button class="cta-sample cta-nudge" type="button"><span>Prøv en idé</span><span class="cta-sample-label">Ryk</span></button>
+              <button class="cta-sample cta-arrow" type="button"><span>Se mere</span><span class="cta-arrow-icon" aria-hidden="true">→</span><span class="cta-sample-label">Pil</span></button>
+              <span class="cta-gallery-status" aria-live="polite">Små bevægelser — uden at knappen mister fokus.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="draabe-vaerksted" data-codepen="dråbe og flaske css">
+            <div class="experiment-heading"><span class="experiment-number">49</span><div><h3>En dråbe og en flaske</h3><p>Vælg fyldningsgrad, og se væsken stige i flasken.</p></div></div>
+            <div class="demo demo-liquid">
+              <div class="liquid-still-life" role="img" aria-label="En blå dråbe ved siden af en flaske">
+                <span class="css-drop" aria-hidden="true"></span>
+                <span class="css-bottle" aria-hidden="true"><span class="bottle-neck"></span><span class="bottle-cap"></span><span class="bottle-liquid"></span><span class="bottle-shine"></span></span>
+              </div>
+              <label class="liquid-control" for="liquid-level">Flaskens fyldning <output class="liquid-value" for="liquid-level">45 %</output>
+                <input class="liquid-level" id="liquid-level" type="range" min="0" max="100" value="45">
+              </label>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="gradient-ord" data-codepen="farveforløb css">
+            <div class="experiment-heading"><span class="experiment-number">50</span><div><h3>Farver, der glider gennem et ord</h3><p>Et levende gradientstrejf over stor typografi.</p></div></div>
+            <div class="demo demo-gradient-type">
+              <span class="gradient-word" aria-label="Nye idéer">Nye idéer</span>
+              <label class="gradient-control" for="gradient-hue">Farvetone <output class="gradient-hue-value" for="gradient-hue">145°</output>
+                <input class="gradient-hue" id="gradient-hue" type="range" min="0" max="359" value="145">
+              </label>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="blandingsfarver" data-codepen="blend modes">
+            <div class="experiment-heading"><span class="experiment-number">51</span><div><h3>Et baggrundslag, mange stemninger</h3><p>Skift CSS-blanding, og se farverne arbejde sammen.</p></div></div>
+            <div class="demo demo-blend">
+              <div class="blend-scene" role="img" aria-label="Abstrakt farvelandskab med bløde former">
+                <span class="blend-sun" aria-hidden="true"></span><span class="blend-ridge ridge-one" aria-hidden="true"></span><span class="blend-ridge ridge-two" aria-hidden="true"></span>
+              </div>
+              <div class="blend-options" role="group" aria-label="Vælg farveblanding">
+                <button type="button" data-blend-choice="normal" aria-pressed="true">Normal</button>
+                <button type="button" data-blend-choice="multiply" aria-pressed="false">Multiply</button>
+                <button type="button" data-blend-choice="screen" aria-pressed="false">Screen</button>
+                <button type="button" data-blend-choice="soft-light" aria-pressed="false">Soft light</button>
+              </div>
+              <span class="blend-status" aria-live="polite">Blanding: Normal</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="menuikoner" data-codepen="burger menu doner menu meatball menu">
+            <div class="experiment-heading"><span class="experiment-number">52</span><div><h3>Menuknapper i bevægelse</h3><p>Tryk på ikonerne — hver form har sin egen lille reaktion.</p></div></div>
+            <div class="demo demo-menu-icons">
+              <button class="menu-icon-choice" type="button" aria-pressed="false" aria-label="Vis hamburgerikonets animation">
+                <span class="menu-glyph glyph-hamburger" aria-hidden="true"><i></i><i></i><i></i></span><span>Hamburger</span>
+              </button>
+              <button class="menu-icon-choice" type="button" aria-pressed="false" aria-label="Vis kebabikonets animation">
+                <span class="menu-glyph glyph-kebab" aria-hidden="true"><i></i><i></i><i></i></span><span>Kebab</span>
+              </button>
+              <button class="menu-icon-choice" type="button" aria-pressed="false" aria-label="Vis donerikonets animation">
+                <span class="menu-glyph glyph-doner" aria-hidden="true"><i></i><i></i><i></i></span><span>Doner</span>
+              </button>
+              <span class="menu-icon-status" aria-live="polite">Vælg en menuknap for at se dens tilstand.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="skraabaand" data-codepen="bånd ribbon skrå">
+            <div class="experiment-heading"><span class="experiment-number">53</span><div><h3>Et skråt bånd til en god idé</h3><p>Skift mellem tre farver på det lille foldede mærkat.</p></div></div>
+            <div class="demo demo-ribbon">
+              <div class="ribbon-stage" data-ribbon-tone="0">
+                <span class="ribbon-fold ribbon-fold-left" aria-hidden="true"></span><strong class="ribbon-label">Nye spor</strong><span class="ribbon-fold ribbon-fold-right" aria-hidden="true"></span>
+              </div>
+              <div class="ribbon-controls" role="group" aria-label="Vælg båndfarve">
+                <button type="button" data-ribbon-tone="0" aria-pressed="true">Fjord</button>
+                <button type="button" data-ribbon-tone="1" aria-pressed="false">Sol</button>
+                <button type="button" data-ribbon-tone="2" aria-pressed="false">Bær</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="skraapaneler" data-codepen="css fullscreen animeret glidende overlay blur">
+            <div class="experiment-heading"><span class="experiment-number">54</span><div><h3>Skrå paneler, der deler scenen</h3><p>Træk skillelinjen og skab din egen asymmetriske komposition.</p></div></div>
+            <div class="demo demo-skew-panels">
+              <div class="skew-scene" role="img" aria-label="To farvede, skråt delte landskabspaneler">
+                <span class="skew-sun" aria-hidden="true"></span><span class="skew-panel skew-panel-one" aria-hidden="true"></span><span class="skew-panel skew-panel-two" aria-hidden="true"></span>
+                <strong>To sider af samme idé</strong>
+              </div>
+              <label class="skew-control" for="skew-position">Panelernes mødepunkt <output class="skew-value" for="skew-position">52 %</output>
+                <input id="skew-position" class="skew-position" type="range" min="28" max="72" value="52">
+              </label>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="tegneseriepaneler" data-codepen="css tegneserie skrå beskæring">
+            <div class="experiment-heading"><span class="experiment-number">55</span><div><h3>En lille historie i skrå paneler</h3><p>Juster klippet, og flyt vægten mellem de to scener.</p></div></div>
+            <div class="demo demo-comic">
+              <div class="comic-scene" role="img" aria-label="To geometriske tegneseriepaneler: begynd og byg">
+                <span class="comic-art comic-left" aria-hidden="true"></span><span class="comic-art comic-right" aria-hidden="true"></span>
+                <span class="comic-caption comic-caption-left">En idé</span><span class="comic-caption comic-caption-right">tager form!</span>
+              </div>
+              <label class="comic-control" for="comic-cut">Vinklens placering <output class="comic-value" for="comic-cut">50 %</output>
+                <input id="comic-cut" class="comic-cut" type="range" min="35" max="65" value="50">
+              </label>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="vinglas" data-codepen="css vinglas">
+            <div class="experiment-heading"><span class="experiment-number">56</span><div><h3>Et glas fyldes med farve</h3><p>En enkel CSS-tegning med flydende niveau.</p></div></div>
+            <div class="demo demo-wine-glass">
+              <div class="wine-glass" role="img" aria-label="Et tomt, gennemsigtigt glas">
+                <span class="wine-bowl" aria-hidden="true"><span class="wine-level"></span><span class="wine-highlight"></span></span><span class="wine-stem" aria-hidden="true"></span><span class="wine-foot" aria-hidden="true"></span>
+              </div>
+              <label class="wine-control" for="wine-fill">Fyld glasset <output class="wine-value" for="wine-fill">38 %</output>
+                <input id="wine-fill" class="wine-fill" type="range" min="0" max="100" value="38">
+              </label>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="formgalleri" data-codepen="Css grid gallery">
+            <div class="experiment-heading"><span class="experiment-number">57</span><div><h3>Et lille galleri med store og små felter</h3><p>Skift rytme i et responsivt CSS-grid med håndtegnede scener.</p></div></div>
+            <div class="demo demo-grid-gallery">
+              <div class="shape-gallery" data-gallery-layout="calm" role="img" aria-label="Et roligt billedgitter med seks abstrakte scener">
+                <span class="shape-tile tile-sun" aria-hidden="true"></span><span class="shape-tile tile-sea" aria-hidden="true"></span><span class="shape-tile tile-orbit" aria-hidden="true"></span><span class="shape-tile tile-leaf" aria-hidden="true"></span><span class="shape-tile tile-dusk" aria-hidden="true"></span><span class="shape-tile tile-stone" aria-hidden="true"></span>
+              </div>
+              <div class="gallery-layouts" role="group" aria-label="Vælg gitterlayout">
+                <button type="button" data-gallery-layout="calm" aria-pressed="true">Roligt</button>
+                <button type="button" data-gallery-layout="wide" aria-pressed="false">Bredt</button>
+                <button type="button" data-gallery-layout="tall" aria-pressed="false">Højt</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="gardinmenu" data-codepen="fuldskærm menu gardin navigation">
+            <div class="experiment-heading"><span class="experiment-number">58</span><div><h3>En menu, der glider ind som et gardin</h3><p>Åbn, vælg et link, eller luk med Escape.</p></div></div>
+            <div class="demo demo-curtain">
+              <div class="overlay-menu-stage" data-menu-open="false">
+                <button class="overlay-menu-toggle" type="button" aria-expanded="false" aria-controls="overlay-menu-panel">Åbn menu <span aria-hidden="true">☰</span></button>
+                <nav class="overlay-menu-panel" id="overlay-menu-panel" aria-label="Demo-menu" aria-hidden="true" inert>
+                  <a href="#blandingsfarver">Farver</a><a href="#formgalleri">Galleri</a><a href="#gradient-ord">Typografi</a>
+                  <button class="overlay-menu-close" type="button">Luk menu <span aria-hidden="true">×</span></button>
+                </nav>
+              </div>
+              <span class="overlay-menu-status" aria-live="polite">Menuen er lukket.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="bundmodal" data-codepen="fuldskærm modal nedefra knap">
+            <div class="experiment-heading"><span class="experiment-number">59</span><div><h3>Et vindue, der kommer nedefra</h3><p>Native dialog med tastaturstyring og tydelig lukknap.</p></div></div>
+            <div class="demo demo-bottom-modal">
+              <button class="bottom-modal-open" type="button">Åbn vindue</button>
+              <span class="bottom-modal-note">Indholdet forbliver i denne demo.</span>
+              <dialog class="bottom-modal">
+                <div class="bottom-modal-head"><strong>Et lille øjeblik</strong><button class="bottom-modal-close" type="button" aria-label="Luk vindue">×</button></div>
+                <p>En dialog kan give plads til en kort besked uden at føre dig væk fra siden.</p>
+                <button class="bottom-modal-done" type="button">Det er forstået</button>
+              </dialog>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="frimaerke" data-codepen="frimærke css">
+            <div class="experiment-heading"><span class="experiment-number">60</span><div><h3>Et lille frimærke fra en tænkt rejse</h3><p>Perforeret kant, landskab og poststempel — alt sammen CSS.</p></div></div>
+            <div class="demo demo-stamp">
+              <div class="stamp-postcard">
+                <div class="travel-stamp" role="img" aria-label="Frimærke med fjord, sol og skov">
+                  <span class="stamp-art" aria-hidden="true"><i class="stamp-sun"></i><i class="stamp-horizon"></i><i class="stamp-mountain"></i><i class="stamp-water"></i></span>
+                  <span class="stamp-title">FJORD · 26</span>
+                  <span class="stamp-mark" aria-hidden="true">VC<br>5.10.26</span>
+                </div>
+                <span class="postcard-lines" aria-hidden="true"></span>
+              </div>
+              <button class="stamp-toggle" type="button" aria-pressed="false">Sæt poststempel</button>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="foelgesti" data-codepen="følg sti canvas js">
+            <div class="experiment-heading"><span class="experiment-number">61</span><div><h3>Små lys følger en sti</h3><p>Canvas tegner en rolig kreds af lysprikker. Sæt bevægelsen på pause, når du vil.</p></div></div>
+            <div class="demo demo-follow-path">
+              <canvas class="path-canvas" role="img" aria-label="Tre lysprikker bevæger sig langs en blød, rektangulær sti"></canvas>
+              <button class="path-toggle" type="button" aria-pressed="true">Sæt bevægelse på pause</button>
+              <span class="path-status" aria-live="polite">Lysprikker følger stien.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="sidegardin" data-codepen="gardiner rulles til siden med knap">
+            <div class="experiment-heading"><span class="experiment-number">62</span><div><h3>Et gardin åbner scenen</h3><p>Tryk på knappen og træk farvefladerne til side.</p></div></div>
+            <div class="demo demo-side-curtain">
+              <div class="side-curtain-stage" data-open="false">
+                <div class="curtain-backdrop"><span>Plads til nye idéer</span><i aria-hidden="true">✦</i></div>
+                <span class="side-curtain-panel panel-left" aria-hidden="true"></span><span class="side-curtain-panel panel-right" aria-hidden="true"></span>
+              </div>
+              <button class="side-curtain-toggle" type="button" aria-expanded="false">Åbn gardinet</button>
+              <span class="side-curtain-status" aria-live="polite">Scenen er dækket.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="havblik" data-codepen="havoverflade baggrund follow mouse">
+            <div class="experiment-heading"><span class="experiment-number">63</span><div><h3>Havblik, der følger din hånd</h3><p>Bevæg markøren over vandet, eller træk i skyderen for at skubbe bølgerne.</p></div></div>
+            <div class="demo demo-ocean">
+              <div class="ocean-scene" role="img" aria-label="Stiliseret hav med sol og bløde bølger">
+                <span class="ocean-sun" aria-hidden="true"></span><span class="ocean-horizon" aria-hidden="true"></span><span class="ocean-wave wave-a" aria-hidden="true"></span><span class="ocean-wave wave-b" aria-hidden="true"></span><span class="ocean-wave wave-c" aria-hidden="true"></span>
+              </div>
+              <label class="ocean-control" for="ocean-drift">Bølgebevægelse <output class="ocean-value" for="ocean-drift">0</output>
+                <input id="ocean-drift" class="ocean-drift" type="range" min="-40" max="40" value="0">
+              </label>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="retroplakat" data-codepen="hero overskrift animation retro">
+            <div class="experiment-heading"><span class="experiment-number">64</span><div><h3>En lille retroplakat</h3><p>Typografi i lag, skygger og et diskret mønster giver overskriften dybde.</p></div></div>
+            <div class="demo demo-retro-poster">
+              <div class="retro-poster">
+                <span class="retro-eyebrow">EN PLADS TIL AT</span>
+                <strong class="retro-title"><span>VÆRE</span><span>NYSGERRIG</span></strong>
+                <span class="retro-script">og finde på</span>
+                <button class="retro-poster-toggle" type="button" aria-pressed="false">Skift farvetone</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="produktvalg" data-codepen="hero produktvalg basic premium option">
+            <div class="experiment-heading"><span class="experiment-number">65</span><div><h3>Vælg den rette pakke</h3><p>Tre tydelige muligheder med en skræddersyet anbefaling — helt lokalt i browseren.</p></div></div>
+            <div class="demo demo-plans">
+              <div class="plan-grid" role="group" aria-label="Vælg en hjemmesidepakke">
+                <button class="plan-card" type="button" data-plan="start" aria-pressed="false"><span class="plan-icon" aria-hidden="true">◌</span><strong>Start</strong><span>En god, enkel begyndelse.</span><b>Én side</b></button>
+                <button class="plan-card is-recommended" type="button" data-plan="gro" aria-pressed="true"><span class="plan-badge">ANBEFALET</span><span class="plan-icon" aria-hidden="true">✳</span><strong>Gro</strong><span>Plads til historier og projekter.</span><b>Op til 5 sider</b></button>
+                <button class="plan-card" type="button" data-plan="udfold" aria-pressed="false"><span class="plan-icon" aria-hidden="true">✺</span><strong>Udfold</strong><span>En større digital legeplads.</span><b>Flere muligheder</b></button>
+              </div>
+              <span class="plan-status" aria-live="polite">Gro er valgt — en god balance mellem plads og enkelhed.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="pseudohover" data-codepen="hover knap pseudo element css">
+            <div class="experiment-heading"><span class="experiment-number">66</span><div><h3>Knapper tegnet med pseudo-elementer</h3><p>Rammer og farveflader folder sig ud ved hover eller fokus.</p></div></div>
+            <div class="demo demo-pseudo-buttons">
+              <button class="pseudo-button pseudo-outline" type="button"><span>Fold rammen ud</span></button>
+              <button class="pseudo-button pseudo-fill" type="button"><span>Fej farven ind</span></button>
+              <button class="pseudo-button pseudo-split" type="button"><span>Åbn feltet</span></button>
+              <span class="pseudo-status" aria-live="polite">Prøv knapperne med mus eller tastatur.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="3dfliser" data-codepen="hover valg plader 3d">
+            <div class="experiment-heading"><span class="experiment-number">67</span><div><h3>Et lille felt af 3D-fliser</h3><p>Vælg en flise for at løfte den. Ingen lyd eller eksterne filer.</p></div></div>
+            <div class="demo demo-tiles">
+              <div class="tile-board" role="group" aria-label="Ni interaktive 3D-fliser"></div>
+              <span class="tile-status" aria-live="polite">Vælg en flise for at løfte den.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="tekstforbedring" data-codepen="html del ins indsæt text erstat tekst effekt">
+            <div class="experiment-heading"><span class="experiment-number">68</span><div><h3>En tekst bliver skarpere</h3><p>Semantiske rettelser med en animeret overstregning og markering.</p></div></div>
+            <div class="demo demo-edit-text">
+              <p class="edit-sentence">Vi laver <del>komplicerede</del> <ins>brugbare</ins> idéer om til gode oplevelser.</p>
+              <button class="edit-replay" type="button">Vis rettelsen igen</button>
+              <span class="edit-status" aria-live="polite">En lille sproglig forbedring.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="invitation" data-codepen="invitation brev post konvulut åbne card vende animation">
+            <div class="experiment-heading"><span class="experiment-number">69</span><div><h3>En invitation i en kuvert</h3><p>Åbn kuverten, og vend kortet for at læse bagsiden.</p></div></div>
+            <div class="demo demo-invitation">
+              <div class="invitation-scene">
+                <div class="invite-envelope" data-open="false">
+                  <span class="invite-envelope-back" aria-hidden="true"></span><span class="invite-flap" aria-hidden="true"></span>
+                  <div class="invite-card" data-flipped="false">
+                    <div class="invite-face invite-front"><span>DU ER INVITERET</span><strong>til nye idéer</strong><i aria-hidden="true">✦</i></div>
+                    <div class="invite-face invite-back"><strong>Kom som du er.</strong><span>Der er plads til at spørge, prøve og bygge sammen.</span></div>
+                  </div>
+                </div>
+              </div>
+              <button class="invite-toggle" type="button" aria-expanded="false">Åbn invitationen</button>
+              <span class="invite-status" aria-live="polite">En lille hilsen venter i kuverten.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="kageoverraskelse" data-codepen="js css gardin overraskelse gave kage">
+            <div class="experiment-heading"><span class="experiment-number">70</span><div><h3>En lille kageoverraskelse</h3><p>Træk scenegardinet fra, og pust lyset ud — eller tænd det igen.</p></div></div>
+            <div class="demo demo-cake">
+              <div class="cake-stage" data-revealed="false">
+                <div class="cake-message"><span>EN LILLE FEJRING</span><strong>Gode idéer fortjener kage.</strong></div>
+                <div class="cake-plate" aria-hidden="true"></div>
+                <div class="css-cake" role="img" aria-label="Kage med tre tændte lys">
+                  <span class="cake-layer cake-bottom" aria-hidden="true"></span><span class="cake-layer cake-top" aria-hidden="true"></span>
+                  <span class="cake-candle candle-one" aria-hidden="true"><i></i></span><span class="cake-candle candle-two" aria-hidden="true"><i></i></span><span class="cake-candle candle-three" aria-hidden="true"><i></i></span>
+                </div>
+                <span class="cake-curtain" aria-hidden="true"></span>
+              </div>
+              <div class="cake-controls"><button class="cake-reveal" type="button" aria-expanded="false">Træk gardinet fra</button><button class="cake-candles" type="button" aria-pressed="true">Pust lysene ud</button></div>
+              <span class="cake-status" aria-live="polite">Overraskelsen er klar.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="tastaturvaerdi" data-codepen="keyboard js keycode app">
+            <div class="experiment-heading"><span class="experiment-number">71</span><div><h3>Et lille tastatur-spejl</h3><p>Fokusér feltet, og tryk på en tast for at se dens navn og kode.</p></div></div>
+            <div class="demo demo-keyboard">
+              <button class="key-capture" type="button" aria-describedby="key-help">
+                <span class="key-visual" aria-hidden="true">⌨</span><strong class="key-name">Fokusér og tryk</strong>
+                <span class="key-code">Ingen tast registreret</span>
+              </button>
+              <span id="key-help" class="key-help">Tasterne vises kun her på siden; intet bliver gemt eller sendt.</span>
+              <span class="key-history" aria-live="polite">Seneste taster: —</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="halvfyldtknap" data-codepen="knap halvt udfyld">
+            <div class="experiment-heading"><span class="experiment-number">72</span><div><h3>En knap med flydende fyld</h3><p>Skru op for fyldningen og se farven stige inde i knappen.</p></div></div>
+            <div class="demo demo-fill-button">
+              <button class="fill-button" type="button" aria-pressed="false"><span class="fill-button-liquid" aria-hidden="true"></span><span class="fill-button-text">Lad idéen vokse</span></button>
+              <label class="fill-control" for="button-fill">Fyldningsgrad <output class="fill-value" for="button-fill">50 %</output>
+                <input id="button-fill" class="button-fill" type="range" min="0" max="100" value="50">
+              </label>
+              <span class="fill-status" aria-live="polite">Fyldet står på 50 procent.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="kurvetone" data-codepen="kurvet baggrund farve">
+            <div class="experiment-heading"><span class="experiment-number">73</span><div><h3>En farveflade med blød kurve</h3><p>Vælg en tone, og lad overgangen forme en rolig bølge.</p></div></div>
+            <div class="demo demo-curved-color">
+              <div class="curved-color-scene" role="img" aria-label="En varm baggrund med blød farvebølge">
+                <span class="curve-color-top" aria-hidden="true"></span><span class="curve-color-bottom" aria-hidden="true"></span><strong>En blød overgang</strong>
+              </div>
+              <label class="curve-control" for="curve-hue">Farvetone <output class="curve-value" for="curve-hue">345°</output>
+                <input id="curve-hue" class="curve-hue" type="range" min="0" max="359" value="345">
+              </label>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="kubesyn" data-codepen="linjer kube illusion css">
+            <div class="experiment-heading"><span class="experiment-number">74</span><div><h3>Et kubeformet optisk bedrag</h3><p>Drej den grafiske kube, og skift dens kontrastfarver.</p></div></div>
+            <div class="demo demo-cube">
+              <div class="cube-stage">
+                <div class="line-cube" aria-hidden="true"><span class="cube-face face-front"></span><span class="cube-face face-back"></span><span class="cube-face face-right"></span><span class="cube-face face-left"></span><span class="cube-face face-top"></span><span class="cube-face face-bottom"></span></div>
+              </div>
+              <label class="cube-control" for="cube-turn">Drej kuben <output class="cube-value" for="cube-turn">35°</output>
+                <input id="cube-turn" class="cube-turn" type="range" min="0" max="360" value="35">
+              </label>
+              <button class="cube-contrast" type="button" aria-pressed="false">Vend kontrasten</button>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="kodeordsmaaler" data-codepen="kodeord js login styrke blur effect bogstav antal">
+            <div class="experiment-heading"><span class="experiment-number">75</span><div><h3>En lokal kodeordsindikator</h3><p>Prøv med et eksempel — brug aldrig din rigtige adgangskode i demoen.</p></div></div>
+            <div class="demo demo-password-meter">
+              <label class="password-label" for="sample-password">Testkodeord</label>
+              <div class="password-input-wrap"><input id="sample-password" class="sample-password" type="password" autocomplete="off" placeholder="Skriv et fiktivt eksempel"><button class="password-visibility" type="button" aria-pressed="false" aria-label="Vis testkodeord">Vis</button></div>
+              <div class="password-meter" role="meter" aria-label="Eksempel på kodeordsstyrke" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"><span class="password-meter-fill"></span></div>
+              <span class="password-strength" aria-live="polite">Skriv et fiktivt kodeord for at prøve måleren.</span>
+              <span class="password-warning">Kun en visuel demo. Indholdet forlader ikke siden og bliver ikke gemt.</span>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="kompetencemedaljer" data-codepen="medaljer cards hover css">
+            <div class="experiment-heading"><span class="experiment-number">76</span><div><h3>Små medaljer for gode vaner</h3><p>Vælg en medalje for at læse den korte beskrivelse.</p></div></div>
+            <div class="demo demo-badges">
+              <div class="badge-grid" role="group" aria-label="Vælg en kompetencemedalje">
+                <button class="skill-badge badge-curiosity" type="button" data-badge="Nysgerrig" aria-pressed="true"><span class="badge-medal" aria-hidden="true">✦</span><strong>Nysgerrig</strong></button>
+                <button class="skill-badge badge-maker" type="button" data-badge="Skaber" aria-pressed="false"><span class="badge-medal" aria-hidden="true">✳</span><strong>Skaber</strong></button>
+                <button class="skill-badge badge-listener" type="button" data-badge="Lytter" aria-pressed="false"><span class="badge-medal" aria-hidden="true">◖</span><strong>Lytter</strong></button>
+                <button class="skill-badge badge-team" type="button" data-badge="Samarbejder" aria-pressed="false"><span class="badge-medal" aria-hidden="true">⌘</span><strong>Samarbejder</strong></button>
+                <button class="skill-badge badge-patient" type="button" data-badge="Tålmodig" aria-pressed="false"><span class="badge-medal" aria-hidden="true">❋</span><strong>Tålmodig</strong></button>
+                <button class="skill-badge badge-bold" type="button" data-badge="Modig" aria-pressed="false"><span class="badge-medal" aria-hidden="true">↗</span><strong>Modig</strong></button>
+              </div>
+              <span class="badge-status" aria-live="polite">Nysgerrig — stiller spørgsmål og opdager nye muligheder.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="ringemenu" data-codepen="menu ringe ruller ud cirkler">
+            <div class="experiment-heading"><span class="experiment-number">77</span><div><h3>En menu, der folder sig ud i en ring</h3><p>Åbn midterknappen og vælg en af de fire retninger.</p></div></div>
+            <div class="demo demo-orbit-menu">
+              <div class="orbit-menu" data-open="false">
+                <button class="orbit-center" type="button" aria-expanded="false" aria-controls="orbit-actions">Åbn <span aria-hidden="true">+</span></button>
+                <div class="orbit-actions" id="orbit-actions" aria-hidden="true" inert>
+                  <button type="button" data-orbit-action="Skab">Skab</button><button type="button" data-orbit-action="Lyt">Lyt</button><button type="button" data-orbit-action="Del">Del</button><button type="button" data-orbit-action="Lær">Lær</button>
+                </div>
+              </div>
+              <span class="orbit-status" aria-live="polite">Menuen er lukket.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="foldeudmodal" data-codepen="modal fold ud effekt">
+            <div class="experiment-heading"><span class="experiment-number">78</span><div><h3>En dialog folder sig ud</h3><p>En geometrisk åbning afslører indholdet — luk med knap eller Escape.</p></div></div>
+            <div class="demo demo-fold-modal">
+              <button class="fold-modal-open" type="button">Åbn foldet dialog</button>
+              <span class="fold-modal-note">Tryk Escape for at lukke dialogen.</span>
+              <dialog class="fold-modal">
+                <div class="fold-modal-shape" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+                <div class="fold-modal-content"><button class="fold-modal-close" type="button" aria-label="Luk dialog">×</button><span class="fold-modal-kicker">EN NY VINKEL</span><h4>En idé folder sig ud</h4><p>Små overgange kan gøre et almindeligt vindue til et øjeblik, man lægger mærke til.</p><button class="fold-modal-done" type="button">Fint, tak</button></div>
+              </dialog>
+            </div>
+          </article>
+
+          <article class="experiment experiment-wide reveal" id="blomstermoenster" data-codepen="mønster baggrund blomster emoji slider">
+            <div class="experiment-heading"><span class="experiment-number">79</span><div><h3>Et felt af blomster</h3><p>Vælg blomst og tæthed, og byg et lille gentaget mønster.</p></div></div>
+            <div class="demo demo-flower-pattern">
+              <div class="flower-pattern" role="img" aria-label="Gentaget mønster af tulipaner" data-flower="🌷"></div>
+              <div class="flower-controls">
+                <label for="flower-kind">Vælg blomst
+                  <select id="flower-kind" class="flower-kind"><option value="🌷">Tulipan</option><option value="🌼">Tusindfryd</option><option value="🌻">Solsikke</option><option value="🌸">Kirsebærblomst</option></select>
+                </label>
+                <label for="flower-count">Tæthed <output class="flower-count-value" for="flower-count">16</output>
+                  <input id="flower-count" class="flower-count" type="range" min="6" max="30" value="16">
+                </label>
+              </div>
+              <span class="flower-status" aria-live="polite">16 tulipaner i mønsteret.</span>
+            </div>
+          </article>
+
+          <article class="experiment reveal" id="ballonur" data-codepen="nedtælling css balloner timer dato">
+            <div class="experiment-heading"><span class="experiment-number">80</span><div><h3>En lille ballon-nedtælling</h3><p>Vælg en dato, og følg nedtællingen — kun lokalt i denne fane.</p></div></div>
+            <div class="demo demo-balloon-clock">
+              <div class="balloon-row" aria-hidden="true"><span class="party-balloon balloon-gold"><i></i></span><span class="party-balloon balloon-rose"><i></i></span><span class="party-balloon balloon-blue"><i></i></span></div>
+              <div class="countdown-values" role="timer" aria-label="Nedtælling">
+                <span><strong class="count-days">—</strong><small>dage</small></span><span><strong class="count-hours">—</strong><small>timer</small></span><span><strong class="count-minutes">—</strong><small>min</small></span><span><strong class="count-seconds">—</strong><small>sek</small></span>
+              </div>
+              <label class="countdown-date-label" for="countdown-date">Vælg din dato</label>
+              <input id="countdown-date" class="countdown-date" type="date">
+              <span class="countdown-status" aria-live="polite">Vælg en dato for at starte nedtællingen.</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt playground-outro">
+      <div class="wrap"><div class="contact">
+        <h2>Har du fået en idé?</h2>
+        <p>Legepladsen er mit sted at prøve ting af. Tag endelig fat i mig, hvis du vil bygge noget sammen.</p>
+        <div class="hero-actions"><a class="btn btn-primary" href="mailto:villadsclaes@gmail.com">Skriv til mig</a><a class="btn btn-ghost" href="./#projekter">Se mine projekter</a></div>
+      </div></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="wrap"><span>© <span data-year>2026</span> Villads Claes</span><span>Bygget med nysgerrighed · <a href="cv.html">CV</a></span></div></footer>
+  <span class="custom-cursor" aria-hidden="true"></span><span class="custom-cursor-ring" aria-hidden="true"></span>
+  <script src="js/main.js"></script>
+  <script src="js/legeplads.js"></script>
+</body>
+</html>
