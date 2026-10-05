@@ -22,8 +22,10 @@ Automatikken står i `.github/workflows/udgiv.yml`. Du kan følge med i fanen **
 ```
 index.html      Forside: om mig, værdier, drømme, personaer, familie, kontakt
 cv.html         CV (kan gemmes som PDF via knappen eller Ctrl+P)
+legeplads.html  80 interaktive UI- og CSS/JS-eksperimenter, porteret fra CodePen-idéer
 css/style.css   Al styling. Farverne ligger som variabler øverst i filen
 js/main.js      Hilsen efter tidspunkt, lyst/mørkt tema, menu og scroll-animation
+js/legeplads.js Interaktioner til legepladsens 80 små demoer
 img/            Læg dine billeder her
 ```
 
