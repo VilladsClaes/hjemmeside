@@ -228,6 +228,84 @@
       </div>
     </section>
 
+    <!-- ============ INTERAKTIVE VÆRKSTEDER ============ -->
+    <section class="section section-alt" id="vaerksteder">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Prøv det selv</span>
+          <h2>Små idéer, du kan lege med</h2>
+          <p>Tre korte værksteder i krydsfeltet mellem sprog, læring og web. Vælg, undersøg og se, hvad der dukker op.</p>
+        </div>
+
+        <div class="grid grid-3 workshop-grid">
+          <article class="card workshop-card reveal">
+            <div class="workshop-label"><span class="tag tag-fjord">Sprog &amp; struktur</span><span aria-hidden="true">01</span></div>
+            <h3>Ord har naboer</h3>
+            <p>Udforsk, hvordan et begreb kan rumme mere specifikke slags fællesskaber – inspireret af mit arbejde med Hyponet.</p>
+            <div class="workshop-demo">
+              <p class="workshop-prompt">Vælg en gren, og følg den videre:</p>
+              <div class="word-explorer" data-word-explorer>
+                <nav class="word-breadcrumb" data-word-breadcrumb aria-label="Sti i begrebskortet"></nav>
+                <p class="workshop-output word-description" data-word-description aria-live="polite" aria-atomic="true">Et fællesskab er en gruppe mennesker, der deler noget.</p>
+                <div class="word-choices" data-word-choices role="group" aria-label="Mere specifikke begreber">
+                  <button class="word-choice" type="button" data-word-node="laering">Læringsfællesskab <span aria-hidden="true">→</span></button>
+                  <button class="word-choice" type="button" data-word-node="arbejde">Arbejdsfællesskab <span aria-hidden="true">→</span></button>
+                  <button class="word-choice" type="button" data-word-node="fritid">Fritidsfællesskab <span aria-hidden="true">→</span></button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card workshop-card reveal" data-delay="80">
+            <div class="workshop-label"><span class="tag tag-sun">Formidling</span><span aria-hidden="true">02</span></div>
+            <h3>Forklar det på din måde</h3>
+            <p>Samme idé kan forklares forskelligt alt efter, hvem man taler med. Vælg et emne og en modtager.</p>
+            <div class="workshop-demo">
+              <div class="workshop-fields">
+                <label for="explain-topic">Emne</label>
+                <select id="explain-topic" data-explain-topic>
+                  <option value="html">HTML</option>
+                  <option value="klasseledelse">Klasseledelse</option>
+                  <option value="hyponymi">Hyponymi</option>
+                </select>
+                <label for="explain-audience">Forklar til</label>
+                <select id="explain-audience" data-explain-audience>
+                  <option value="barn">Et barn</option>
+                  <option value="kollega">En kollega</option>
+                  <option value="nysgerrig">En nysgerrig voksen</option>
+                </select>
+              </div>
+              <p class="workshop-output explain-output" data-explain-output aria-live="polite" aria-atomic="true">HTML er byggestenene, der fortæller en browser, hvad en hjemmeside indeholder – for eksempel en overskrift eller en knap.</p>
+            </div>
+          </article>
+
+          <article class="card workshop-card reveal" data-delay="160">
+            <div class="workshop-label"><span class="tag tag-sage">Læring</span><span aria-hidden="true">03</span></div>
+            <h3>Sæt en øvelse sammen</h3>
+            <p>Vælg et emne og en arbejdsform. Så får du et lille afsæt til at undersøge, afprøve eller forklare noget.</p>
+            <div class="workshop-demo">
+              <form class="workshop-fields" data-activity-form>
+                <label for="activity-topic">Emne</label>
+                <select id="activity-topic" name="topic">
+                  <option value="ord">Ord og betydning</option>
+                  <option value="web">Web og HTML</option>
+                  <option value="matematik">Matematik</option>
+                </select>
+                <label for="activity-mode">Arbejdsmåde</label>
+                <select id="activity-mode" name="mode">
+                  <option value="undersoeg">Undersøg</option>
+                  <option value="proev">Prøv selv</option>
+                  <option value="forklar">Forklar videre</option>
+                </select>
+                <button class="btn btn-primary workshop-button" type="submit">Lav en øvelse</button>
+              </form>
+              <p class="workshop-output activity-output" data-activity-output aria-live="polite" aria-atomic="true">Undersøg et ord, du møder i dag. Hvad tror du, det betyder – og hvilke andre ord hjælper dig med at forstå det?</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ DRØMME ============ -->
     <section class="section section-alt" id="droemme">
       <div class="wrap">

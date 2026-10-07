@@ -20,10 +20,10 @@ Automatikken står i `.github/workflows/udgiv.yml`. Du kan følge med i fanen **
 ## Struktur
 
 ```
-index.html      Forside: om mig, værdier, drømme, personaer, familie, kontakt
+index.html      Forside: om mig, projekter, interaktive værksteder, drømme, familie, kontakt
 cv.html         CV (kan gemmes som PDF via knappen eller Ctrl+P)
 css/style.css   Al styling. Farverne ligger som variabler øverst i filen
-js/main.js      Hilsen efter tidspunkt, lyst/mørkt tema, menu og scroll-animation
+js/main.js      Hilsen, tema, menu, scroll-animation og interaktive værksteder
 img/            Læg dine billeder her
 ```
 
