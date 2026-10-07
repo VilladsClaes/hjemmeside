@@ -514,3 +514,61 @@ section { scroll-margin-top: 80px; }
   .reveal { opacity: 1 !important; transform: none !important; }
   a { color: inherit; text-decoration: none; }
 }
+
+/* ---------- Typewriter og kompetencespektrum ---------- */
+.hero-typewriter { position: relative; min-height: 3.4em; margin: -4px 0 20px; color: var(--fjord); font: 600 clamp(1.08rem, 2.3vw, 1.35rem)/1.45 var(--font-display); }
+.typewriter-cursor { display: inline-block; width: 2px; height: 1.05em; margin-left: 3px; vertical-align: -.12em; background: var(--berry); animation: typewriter-blink .85s steps(2, start) infinite; }
+.typewriter-accessible { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+@keyframes typewriter-blink { to { visibility: hidden; } }
+
+.competency-overview {
+  display: grid; grid-template-columns: minmax(220px, .72fr) minmax(0, 1.5fr); align-items: center; gap: clamp(22px, 4vw, 44px);
+  margin-top: 24px; padding: clamp(20px, 4vw, 36px); border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface); box-shadow: var(--shadow);
+}
+.competency-chart-column { display: grid; justify-items: center; gap: 10px; text-align: center; }
+.competency-chart-column .eyebrow { margin-bottom: 2px; }
+.competency-donut { position: relative; width: min(100%, 270px); aspect-ratio: 1; }
+.competency-chart { display: block; width: 100%; height: 100%; overflow: visible; }
+.competency-chart-track, .competency-segment { fill: none; stroke-width: 14; }
+.competency-chart-track { stroke: var(--line); }
+.competency-chart-segments { transform: rotate(-90deg); transform-origin: 50% 50%; }
+.competency-segment { stroke-linecap: butt; opacity: .85; transition: stroke-width .2s ease, opacity .2s ease, filter .2s ease; }
+.competency-segment.is-active { stroke-width: 20; opacity: 1; filter: drop-shadow(0 2px 2px rgba(31, 42, 51, .2)); }
+.competency-segment--teaching, .competency-swatch--teaching { stroke: #2f5d73; background: #2f5d73; }
+.competency-segment--language, .competency-swatch--language { stroke: #cf6f58; background: #cf6f58; }
+.competency-segment--digital, .competency-swatch--digital { stroke: #7d9a80; background: #7d9a80; }
+.competency-segment--ai, .competency-swatch--ai { stroke: #d5982f; background: #d5982f; }
+.competency-segment--communication, .competency-swatch--communication { stroke: #657b98; background: #657b98; }
+.competency-segment--projects, .competency-swatch--projects { stroke: #b8795b; background: #b8795b; }
+.competency-segment--community, .competency-swatch--community { stroke: #537b69; background: #537b69; }
+.competency-segment--facilitation, .competency-swatch--facilitation { stroke: #89719a; background: #89719a; }
+.competency-segment--craft, .competency-swatch--craft { stroke: #a36e50; background: #a36e50; }
+.competency-segment--business, .competency-swatch--business { stroke: #748991; background: #748991; }
+.competency-donut-center { position: absolute; inset: 25%; display: grid; align-content: center; justify-items: center; border-radius: 50%; background: var(--surface); color: var(--muted); font-size: .75rem; line-height: 1.25; }
+.competency-donut-center strong { color: var(--ink); font: 600 2.1rem/1 var(--font-display); }
+.competency-chart-note { max-width: 300px; margin: 0; color: var(--muted); font-size: .78rem; line-height: 1.5; }
+.competency-explorer { min-width: 0; }
+.competency-picker { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.competency-picker button { display: flex; align-items: center; gap: 9px; min-width: 0; padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--muted); text-align: left; font: 500 .78rem/1.35 var(--font-body); cursor: pointer; transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
+.competency-picker button:hover, .competency-picker button[aria-pressed="true"] { border-color: var(--fjord); background: var(--fjord-soft); color: var(--ink); }
+.competency-picker button:focus-visible { outline: 2px solid var(--berry); outline-offset: 2px; }
+.competency-swatch { flex: none; width: 11px; height: 11px; border-radius: 50%; }
+.competency-detail { margin-top: 16px; padding: 17px 18px; border-left: 3px solid var(--sun); border-radius: 0 9px 9px 0; background: var(--bg-alt); }
+.competency-detail h3 { margin: 0 0 5px; font-size: 1.05rem; }
+.competency-detail p { margin: 0; color: var(--muted); font-size: .88rem; line-height: 1.55; }
+.competency-skills { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
+.competency-skills li { padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--muted); font-size: .72rem; }
+@media (max-width: 760px) {
+  .competency-overview { grid-template-columns: minmax(0, 1fr); }
+  .competency-donut { width: min(64vw, 250px); }
+}
+@media (max-width: 480px) {
+  .hero-typewriter { min-height: 4.6em; }
+  .competency-overview { padding: 18px 14px; }
+  .competency-picker { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-cursor { animation: none; }
+  .competency-segment, .competency-picker button { transition: none; }
+}
