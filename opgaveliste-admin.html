@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="da" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Opgaveliste · Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f6f4ef">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#indhold">Spring til indhold</a>
+
+  <header class="site-header">
+    <nav class="wrap nav" aria-label="Hovedmenu">
+      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span>Villads</a>
+      <ul class="nav-links" id="menu">
+        <li><a href="opgaveliste.html">← Til opgavelisten</a></li>
+      </ul>
+      <div class="nav-tools">
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Skift mellem lyst og mørkt tema">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="indhold">
+    <section class="section todo-admin">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Kun for ejeren</span>
+          <h1>Godkend opgaver fra hjemmesiden</h1>
+          <p>Log ind med den Google-konto, der er sat op som ejer (se README), for at godkende forslag og
+            forbinde Microsoft To Do / Google Tasks.</p>
+        </div>
+
+        <div id="signed-out-view" class="card reveal">
+          <button id="sign-in-btn" class="btn btn-primary" type="button">Log ind med Google</button>
+          <p class="form-status" data-auth-status role="status" aria-live="polite"></p>
+        </div>
+
+        <div id="signed-in-view" class="card reveal" hidden>
+          <div class="admin-toolbar">
+            <span data-user-email></span>
+            <button id="sign-out-btn" class="btn btn-ghost btn-small" type="button">Log ud</button>
+          </div>
+          <div class="admin-connect">
+            <button id="connect-microsoft-btn" class="btn btn-ghost" type="button">Forbind Microsoft To Do</button>
+            <button id="connect-google-btn" class="btn btn-ghost" type="button">Forbind Google Tasks (fallback)</button>
+          </div>
+        </div>
+
+        <div class="admin-queue reveal" data-delay="80">
+          <h2>Ventende forslag til nye opgaver</h2>
+          <ul class="task-list" data-queue="submissions">
+            <li class="task-list-empty">Log ind for at se ventende forslag.</li>
+          </ul>
+
+          <h2>Ventende "tag denne opgave"-forslag</h2>
+          <ul class="task-list" data-queue="claims">
+            <li class="task-list-empty">Log ind for at se ventende forslag.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© <span data-year>2026</span> Villads Claes</span>
+      <span>Opgaveliste-admin</span>
+    </div>
+  </footer>
+
+  <script src="js/firebase-config.js"></script>
+  <script src="js/main.js"></script>
+  <script type="module" src="js/opgaveliste-admin.js"></script>
+</body>
+</html>
