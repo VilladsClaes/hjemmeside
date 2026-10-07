@@ -407,6 +407,42 @@
       </div>
     </section>
 
+    <!-- ============ VEJRET ============ -->
+    <section class="section section-alt" id="vejret">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Live vejrdata</span>
+          <h2>Hvordan er vejret, der hvor du er?</h2>
+          <p>Søg efter en by og se det aktuelle vejr — hentet direkte fra Open-Meteo. Ingen illustration, ingen demo.</p>
+        </div>
+        <div class="weather-widget card reveal">
+          <div class="weather-search">
+            <label for="weather-city-input">Søg en by</label>
+            <input id="weather-city-input" class="weather-search-input" type="search" role="combobox" aria-autocomplete="list" aria-controls="weather-city-results" aria-expanded="false" aria-describedby="weather-search-hint" autocomplete="off" placeholder="Fx Aarhus, Paris, Tokyo" data-weather-input>
+            <span id="weather-search-hint" class="weather-search-hint">Skriv mindst 2 bogstaver for at se forslag.</span>
+            <div id="weather-city-results" class="weather-city-results" role="listbox" aria-label="Byforslag" data-weather-results hidden></div>
+          </div>
+
+          <div class="weather-result" data-weather-result>
+            <span class="weather-result-icon" data-weather-icon aria-hidden="true">☀</span>
+            <div class="weather-result-body">
+              <div class="weather-result-headline">
+                <strong class="weather-result-temp" data-weather-temp>—</strong>
+                <span class="weather-result-place" data-weather-place>Henter vejret …</span>
+              </div>
+              <p class="weather-result-description" data-weather-description>&nbsp;</p>
+              <div class="weather-result-meta">
+                <span data-weather-wind>—</span>
+                <span data-weather-updated>—</span>
+              </div>
+            </div>
+          </div>
+
+          <span class="weather-status" data-weather-status aria-live="polite">Henter vejret for Aarhus …</span>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ KONTAKT ============ -->
     <section class="section" id="kontakt" style="padding-top: 0">
       <div class="wrap">

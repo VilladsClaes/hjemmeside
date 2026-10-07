@@ -203,6 +203,202 @@
     }
   }
 
+  // Live vejr-widget — søg en by og hent rigtige data fra Open-Meteo (ingen API-nøgle nødvendig)
+  var weatherInput = document.querySelector("[data-weather-input]");
+  var weatherResults = document.querySelector("[data-weather-results]");
+  var weatherStatus = document.querySelector("[data-weather-status]");
+  var weatherResult = document.querySelector("[data-weather-result]");
+  if (weatherInput && weatherResults && weatherStatus && weatherResult) {
+    var weatherIcon = document.querySelector("[data-weather-icon]");
+    var weatherTemp = document.querySelector("[data-weather-temp]");
+    var weatherPlace = document.querySelector("[data-weather-place]");
+    var weatherDescription = document.querySelector("[data-weather-description]");
+    var weatherWind = document.querySelector("[data-weather-wind]");
+    var weatherUpdated = document.querySelector("[data-weather-updated]");
+
+    var WEATHER_STORAGE_KEY = "weather-widget-city";
+    var DEFAULT_CITY = { name: "Aarhus", admin1: "", country: "Danmark", latitude: 56.1496, longitude: 10.2134 };
+
+    // WMO-vejrkoder (bruges af Open-Meteo) oversat til dansk beskrivelse + symbol
+    var WMO_CODES = {
+      0: ["Klar himmel", "☀"], 1: ["Mest klart", "🌤"], 2: ["Delvist skyet", "⛅"], 3: ["Overskyet", "☁"],
+      45: ["Tåge", "🌫"], 48: ["Rimtåge", "🌫"],
+      51: ["Let støvregn", "🌦"], 53: ["Støvregn", "🌦"], 55: ["Tæt støvregn", "🌧"],
+      56: ["Let underkølet støvregn", "🌧"], 57: ["Tæt underkølet støvregn", "🌧"],
+      61: ["Let regn", "🌦"], 63: ["Regn", "🌧"], 65: ["Kraftig regn", "🌧"],
+      66: ["Let underkølet regn", "🌧"], 67: ["Kraftig underkølet regn", "🌧"],
+      71: ["Let snefald", "🌨"], 73: ["Snefald", "🌨"], 75: ["Kraftigt snefald", "❄"], 77: ["Snekorn", "❄"],
+      80: ["Lette regnbyger", "🌦"], 81: ["Regnbyger", "🌧"], 82: ["Voldsomme regnbyger", "⛈"],
+      85: ["Lette snebyger", "🌨"], 86: ["Kraftige snebyger", "❄"],
+      95: ["Tordenvejr", "⛈"], 96: ["Tordenvejr med let hagl", "⛈"], 99: ["Tordenvejr med kraftig hagl", "⛈"]
+    };
+    function describeWeather(code) {
+      return WMO_CODES[code] || ["Ukendt vejr", "🌡"];
+    }
+    function cityLabel(city) {
+      var extra = [city.admin1, city.country].filter(Boolean).join(", ");
+      return extra ? city.name + " (" + extra + ")" : city.name;
+    }
+
+    var geocodeController = null;
+    var geocodeTimer = null;
+    var weatherActiveIndex = -1;
+    var weatherSuggestions = [];
+
+    function hideWeatherResults() {
+      weatherResults.hidden = true;
+      weatherResults.replaceChildren();
+      weatherInput.setAttribute("aria-expanded", "false");
+      weatherInput.removeAttribute("aria-activedescendant");
+      weatherActiveIndex = -1;
+      weatherSuggestions = [];
+    }
+
+    function renderWeatherSuggestions(cities) {
+      weatherResults.replaceChildren();
+      weatherSuggestions = cities;
+      weatherActiveIndex = -1;
+      cities.forEach(function (city, index) {
+        var option = document.createElement("button");
+        option.type = "button";
+        option.id = "weather-suggestion-" + index;
+        option.setAttribute("role", "option");
+        option.setAttribute("aria-selected", "false");
+        option.textContent = city.name;
+        var extra = [city.admin1, city.country].filter(Boolean).join(", ");
+        if (extra) {
+          var span = document.createElement("span");
+          span.textContent = extra;
+          option.appendChild(span);
+        }
+        option.addEventListener("click", function () { selectWeatherCity(city); });
+        weatherResults.appendChild(option);
+      });
+      weatherResults.hidden = cities.length === 0;
+      weatherInput.setAttribute("aria-expanded", String(cities.length > 0));
+    }
+
+    function searchCities(query) {
+      if (geocodeController) geocodeController.abort();
+      geocodeController = ("AbortController" in window) ? new AbortController() : null;
+      var url = "https://geocoding-api.open-meteo.com/v1/search?name=" + encodeURIComponent(query) +
+        "&count=8&language=da&format=json";
+      fetch(url, geocodeController ? { signal: geocodeController.signal } : undefined)
+        .then(function (response) {
+          if (!response.ok) throw new Error("geocoding-fejl");
+          return response.json();
+        })
+        .then(function (data) {
+          var cities = (data.results || []).map(function (result) {
+            return {
+              name: result.name,
+              admin1: result.admin1 || "",
+              country: result.country || "",
+              latitude: result.latitude,
+              longitude: result.longitude
+            };
+          });
+          if (cities.length === 0) {
+            hideWeatherResults();
+            weatherStatus.textContent = "Ingen byer matcher \"" + query + "\".";
+            return;
+          }
+          renderWeatherSuggestions(cities);
+          weatherStatus.textContent = cities.length + " forslag fundet.";
+        })
+        .catch(function (error) {
+          if (error.name === "AbortError") return;
+          hideWeatherResults();
+          weatherStatus.textContent = "Kunne ikke søge byer lige nu. Prøv igen om lidt.";
+        });
+    }
+
+    weatherInput.addEventListener("input", function () {
+      var query = weatherInput.value.trim();
+      window.clearTimeout(geocodeTimer);
+      if (query.length < 2) {
+        hideWeatherResults();
+        weatherStatus.textContent = "Skriv mindst 2 bogstaver for at se forslag.";
+        return;
+      }
+      weatherStatus.textContent = "Søger …";
+      geocodeTimer = window.setTimeout(function () { searchCities(query); }, 350);
+    });
+
+    weatherInput.addEventListener("keydown", function (event) {
+      var options = weatherResults.querySelectorAll('[role="option"]');
+      if (!options.length) return;
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        weatherActiveIndex = event.key === "ArrowDown" ?
+          Math.min(weatherActiveIndex + 1, options.length - 1) :
+          Math.max(weatherActiveIndex - 1, 0);
+        options.forEach(function (option, index) {
+          option.setAttribute("aria-selected", String(index === weatherActiveIndex));
+        });
+        weatherInput.setAttribute("aria-activedescendant", options[weatherActiveIndex].id);
+        options[weatherActiveIndex].scrollIntoView({ block: "nearest" });
+      } else if (event.key === "Enter") {
+        if (weatherActiveIndex >= 0 && weatherSuggestions[weatherActiveIndex]) {
+          event.preventDefault();
+          selectWeatherCity(weatherSuggestions[weatherActiveIndex]);
+        }
+      } else if (event.key === "Escape") {
+        hideWeatherResults();
+      }
+    });
+
+    weatherInput.addEventListener("blur", function () {
+      window.setTimeout(hideWeatherResults, 120);
+    });
+
+    function fetchCurrentWeather(city) {
+      weatherResult.classList.add("is-loading");
+      weatherStatus.textContent = "Henter vejret for " + cityLabel(city) + " …";
+      var url = "https://api.open-meteo.com/v1/forecast?latitude=" + city.latitude +
+        "&longitude=" + city.longitude + "&current_weather=true&timezone=auto";
+      fetch(url)
+        .then(function (response) {
+          if (!response.ok) throw new Error("vejr-fejl");
+          return response.json();
+        })
+        .then(function (data) {
+          var current = data.current_weather;
+          if (!current) throw new Error("ingen data");
+          var weather = describeWeather(current.weathercode);
+          weatherIcon.textContent = weather[1];
+          weatherTemp.textContent = Math.round(current.temperature) + "°C";
+          weatherPlace.textContent = cityLabel(city);
+          weatherDescription.textContent = weather[0];
+          weatherWind.textContent = "Vind: " + Math.round(current.windspeed) + " km/t";
+          var updated = new Date(current.time);
+          weatherUpdated.textContent = "Opdateret kl. " +
+            updated.toLocaleTimeString("da-DK", { hour: "2-digit", minute: "2-digit" });
+          weatherStatus.textContent = "Vejret for " + cityLabel(city) + " er opdateret.";
+        })
+        .catch(function () {
+          weatherStatus.textContent = "Kunne ikke hente vejrdata for " + cityLabel(city) + " lige nu. Prøv igen om lidt.";
+        })
+        .then(function () { weatherResult.classList.remove("is-loading"); });
+    }
+
+    function selectWeatherCity(city) {
+      weatherInput.value = city.name;
+      hideWeatherResults();
+      fetchCurrentWeather(city);
+      try { localStorage.setItem(WEATHER_STORAGE_KEY, JSON.stringify(city)); } catch (e) {}
+    }
+
+    var savedCity = null;
+    try {
+      var raw = localStorage.getItem(WEATHER_STORAGE_KEY);
+      if (raw) savedCity = JSON.parse(raw);
+    } catch (e) {}
+    var startCity = (savedCity && savedCity.latitude && savedCity.longitude) ? savedCity : DEFAULT_CITY;
+    weatherInput.value = startCity.name;
+    fetchCurrentWeather(startCity);
+  }
+
   // Print-knap på CV
   var printBtn = document.querySelector("[data-print]");
   if (printBtn) printBtn.addEventListener("click", function () { window.print(); });
