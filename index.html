@@ -50,6 +50,10 @@
       <div class="wrap hero-inner">
         <p class="greeting"><span class="wave" aria-hidden="true">👋</span><span data-greeting>Hej</span> og velkommen</p>
         <h1>Jeg skaber trygge, klare og meningsfulde løsninger.</h1>
+        <p class="hero-typewriter">
+          <span aria-hidden="true">Jeg er særligt god til at <span class="typewriter-text" data-typewriter>gøre komplekst stof let at forstå.</span><span class="typewriter-cursor"></span></span>
+          <span class="typewriter-accessible">Jeg kombinerer undervisning, lingvistik, webudvikling, AI, projektledelse, foreningsliv, håndværk og forretningsforståelse.</span>
+        </p>
         <p class="lead">Lærer, webudvikler og BA i lingvistik med 15+ års erfaring i undervisning, kultur, samskabelse og digital udvikling. Jeg hjælper mennesker med at forstå, lære og engagere sig – både i klasselokalet og på nettet.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="cv.html">Se mit CV
@@ -150,6 +154,53 @@
             <h3>Kultur &amp; samskabelse</h3>
             <p>Jeg skaber fællesskaber, formidler viden og arbejder med mennesker, der vil udvikle noget sammen.</p>
           </article>
+        </div>
+        <div class="competency-overview reveal" data-competency-chart>
+          <div class="competency-chart-column">
+            <span class="eyebrow">Mit fagspektrum</span>
+            <div class="competency-donut">
+              <svg class="competency-chart" viewBox="0 0 220 220" role="img" aria-labelledby="competency-chart-title competency-chart-description">
+                <title id="competency-chart-title">Ti kompetenceområder</title>
+                <desc id="competency-chart-description">Felterne er lige store og viser bredden i min profil, ikke en målt rangering.</desc>
+                <circle class="competency-chart-track" cx="110" cy="110" r="82"></circle>
+                <g class="competency-chart-segments">
+                  <circle class="competency-segment competency-segment--teaching" data-competency-segment="teaching" cx="110" cy="110" r="82" stroke-dasharray="45.52 469.70" stroke-dashoffset="0"></circle>
+                  <circle class="competency-segment competency-segment--language" data-competency-segment="language" cx="110" cy="110" r="82" stroke-dasharray="45.52 469.70" stroke-dashoffset="-51.522"></circle>
+                  <circle class="competency-segment competency-segment--digital" data-competency-segment="digital" cx="110" cy="110" r="82" stroke-dasharray="45.52 469.70" stroke-dashoffset="-103.044"></circle>
+                  <circle class="competency-segment competency-segment--ai" data-competency-segment="ai" cx="110" cy="110" r="82" stroke-dasharray="45.52 469.70" stroke-dashoffset="-154.566"></circle>
+                  <circle class="competency-segment competency-segment--communication" data-competency-segment="communication" cx="110" cy="110" r="82" stroke-dasharray="45.52 469.70" stroke-dashoffset="-206.088"></circle>
+                  <circle class="competency-segment competency-segment--projects" data-competency-segment="projects" cx="110" cy="110" r="82" stroke-dasharray="45.52 469.70" stroke-dashoffset="-257.610"></circle>
+                  <circle class="competency-segment competency-segment--community" data-competency-segment="community" cx="110" cy="110" r="82" stroke-dasharray="45.52 469.70" stroke-dashoffset="-309.132"></circle>
+                  <circle class="competency-segment competency-segment--facilitation" data-competency-segment="facilitation" cx="110" cy="110" r="82" stroke-dasharray="45.52 469.70" stroke-dashoffset="-360.654"></circle>
+                  <circle class="competency-segment competency-segment--craft" data-competency-segment="craft" cx="110" cy="110" r="82" stroke-dasharray="45.52 469.70" stroke-dashoffset="-412.176"></circle>
+                  <circle class="competency-segment competency-segment--business" data-competency-segment="business" cx="110" cy="110" r="82" stroke-dasharray="45.52 469.70" stroke-dashoffset="-463.698"></circle>
+                </g>
+              </svg>
+              <div class="competency-donut-center" aria-hidden="true"><strong>10</strong><span>kompetence-<br>områder</span></div>
+            </div>
+            <p class="competency-chart-note">Felterne er lige store: diagrammet viser bredden i min profil — ikke en målt rangering.</p>
+          </div>
+          <div class="competency-explorer">
+            <div class="competency-picker" role="group" aria-label="Vælg et kompetenceområde">
+              <button type="button" data-competency-select="teaching" aria-pressed="true"><span class="competency-swatch competency-swatch--teaching" aria-hidden="true"></span>Undervisning &amp; didaktik</button>
+              <button type="button" data-competency-select="language" aria-pressed="false"><span class="competency-swatch competency-swatch--language" aria-hidden="true"></span>Sprog &amp; lingvistik</button>
+              <button type="button" data-competency-select="digital" aria-pressed="false"><span class="competency-swatch competency-swatch--digital" aria-hidden="true"></span>Web &amp; digital læring</button>
+              <button type="button" data-competency-select="ai" aria-pressed="false"><span class="competency-swatch competency-swatch--ai" aria-hidden="true"></span>AI, automatisering &amp; Hyponet</button>
+              <button type="button" data-competency-select="communication" aria-pressed="false"><span class="competency-swatch competency-swatch--communication" aria-hidden="true"></span>Kommunikation &amp; formidling</button>
+              <button type="button" data-competency-select="projects" aria-pressed="false"><span class="competency-swatch competency-swatch--projects" aria-hidden="true"></span>Projekt- &amp; eventledelse</button>
+              <button type="button" data-competency-select="community" aria-pressed="false"><span class="competency-swatch competency-swatch--community" aria-hidden="true"></span>Fællesskaber &amp; foreningsliv</button>
+              <button type="button" data-competency-select="facilitation" aria-pressed="false"><span class="competency-swatch competency-swatch--facilitation" aria-hidden="true"></span>Facilitering &amp; samskabelse</button>
+              <button type="button" data-competency-select="craft" aria-pressed="false"><span class="competency-swatch competency-swatch--craft" aria-hidden="true"></span>Håndværk &amp; konstruktion</button>
+              <button type="button" data-competency-select="business" aria-pressed="false"><span class="competency-swatch competency-swatch--business" aria-hidden="true"></span>Forretning, CRM &amp; systemer</button>
+            </div>
+            <div class="competency-detail" aria-live="polite" aria-atomic="true">
+              <h3 data-competency-title>Undervisning &amp; didaktik</h3>
+              <p data-competency-description>Jeg skaber tydelige, trygge læringsrum, hvor flere får lyst og mulighed for at lykkes.</p>
+              <ul class="competency-skills" data-competency-skills>
+                <li>Didaktik og klasseledelse</li><li>Matematik og natur/teknologi</li><li>Differentiering</li><li>Formativ evaluering</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>

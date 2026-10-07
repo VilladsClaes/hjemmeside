@@ -2069,4 +2069,1169 @@
     countdownDate.addEventListener("change", updateCountdown);
     updateCountdown();
   }
+
+  var recipeServings = document.querySelector(".recipe-servings");
+  var recipeServingsValue = document.querySelector(".recipe-servings-value");
+  var recipeStatus = document.querySelector(".recipe-status");
+  if (recipeServings && recipeServingsValue && recipeStatus) {
+    var recipeFormatter = new Intl.NumberFormat("da-DK", { maximumFractionDigits: 1 });
+    function updateRecipe() {
+      var servings = Number(recipeServings.value);
+      recipeServingsValue.value = String(servings);
+      recipeServingsValue.textContent = String(servings);
+      document.querySelectorAll("[data-recipe-amount]").forEach(function (amount) {
+        amount.textContent = recipeFormatter.format(Number(amount.dataset.base) * servings / 2);
+      });
+      recipeStatus.textContent = "Mængderne er beregnet til " + servings + (servings === 1 ? " portion." : " portioner.");
+    }
+    recipeServings.addEventListener("input", updateRecipe);
+    updateRecipe();
+  }
+
+  var citySearch = document.querySelector(".city-search-input");
+  var cityResults = document.querySelector(".city-results");
+  var citySearchStatus = document.querySelector(".city-search-status");
+  if (citySearch && cityResults && citySearchStatus) {
+    var danishCities = ["Aalborg", "Aarhus", "Esbjerg", "Fredericia", "Helsingør", "Herning", "Hillerød", "Hjørring", "Holbæk", "Horsens", "Kolding", "København", "Næstved", "Odense", "Randers", "Roskilde", "Silkeborg", "Skive", "Slagelse", "Svendborg", "Vejle", "Viborg"];
+    var activeCityIndex = -1;
+    function normalizeCity(value) {
+      return value.toLocaleLowerCase("da").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+    function closeCityResults() {
+      cityResults.hidden = true;
+      citySearch.setAttribute("aria-expanded", "false");
+      citySearch.removeAttribute("aria-activedescendant");
+      activeCityIndex = -1;
+    }
+    function selectCity(city) {
+      citySearch.value = city;
+      closeCityResults();
+      citySearchStatus.textContent = city + " valgt.";
+    }
+    function renderCityResults() {
+      var query = normalizeCity(citySearch.value.trim());
+      cityResults.replaceChildren();
+      activeCityIndex = -1;
+      if (!query) {
+        closeCityResults();
+        citySearchStatus.textContent = "Skriv for at se forslag.";
+        return;
+      }
+      var matches = danishCities.filter(function (city) {
+        return normalizeCity(city).includes(query);
+      }).slice(0, 5);
+      if (!matches.length) {
+        closeCityResults();
+        citySearchStatus.textContent = "Ingen byer matcher endnu.";
+        return;
+      }
+      matches.forEach(function (city, index) {
+        var option = document.createElement("button");
+        option.type = "button";
+        option.id = "city-suggestion-" + index;
+        option.setAttribute("role", "option");
+        option.setAttribute("aria-selected", "false");
+        option.textContent = city;
+        cityResults.appendChild(option);
+      });
+      cityResults.hidden = false;
+      citySearch.setAttribute("aria-expanded", "true");
+      citySearchStatus.textContent = matches.length + " forslag.";
+    }
+    citySearch.addEventListener("input", renderCityResults);
+    citySearch.addEventListener("keydown", function (event) {
+      var options = cityResults.querySelectorAll('[role="option"]');
+      if ((event.key === "ArrowDown" || event.key === "ArrowUp") && options.length) {
+        event.preventDefault();
+        activeCityIndex = (activeCityIndex + (event.key === "ArrowDown" ? 1 : options.length - 1)) % options.length;
+        options.forEach(function (option, index) {
+          option.setAttribute("aria-selected", index === activeCityIndex ? "true" : "false");
+        });
+        citySearch.setAttribute("aria-activedescendant", options[activeCityIndex].id);
+      } else if (event.key === "Enter" && activeCityIndex >= 0 && options[activeCityIndex]) {
+        event.preventDefault();
+        selectCity(options[activeCityIndex].textContent);
+      } else if (event.key === "Escape") {
+        closeCityResults();
+      }
+    });
+    cityResults.addEventListener("click", function (event) {
+      var option = event.target.closest('[role="option"]');
+      if (option) selectCity(option.textContent);
+    });
+    citySearch.addEventListener("blur", function () {
+      window.setTimeout(closeCityResults, 120);
+    });
+  }
+
+  var hatchAngle = document.querySelector(".hatch-angle");
+  var hatchAngleValue = document.querySelector(".hatch-angle-value");
+  var hatchPattern = document.querySelector("#hatch-pattern-83");
+  if (hatchAngle && hatchAngleValue && hatchPattern) {
+    function updateHatchAngle() {
+      hatchPattern.setAttribute("patternTransform", "rotate(-" + hatchAngle.value + ")");
+      hatchAngleValue.value = hatchAngle.value + "°";
+      hatchAngleValue.textContent = hatchAngle.value + "°";
+    }
+    hatchAngle.addEventListener("input", updateHatchAngle);
+    updateHatchAngle();
+  }
+
+  var planeLaunch = document.querySelector(".plane-launch");
+  var planeSky = document.querySelector(".plane-sky");
+  var planeStatus = document.querySelector(".plane-status");
+  if (planeLaunch && planeSky && planeStatus) {
+    var planeTimer;
+    planeLaunch.addEventListener("click", function () {
+      window.clearTimeout(planeTimer);
+      planeLaunch.disabled = true;
+      planeSky.classList.add("is-launched");
+      planeStatus.textContent = "En lille hilsen er på vej.";
+      planeTimer = window.setTimeout(function () {
+        planeSky.classList.remove("is-launched");
+        planeLaunch.disabled = false;
+        planeStatus.textContent = "Flyveren er landet — send en ny?";
+      }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 80 : 900);
+    });
+  }
+
+  var diagonalAngle = document.querySelector(".diagonal-angle");
+  var diagonalAngleValue = document.querySelector(".diagonal-angle-value");
+  var diagonalScene = document.querySelector(".diagonal-scene");
+  if (diagonalAngle && diagonalAngleValue && diagonalScene) {
+    function updateDiagonalScene() {
+      diagonalScene.style.setProperty("--diagonal-angle", diagonalAngle.value + "deg");
+      diagonalScene.style.setProperty("--diagonal-opposite", (-Number(diagonalAngle.value)) + "deg");
+      diagonalAngleValue.value = diagonalAngle.value + "°";
+      diagonalAngleValue.textContent = diagonalAngle.value + "°";
+    }
+    diagonalAngle.addEventListener("input", updateDiagonalScene);
+    updateDiagonalScene();
+  }
+
+  var ideaRoute = document.querySelector(".demo-idea-route");
+  if (ideaRoute) {
+    var routeButtons = Array.prototype.slice.call(ideaRoute.querySelectorAll("[data-route-step]"));
+    var routeMarkers = ideaRoute.querySelectorAll("[data-route-marker]");
+    var routeProgress = ideaRoute.querySelector(".idea-route-progress");
+    var routeStatus = ideaRoute.querySelector(".route-status");
+    var routeDescriptions = [
+      "Det begynder med et godt spørgsmål.",
+      "Lyt til erfaringerne, før du vælger en retning.",
+      "Prøv en lille version, og lær af det, der sker.",
+      "Del det, du har fundet ud af, så andre kan bygge videre."
+    ];
+    if (routeButtons.length && routeProgress && routeStatus) {
+      var routeLength = routeProgress.getTotalLength();
+      routeProgress.style.setProperty("--route-length", routeLength);
+      function selectRouteStep(step) {
+        var index = Math.max(0, Math.min(routeButtons.length - 1, step));
+        routeButtons.forEach(function (button, buttonIndex) {
+          button.setAttribute("aria-pressed", buttonIndex === index ? "true" : "false");
+        });
+        routeMarkers.forEach(function (marker, markerIndex) {
+          marker.classList.toggle("is-active", markerIndex === index);
+        });
+        routeProgress.style.setProperty("--route-offset", routeLength * (1 - index / (routeButtons.length - 1)));
+        routeStatus.textContent = routeDescriptions[index];
+      }
+      routeButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          selectRouteStep(Number(button.dataset.routeStep));
+        });
+      });
+      selectRouteStep(0);
+    }
+  }
+
+  var curiosityTable = document.querySelector(".demo-curiosity-table");
+  if (curiosityTable) {
+    var curiosityButtons = curiosityTable.querySelectorAll("[data-element-name]");
+    var elementName = curiosityTable.querySelector(".element-name");
+    var elementType = curiosityTable.querySelector(".element-type");
+    var elementFact = curiosityTable.querySelector(".element-fact");
+    curiosityButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        curiosityButtons.forEach(function (item) {
+          item.setAttribute("aria-pressed", item === button ? "true" : "false");
+        });
+        elementName.textContent = button.dataset.elementName;
+        elementType.textContent = button.dataset.elementType;
+        elementFact.textContent = button.dataset.elementFact;
+      });
+    });
+  }
+
+  var processList = document.querySelector(".process-steps");
+  if (processList) {
+    var processButtons = Array.prototype.slice.call(processList.querySelectorAll("[data-process-step]"));
+    var processDescription = document.querySelector(".process-description");
+    var processCount = document.querySelector(".process-count");
+    var processPrevious = document.querySelector(".process-previous");
+    var processNext = document.querySelector(".process-next");
+    var processDescriptions = [
+      "Start med at blive klogere på spørgsmålet og på dem, det handler om.",
+      "Undersøg behov, erfaringer og muligheder, før du beslutter dig.",
+      "Byg en lille version, der kan afprøves og forbedres.",
+      "Del resultatet, og gør plads til næste samtale."
+    ];
+    if (processButtons.length && processDescription && processCount && processPrevious && processNext) {
+      var currentProcessStep = 0;
+      function showProcessStep(step) {
+        currentProcessStep = Math.max(0, Math.min(processButtons.length - 1, step));
+        processButtons.forEach(function (button, index) {
+          if (index === currentProcessStep) button.setAttribute("aria-current", "step");
+          else button.removeAttribute("aria-current");
+        });
+        processList.style.setProperty("--process-progress", (currentProcessStep / (processButtons.length - 1) * 84) + "%");
+        processDescription.textContent = processDescriptions[currentProcessStep];
+        processCount.textContent = "Trin " + (currentProcessStep + 1) + " af " + processButtons.length;
+        processPrevious.disabled = currentProcessStep === 0;
+        processNext.disabled = currentProcessStep === processButtons.length - 1;
+      }
+      processButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          showProcessStep(Number(button.dataset.processStep));
+        });
+      });
+      processPrevious.addEventListener("click", function () { showProcessStep(currentProcessStep - 1); });
+      processNext.addEventListener("click", function () { showProcessStep(currentProcessStep + 1); });
+      showProcessStep(0);
+    }
+  }
+
+  var surveyForm = document.querySelector(".survey-form");
+  if (surveyForm) {
+    var surveyPanels = Array.prototype.slice.call(surveyForm.querySelectorAll("[data-survey-panel]"));
+    var surveyResult = surveyForm.querySelector(".survey-result");
+    var surveySummary = surveyForm.querySelector(".survey-summary");
+    var surveyPrevious = surveyForm.querySelector(".survey-previous");
+    var surveyNext = surveyForm.querySelector(".survey-next");
+    var surveyReset = surveyForm.querySelector(".survey-reset");
+    var surveyProgress = surveyForm.querySelector(".survey-progress");
+    var surveyStatus = surveyForm.querySelector(".survey-status");
+    if (surveyPanels.length && surveyResult && surveySummary && surveyPrevious && surveyNext && surveyReset && surveyProgress && surveyStatus) {
+      var currentSurveyPanel = 0;
+      function showSurveyPanel(index) {
+        currentSurveyPanel = index;
+        surveyPanels.forEach(function (panel, panelIndex) {
+          panel.hidden = panelIndex !== index;
+        });
+        var complete = index === surveyPanels.length;
+        surveyResult.hidden = !complete;
+        surveyPrevious.hidden = complete;
+        surveyNext.hidden = complete;
+        surveyReset.hidden = !complete;
+        surveyPrevious.disabled = index === 0;
+        surveyProgress.textContent = complete ? "Færdig" : "Trin " + (index + 1) + " af " + surveyPanels.length;
+        surveyStatus.textContent = complete ? "Dine svar fandtes kun i denne fane." : "Vælg et svar for at fortsætte.";
+      }
+      surveyNext.addEventListener("click", function () {
+        var selected = surveyPanels[currentSurveyPanel].querySelector('input[type="radio"]:checked');
+        if (!selected) {
+          surveyStatus.textContent = "Vælg et svar, før du går videre.";
+          surveyPanels[currentSurveyPanel].querySelector("input").focus();
+          return;
+        }
+        if (currentSurveyPanel === surveyPanels.length - 1) {
+          var answers = surveyPanels.map(function (panel) {
+            return panel.querySelector('input[type="radio"]:checked').value;
+          });
+          surveySummary.textContent = answers.join(" · ");
+          showSurveyPanel(surveyPanels.length);
+        } else {
+          showSurveyPanel(currentSurveyPanel + 1);
+          surveyPanels[currentSurveyPanel].querySelector("input").focus();
+        }
+      });
+      surveyPrevious.addEventListener("click", function () {
+        if (currentSurveyPanel > 0 && currentSurveyPanel < surveyPanels.length) {
+          showSurveyPanel(currentSurveyPanel - 1);
+          surveyPanels[currentSurveyPanel].querySelector("input").focus();
+        }
+      });
+      surveyReset.addEventListener("click", function () {
+        surveyForm.reset();
+        surveySummary.textContent = "";
+        showSurveyPanel(0);
+        surveyPanels[0].querySelector("input").focus();
+      });
+      surveyForm.addEventListener("submit", function (event) { event.preventDefault(); });
+      showSurveyPanel(0);
+    }
+  }
+
+  var motionDialog = document.querySelector(".motion-dialog");
+  var motionDialogOpen = document.querySelector(".motion-modal-open");
+  var motionDialogStatus = document.querySelector(".motion-modal-status");
+  if (motionDialog && motionDialogOpen && motionDialogStatus) {
+    var motionDialogTimer;
+    function closeMotionDialog() {
+      window.clearTimeout(motionDialogTimer);
+      if (!motionDialog.open) return;
+      motionDialog.classList.add("is-closing");
+      motionDialogTimer = window.setTimeout(function () {
+        if (motionDialog.open) motionDialog.close();
+      }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 20 : 240);
+    }
+    function openMotionDialog() {
+      window.clearTimeout(motionDialogTimer);
+      motionDialog.classList.remove("is-closing");
+      if (typeof motionDialog.showModal === "function") motionDialog.showModal();
+      else motionDialog.setAttribute("open", "");
+      motionDialog.querySelector(".motion-dialog-close").focus();
+      motionDialogStatus.textContent = "Dialogen er åben.";
+    }
+    motionDialogOpen.addEventListener("click", openMotionDialog);
+    motionDialog.querySelector(".motion-dialog-close").addEventListener("click", closeMotionDialog);
+    motionDialog.querySelector(".motion-dialog-done").addEventListener("click", closeMotionDialog);
+    motionDialog.addEventListener("cancel", function (event) {
+      event.preventDefault();
+      closeMotionDialog();
+    });
+    motionDialog.addEventListener("click", function (event) {
+      if (event.target === motionDialog) closeMotionDialog();
+    });
+    motionDialog.addEventListener("close", function () {
+      motionDialog.classList.remove("is-closing");
+      motionDialogOpen.focus();
+      motionDialogStatus.textContent = "Dialogen er lukket.";
+    });
+  }
+
+  var quoteMachine = document.querySelector("[data-quote-machine]");
+  if (quoteMachine) {
+    var quotes = [
+      { category: "Om læring", text: "Man lærer mere, når man tør stille det næste spørgsmål." },
+      { category: "Om sprog", text: "De rigtige ord kan gøre en svær tanke lettere at dele." },
+      { category: "Om fællesskab", text: "En idé vokser, når flere får lov til at bygge videre på den." },
+      { category: "Om nysgerrighed", text: "Et lille forsøg kan åbne en helt ny retning." }
+    ];
+    var quoteIndex = 0;
+    var quoteText = quoteMachine.querySelector("[data-quote-text]");
+    var quoteCategory = quoteMachine.querySelector("[data-quote-category]");
+    var quoteCount = quoteMachine.querySelector("[data-quote-count]");
+    function showQuote(index) {
+      quoteIndex = (index + quotes.length) % quotes.length;
+      quoteText.textContent = quotes[quoteIndex].text;
+      quoteCategory.textContent = quotes[quoteIndex].category;
+      quoteCount.textContent = (quoteIndex + 1) + " af " + quotes.length;
+    }
+    quoteMachine.querySelector("[data-quote-previous]").addEventListener("click", function () {
+      showQuote(quoteIndex - 1);
+    });
+    quoteMachine.querySelector("[data-quote-next]").addEventListener("click", function () {
+      showQuote(quoteIndex + 1);
+    });
+  }
+
+  var softFocus = document.querySelector("#soft-focus-strength");
+  var softFocusValue = document.querySelector("[data-soft-focus-value]");
+  if (softFocus && softFocusValue) {
+    var softFocusArt = softFocus.closest(".demo").querySelector(".soft-focus-art");
+    softFocus.addEventListener("input", function () {
+      var value = Number(softFocus.value);
+      softFocusArt.style.setProperty("--soft-blur", value + "px");
+      softFocusValue.value = String(value);
+      softFocusValue.textContent = String(value);
+    });
+  }
+
+  var swirlToggle = document.querySelector("[data-swirl-toggle]");
+  var swirlScene = document.querySelector(".swirl-scene");
+  if (swirlToggle && swirlScene) {
+    swirlToggle.addEventListener("click", function () {
+      var paused = swirlScene.classList.toggle("is-paused");
+      swirlToggle.setAttribute("aria-pressed", String(paused));
+      swirlToggle.textContent = paused ? "Fortsæt bevægelsen" : "Sæt bevægelsen på pause";
+    });
+  }
+
+  var snapStory = document.querySelector("[data-snap-story]");
+  if (snapStory) {
+    var snapPanels = Array.from(snapStory.querySelectorAll("[data-snap-panel]"));
+    var snapButtons = document.querySelectorAll("[data-snap-to]");
+    function updateSnapStory() {
+      if (!snapStory.clientHeight) return;
+      var index = Math.round(snapStory.scrollTop / snapStory.clientHeight);
+      snapButtons.forEach(function (button, buttonIndex) {
+        if (buttonIndex === index) button.setAttribute("aria-current", "step");
+        else button.removeAttribute("aria-current");
+      });
+    }
+    snapButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        var panel = snapPanels[Number(button.dataset.snapTo)];
+        if (!panel) return;
+        snapStory.scrollTo({
+          top: panel.offsetTop,
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
+        });
+      });
+    });
+    snapStory.addEventListener("scroll", updateSnapStory, { passive: true });
+    window.addEventListener("resize", updateSnapStory);
+  }
+
+  var leafToggle = document.querySelector("[data-leaf-toggle]");
+  var leafScene = document.querySelector(".leaf-scene");
+  if (leafToggle && leafScene) {
+    leafToggle.addEventListener("click", function () {
+      var paused = leafScene.classList.toggle("is-paused");
+      leafToggle.setAttribute("aria-pressed", String(paused));
+      leafToggle.textContent = paused ? "Lad bladene drive igen" : "Sæt bladene på pause";
+    });
+  }
+
+  var stageShift = document.querySelector("[data-stage-shift]");
+  if (stageShift) {
+    var stageScene = stageShift.querySelector("[data-stage-scene]");
+    var stageLabel = stageShift.querySelector("[data-stage-label]");
+    var stageTitle = stageShift.querySelector("[data-stage-title]");
+    var stageButton = stageShift.querySelector("[data-stage-toggle]");
+    var stageStatus = stageShift.querySelector("[data-stage-status]");
+    var stageIndex = 0;
+    if (stageScene && stageLabel && stageTitle && stageButton && stageStatus) {
+      var stageOptions = [
+        { label: "SCENE 1 · RO", title: "Giv tanken plads" },
+        { label: "SCENE 2 · BEVÆGELSE", title: "Lad idéen tage form" }
+      ];
+      stageButton.addEventListener("click", function () {
+        stageIndex = (stageIndex + 1) % stageOptions.length;
+        var scene = stageOptions[stageIndex];
+        stageScene.classList.remove("is-changing");
+        void stageScene.offsetWidth;
+        stageScene.classList.add("is-changing");
+        stageScene.dataset.scene = String(stageIndex + 1);
+        stageLabel.textContent = scene.label;
+        stageTitle.textContent = scene.title;
+        stageStatus.textContent = "Scene " + (stageIndex + 1) + " af " + stageOptions.length;
+        stageButton.disabled = true;
+        window.setTimeout(function () {
+          stageScene.classList.remove("is-changing");
+          stageButton.disabled = false;
+        }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 30 : 640);
+      });
+    }
+  }
+
+  var flipCard = document.querySelector("[data-flip-card]");
+  var flipStatus = document.querySelector("[data-flip-status]");
+  if (flipCard && flipStatus) {
+    var flipFront = flipCard.querySelector(".flip-card-front");
+    var flipBack = flipCard.querySelector(".flip-card-back");
+    flipCard.addEventListener("click", function () {
+      var flipped = flipCard.classList.toggle("is-flipped");
+      flipCard.setAttribute("aria-pressed", String(flipped));
+      flipCard.setAttribute("aria-label", flipped ? "Vend kortet til forsiden" : "Vend kortet til bagsiden");
+      flipFront.setAttribute("aria-hidden", String(flipped));
+      flipBack.setAttribute("aria-hidden", String(!flipped));
+      flipStatus.textContent = flipped ? "Kortets bagside vises." : "Kortets forside vises.";
+    });
+  }
+
+  document.querySelectorAll("[data-golden-ratio]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      var composition = button.closest(".demo").querySelector(".golden-composition");
+      composition.dataset.ratio = button.dataset.goldenRatio;
+      button.closest(".demo").querySelectorAll("[data-golden-ratio]").forEach(function (choice) {
+        choice.setAttribute("aria-pressed", String(choice === button));
+      });
+    });
+  });
+
+  document.querySelectorAll("[data-card-layout]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      var atelier = button.closest("[data-card-atelier]");
+      atelier.querySelector(".atelier-card").dataset.layout = button.dataset.cardLayout;
+      atelier.querySelectorAll("[data-card-layout]").forEach(function (choice) {
+        choice.setAttribute("aria-pressed", String(choice === button));
+      });
+    });
+  });
+
+  var semanticNetwork = document.querySelector("[data-semantic-network]");
+  if (semanticNetwork) {
+    var networkDetails = {
+      sprog: ["Sprog", "Ord, struktur og betydning bliver byggesten, når viden skal forstås og deles."],
+      mening: ["Mening", "Betydning opstår i relationer: mellem ord, situationer og mennesker."],
+      hyponet: ["Hyponet", "En semantisk model, der forbinder begreber og viser, hvordan de hænger sammen."],
+      laering: ["Læring", "Forståelse vokser, når vi kan undersøge, afprøve og sætte ord på det nye."],
+      data: ["Data", "Ordnet information kan hjælpe os med at finde mønstre og relevante forbindelser."],
+      vaerktoej: ["Værktøj", "En digital løsning skal gøre en konkret opgave lettere at løse."],
+      mennesker: ["Mennesker", "Teknologi giver mest mening, når den tager udgangspunkt i dem, der skal bruge den."]
+    };
+    var networkNodes = semanticNetwork.querySelectorAll("[data-network-node]");
+    var networkTitle = semanticNetwork.querySelector("[data-network-title]");
+    var networkDescription = semanticNetwork.querySelector("[data-network-description]");
+    function selectNetworkNode(node) {
+      var detail = networkDetails[node.dataset.networkNode];
+      if (!detail) return;
+      networkNodes.forEach(function (candidate) {
+        candidate.classList.toggle("is-selected", candidate === node);
+        candidate.setAttribute("aria-pressed", String(candidate === node));
+      });
+      networkTitle.textContent = detail[0];
+      networkDescription.textContent = detail[1];
+    }
+    networkNodes.forEach(function (node) {
+      node.addEventListener("click", function () { selectNetworkNode(node); });
+      node.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          selectNetworkNode(node);
+        }
+      });
+    });
+    var networkStrength = semanticNetwork.querySelector("#network-strength");
+    var networkStrengthValue = semanticNetwork.querySelector("[data-network-strength-value]");
+    if (networkStrength && networkStrengthValue) {
+      networkStrength.addEventListener("input", function () {
+        var minimum = Number(networkStrength.value);
+        networkStrengthValue.value = String(minimum);
+        networkStrengthValue.textContent = String(minimum);
+        semanticNetwork.querySelectorAll("[data-edge]").forEach(function (edge) {
+          var visible = Number(edge.dataset.strength) >= minimum;
+          edge.classList.toggle("is-filtered", !visible);
+          edge.setAttribute("aria-hidden", String(!visible));
+        });
+      });
+    }
+  }
+
+  var mosaicGrid = document.querySelector("[data-mosaic-grid]");
+  var mosaicMore = document.querySelector("[data-mosaic-more]");
+  var mosaicCount = document.querySelector("[data-mosaic-count]");
+  if (mosaicGrid && mosaicMore && mosaicCount) {
+    var mosaicItems = [
+      { category: "05 · DESIGN", title: "Form følger funktion", description: "En tydelig løsning begynder med et godt spørgsmål.", size: "mosaic-medium", tone: "mosaic-tone-clay" },
+      { category: "06 · SAMARBEJDE", title: "Byg videre sammen", description: "Forskellige perspektiver kan blive til én retning.", size: "mosaic-tall", tone: "mosaic-tone-forest" },
+      { category: "07 · IDÉER", title: "Start i det små", description: "En skitse er også en begyndelse.", size: "mosaic-short", tone: "mosaic-tone-lilac" },
+      { category: "08 · SPROG", title: "Gør forbindelsen synlig", description: "Struktur hjælper os med at finde mening.", size: "mosaic-medium", tone: "mosaic-tone-ochre" },
+      { category: "09 · LÆRING", title: "Giv plads til spørgsmål", description: "Nysgerrighed er en god måde at komme videre på.", size: "mosaic-short", tone: "mosaic-tone-blue" },
+      { category: "10 · PRAKSIS", title: "Prøv, mærk, justér", description: "Det brugbare bliver ofte til undervejs.", size: "mosaic-tall", tone: "mosaic-tone-sage" }
+    ];
+    var mosaicAdded = 0;
+    mosaicMore.addEventListener("click", function () {
+      var batch = mosaicItems.slice(mosaicAdded, mosaicAdded + 3);
+      batch.forEach(function (item) {
+        var card = document.createElement("article");
+        card.className = "mosaic-card " + item.size + " " + item.tone + " mosaic-card-enter";
+        var category = document.createElement("span");
+        category.textContent = item.category;
+        var title = document.createElement("strong");
+        title.textContent = item.title;
+        var description = document.createElement("p");
+        description.textContent = item.description;
+        card.append(category, title, description);
+        mosaicGrid.appendChild(card);
+        window.setTimeout(function () { card.classList.remove("mosaic-card-enter"); }, 420);
+      });
+      mosaicAdded += batch.length;
+      var total = 4 + mosaicAdded;
+      mosaicCount.textContent = total + " kort vist";
+      if (mosaicAdded >= mosaicItems.length) {
+        mosaicMore.disabled = true;
+        mosaicMore.textContent = "Alle kort er vist";
+      }
+    });
+  }
+
+  var spotlightArt = document.querySelector("[data-spotlight-art]");
+  var spotlightSize = document.querySelector("#spotlight-size");
+  var spotlightValue = document.querySelector("[data-spotlight-value]");
+  if (spotlightArt) {
+    function moveSpotlight(event) {
+      var rect = spotlightArt.getBoundingClientRect();
+      spotlightArt.style.setProperty("--spot-x", ((event.clientX - rect.left) / rect.width * 100) + "%");
+      spotlightArt.style.setProperty("--spot-y", ((event.clientY - rect.top) / rect.height * 100) + "%");
+    }
+    spotlightArt.addEventListener("pointermove", moveSpotlight);
+    spotlightArt.addEventListener("focus", function () {
+      spotlightArt.style.setProperty("--spot-x", "50%");
+      spotlightArt.style.setProperty("--spot-y", "50%");
+    });
+  }
+  if (spotlightArt && spotlightSize && spotlightValue) {
+    spotlightSize.addEventListener("input", function () {
+      var value = Number(spotlightSize.value);
+      spotlightArt.style.setProperty("--spot-size", value + "%");
+      spotlightValue.value = String(value);
+      spotlightValue.textContent = String(value);
+    });
+  }
+
+  var heroAtelier = document.querySelector("[data-hero-atelier]");
+  if (heroAtelier) {
+    var heroScenes = [
+      { kicker: "SPROG · MENNESKER · MENING", title: "Forstå det.<br>Del det.", copy: "Gør komplekse idéer lettere at bruge." },
+      { kicker: "IDÉ · SKITSE · LØSNING", title: "Byg noget.<br>Prøv det.", copy: "Lad en god tanke få form i virkeligheden." },
+      { kicker: "LYT · SAMARBEJD · SKAB", title: "Skab det.<br>Sammen.", copy: "De stærkeste løsninger vokser mellem mennesker." }
+    ];
+    var heroSceneIndex = 0;
+    var heroScene = heroAtelier.querySelector("[data-hero-scene]");
+    var heroKicker = heroAtelier.querySelector("[data-hero-kicker]");
+    var heroTitle = heroAtelier.querySelector("[data-hero-title]");
+    var heroCopy = heroAtelier.querySelector("[data-hero-copy]");
+    var heroSteps = heroAtelier.querySelectorAll("[data-hero-step]");
+    function showHeroScene(index) {
+      heroSceneIndex = (index + heroScenes.length) % heroScenes.length;
+      var scene = heroScenes[heroSceneIndex];
+      heroScene.dataset.scene = String(heroSceneIndex + 1);
+      heroKicker.textContent = scene.kicker;
+      heroTitle.textContent = scene.title.replace(/<br>/g, " ");
+      heroCopy.textContent = scene.copy;
+      heroSteps.forEach(function (button, buttonIndex) {
+        button.setAttribute("aria-current", String(buttonIndex === heroSceneIndex));
+      });
+    }
+    heroSteps.forEach(function (button) {
+      button.addEventListener("click", function () {
+        showHeroScene(Number(button.dataset.heroStep));
+      });
+    });
+    heroAtelier.querySelector("[data-hero-prev]").addEventListener("click", function () {
+      showHeroScene(heroSceneIndex - 1);
+    });
+    heroAtelier.querySelector("[data-hero-next]").addEventListener("click", function () {
+      showHeroScene(heroSceneIndex + 1);
+    });
+  }
+
+  var typeScene = document.querySelector("[data-type-scene]");
+  if (typeScene) {
+    var typeWords = ["Nysgerrighed", "Forbindelser", "Muligheder", "Fællesskab"];
+    var typeWordIndex = 0;
+    var typeTitle = typeScene.querySelector("[data-type-scene-title]");
+    var typeTimer;
+    function playTypeScene(nextWord) {
+      window.clearTimeout(typeTimer);
+      if (nextWord) {
+        typeWordIndex = (typeWordIndex + 1) % typeWords.length;
+        typeTitle.textContent = typeWords[typeWordIndex];
+      }
+      typeScene.classList.remove("is-playing");
+      void typeScene.offsetWidth;
+      typeScene.classList.add("is-playing");
+      typeTimer = window.setTimeout(function () {
+        typeScene.classList.remove("is-playing");
+      }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 30 : 850);
+    }
+    typeScene.querySelector("[data-type-scene-replay]").addEventListener("click", function () {
+      playTypeScene(false);
+    });
+    typeScene.querySelector("[data-type-scene-next]").addEventListener("click", function () {
+      playTypeScene(true);
+    });
+    playTypeScene(false);
+  }
+
+  var rippleDialog = document.querySelector("[data-ripple-dialog]");
+  var rippleOpen = document.querySelector("[data-ripple-open]");
+  var rippleStatus = document.querySelector("[data-ripple-status]");
+  if (rippleDialog && rippleOpen && rippleStatus) {
+    function closeRippleDialog() {
+      if (rippleDialog.open) rippleDialog.close();
+    }
+    rippleOpen.addEventListener("click", function () {
+      rippleDialog.classList.remove("is-closing");
+      if (typeof rippleDialog.showModal === "function") rippleDialog.showModal();
+      else rippleDialog.setAttribute("open", "");
+      rippleDialog.querySelector("[data-ripple-close]").focus();
+      rippleStatus.textContent = "Invitationen er åben.";
+    });
+    rippleDialog.querySelectorAll("[data-ripple-close]").forEach(function (button) {
+      button.addEventListener("click", closeRippleDialog);
+    });
+    rippleDialog.addEventListener("click", function (event) {
+      if (event.target === rippleDialog) closeRippleDialog();
+    });
+    rippleDialog.addEventListener("close", function () {
+      rippleOpen.focus();
+      rippleStatus.textContent = "Invitationen er lukket.";
+    });
+  }
+
+  var sketchTasks = document.querySelectorAll("[data-sketch-task]");
+  var sketchProgress = document.querySelector("[data-sketch-progress]");
+  if (sketchTasks.length && sketchProgress) {
+    function updateSketchProgress() {
+      var checked = Array.from(sketchTasks).filter(function (task) { return task.checked; }).length;
+      sketchProgress.textContent = checked + " af " + sketchTasks.length + " idéer markeret";
+    }
+    sketchTasks.forEach(function (task) {
+      task.addEventListener("change", updateSketchProgress);
+    });
+  }
+
+  var calendarForm = document.querySelector("[data-calendar-form]");
+  var calendarStatus = document.querySelector("[data-calendar-status]");
+  if (calendarForm && calendarStatus) {
+    var calendarDate = calendarForm.elements.date;
+    if (calendarDate && !calendarDate.value) {
+      var tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      calendarDate.value = [tomorrow.getFullYear(), String(tomorrow.getMonth() + 1).padStart(2, "0"), String(tomorrow.getDate()).padStart(2, "0")].join("-");
+    }
+    calendarForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (!calendarForm.reportValidity()) return;
+      var data = new FormData(calendarForm);
+      var title = String(data.get("title") || "").trim();
+      var date = String(data.get("date") || "");
+      var time = String(data.get("time") || "");
+      var details = String(data.get("details") || "").trim();
+      var match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date);
+      var clock = /^(\d{2}):(\d{2})$/.exec(time);
+      if (!match || !clock) {
+        calendarStatus.textContent = "Tjek dato og klokkeslæt, og prøv igen.";
+        return;
+      }
+      var start = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]), Number(clock[1]), Number(clock[2]));
+      if (Number.isNaN(start.getTime()) || start.getFullYear() !== Number(match[1]) || start.getMonth() !== Number(match[2]) - 1 || start.getDate() !== Number(match[3])) {
+        calendarStatus.textContent = "Datoen ser ikke gyldig ud. Vælg en anden dato.";
+        return;
+      }
+      var end = new Date(start.getTime() + 45 * 60 * 1000);
+      function icsDate(value) {
+        return [value.getFullYear(), String(value.getMonth() + 1).padStart(2, "0"), String(value.getDate()).padStart(2, "0")].join("") +
+          "T" + [String(value.getHours()).padStart(2, "0"), String(value.getMinutes()).padStart(2, "0"), "00"].join("");
+      }
+      function escapeIcs(value) {
+        return value.replace(/\\/g, "\\\\").replace(/\r?\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;");
+      }
+      function foldIcsLine(line) {
+        var chunks = [];
+        var chunk = "";
+        var byteLength = 0;
+        Array.from(line).forEach(function (character) {
+          var code = character.codePointAt(0);
+          var characterBytes = code <= 0x7f ? 1 : code <= 0x7ff ? 2 : code <= 0xffff ? 3 : 4;
+          if (byteLength + characterBytes > 75) {
+            chunks.push(chunk);
+            chunk = " ";
+            byteLength = 1;
+          }
+          chunk += character;
+          byteLength += characterBytes;
+        });
+        chunks.push(chunk);
+        return chunks;
+      }
+      var stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+      var uid = typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : String(Date.now());
+      var lines = [
+        "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Villads Claes//Legeplads//DA",
+        "CALSCALE:GREGORIAN", "BEGIN:VEVENT", "UID:" + uid + "@villadsclaes.dk",
+        "DTSTAMP:" + stamp, "DTSTART:" + icsDate(start), "DTEND:" + icsDate(end),
+        "SUMMARY:" + escapeIcs(title)
+      ];
+      if (details) lines.push("DESCRIPTION:" + escapeIcs(details));
+      lines.push("END:VEVENT", "END:VCALENDAR");
+      var file = new Blob([lines.flatMap(foldIcsLine).join("\r\n")], { type: "text/calendar;charset=utf-8" });
+      var url = URL.createObjectURL(file);
+      var link = document.createElement("a");
+      link.href = url;
+      link.download = "invitation.ics";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      calendarStatus.textContent = "Kalenderfilen er klar til at åbne eller gemme.";
+    });
+  }
+
+  var menuBoard = document.querySelector(".demo-menu-board");
+  if (menuBoard) {
+    var menuItems = Array.from(menuBoard.querySelectorAll(".menu-board-item"));
+    var menuTitle = menuBoard.querySelector("[data-menu-detail-title]");
+    var menuCopy = menuBoard.querySelector("[data-menu-detail-copy]");
+    function selectMenuItem(item) {
+      menuItems.forEach(function (candidate) {
+        candidate.setAttribute("aria-pressed", String(candidate === item));
+      });
+      menuTitle.textContent = item.dataset.menuName;
+      menuCopy.textContent = item.dataset.menuDescription;
+    }
+    menuBoard.querySelectorAll("[data-menu-filter]").forEach(function (filter) {
+      filter.addEventListener("click", function () {
+        var category = filter.dataset.menuFilter;
+        menuBoard.querySelectorAll("[data-menu-filter]").forEach(function (button) {
+          button.setAttribute("aria-pressed", String(button === filter));
+        });
+        menuItems.forEach(function (item) {
+          item.hidden = category !== "all" && item.dataset.menuCategory !== category;
+        });
+        var selected = menuItems.find(function (item) { return !item.hidden && item.getAttribute("aria-pressed") === "true"; });
+        if (!selected) selected = menuItems.find(function (item) { return !item.hidden; });
+        if (selected) selectMenuItem(selected);
+      });
+    });
+    menuItems.forEach(function (item) {
+      item.addEventListener("click", function () { selectMenuItem(item); });
+    });
+  }
+
+  document.querySelectorAll("[data-coupon-toggle]").forEach(function (button) {
+    var details = document.getElementById(button.getAttribute("aria-controls"));
+    if (!details) return;
+    button.addEventListener("click", function () {
+      var expanded = button.getAttribute("aria-expanded") === "true";
+      button.setAttribute("aria-expanded", String(!expanded));
+      details.hidden = expanded;
+      button.textContent = expanded ? "Vis detalje" : "Skjul detalje";
+    });
+  });
+
+  var reliefStage = document.querySelector("[data-relief-stage]");
+  var reliefDepth = document.querySelector("[data-relief-depth]");
+  var reliefAngle = document.querySelector("[data-relief-angle]");
+  if (reliefStage && reliefDepth && reliefAngle) {
+    var depthOutput = document.querySelector("[data-relief-depth-value]");
+    var angleOutput = document.querySelector("[data-relief-angle-value]");
+    function updateRelief() {
+      var depth = Number(reliefDepth.value);
+      var angle = Number(reliefAngle.value) * Math.PI / 180;
+      reliefStage.style.setProperty("--relief-x", (Math.cos(angle) * depth).toFixed(1) + "px");
+      reliefStage.style.setProperty("--relief-y", (Math.sin(angle) * depth).toFixed(1) + "px");
+      depthOutput.value = depth + " px";
+      depthOutput.textContent = depth + " px";
+      angleOutput.value = reliefAngle.value + "°";
+      angleOutput.textContent = reliefAngle.value + "°";
+    }
+    reliefDepth.addEventListener("input", updateRelief);
+    reliefAngle.addEventListener("input", updateRelief);
+    updateRelief();
+  }
+
+  var duotoneHue = document.querySelector("[data-duotone-hue]");
+  var duotoneArt = document.querySelector("[data-duotone-art]");
+  var duotoneOriginal = document.querySelector("[data-duotone-original]");
+  if (duotoneHue && duotoneArt && duotoneOriginal) {
+    var hueOutput = document.querySelector("[data-duotone-hue-value]");
+    function updateDuotone() {
+      duotoneArt.style.setProperty("--duotone-hue", duotoneHue.value);
+      duotoneArt.dataset.original = String(duotoneOriginal.checked);
+      duotoneArt.setAttribute("aria-label", duotoneOriginal.checked ? "Abstrakt landskab uden farvefilter" : "Abstrakt landskab med duotonefarver");
+      hueOutput.value = duotoneHue.value + "°";
+      hueOutput.textContent = duotoneHue.value + "°";
+    }
+    duotoneHue.addEventListener("input", updateDuotone);
+    duotoneOriginal.addEventListener("change", updateDuotone);
+    updateDuotone();
+  }
+
+  var popScene = document.querySelector("[data-pop-scene]");
+  var popTrigger = document.querySelector("[data-pop-trigger]");
+  var popStatus = document.querySelector("[data-pop-status]");
+  if (popScene && popTrigger && popStatus) {
+    popTrigger.addEventListener("click", function () {
+      popScene.dataset.popState = "idle";
+      void popScene.offsetWidth;
+      popScene.dataset.popState = "show";
+      popStatus.textContent = "En idé er dukket op.";
+    });
+  }
+
+  var starfield = document.querySelector("[data-starfield]");
+  var starToggle = document.querySelector("[data-star-toggle]");
+  var starStatus = document.querySelector("[data-star-status]");
+  if (starfield && starToggle && starStatus) {
+    var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion) {
+      starfield.dataset.starRunning = "false";
+      starToggle.setAttribute("aria-pressed", "false");
+      starToggle.textContent = "Genoptag";
+      starStatus.textContent = "Stjernefeltet er sat på pause efter din indstilling for reduceret bevægelse.";
+    }
+    function updateStarStatus() {
+      var running = starfield.dataset.starRunning === "true";
+      var speed = starfield.dataset.starSpeed;
+      var speedLabel = speed === "slow" ? "langsomt" : speed === "fast" ? "hurtigt" : "roligt";
+      starToggle.textContent = running ? "Sæt på pause" : "Genoptag";
+      starToggle.setAttribute("aria-pressed", String(running));
+      starStatus.textContent = running ? "Stjernefeltet bevæger sig " + speedLabel + "." : "Stjernefeltet er sat på pause.";
+    }
+    document.querySelectorAll(".starfield-controls [data-star-speed]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        starfield.dataset.starSpeed = button.dataset.starSpeed;
+        document.querySelectorAll(".starfield-controls [data-star-speed]").forEach(function (choice) {
+          choice.setAttribute("aria-pressed", String(choice === button));
+        });
+        updateStarStatus();
+      });
+    });
+    starToggle.addEventListener("click", function () {
+      starfield.dataset.starRunning = String(starfield.dataset.starRunning !== "true");
+      updateStarStatus();
+    });
+  }
+
+  var treeCanvas = document.querySelector("[data-tree-canvas]");
+  var treeDepth = document.querySelector("[data-tree-depth]");
+  var treeLeaves = document.querySelector("[data-tree-leaves]");
+  var treeGrow = document.querySelector("[data-tree-grow]");
+  var treeStatus = document.querySelector("[data-tree-status]");
+  if (treeCanvas && treeDepth && treeLeaves && treeGrow && treeStatus) {
+    var treeContext = treeCanvas.getContext("2d");
+    var treeDepthValue = document.querySelector("[data-tree-depth-value]");
+    var treeFrame = 0;
+    function drawTree(animate) {
+      if (!treeContext) return;
+      if (treeFrame) cancelAnimationFrame(treeFrame);
+      var bounds = treeCanvas.getBoundingClientRect();
+      var ratio = Math.min(window.devicePixelRatio || 1, 2);
+      var width = Math.max(1, bounds.width);
+      var height = Math.max(1, bounds.height);
+      treeCanvas.width = Math.round(width * ratio);
+      treeCanvas.height = Math.round(height * ratio);
+      treeContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+      var branches = [];
+      function branch(x, y, length, angle, level, thickness) {
+        var endX = x + Math.sin(angle) * length;
+        var endY = y - Math.cos(angle) * length;
+        branches.push({ x: x, y: y, endX: endX, endY: endY, level: level, thickness: thickness });
+        if (level > 0) {
+          var spread = .28 + Math.random() * .16;
+          branch(endX, endY, length * (.68 + Math.random() * .08), angle - spread, level - 1, thickness * .72);
+          branch(endX, endY, length * (.68 + Math.random() * .08), angle + spread, level - 1, thickness * .72);
+        }
+      }
+      var depth = Number(treeDepth.value);
+      branch(width / 2, height - 8, height * .34, 0, depth, Math.max(2, depth * 1.15));
+      var sky = treeContext.createLinearGradient(0, 0, 0, height);
+      sky.addColorStop(0, "#bbd9e5");
+      sky.addColorStop(1, "#f3e8cf");
+      function paint(count) {
+        treeContext.clearRect(0, 0, width, height);
+        treeContext.fillStyle = sky;
+        treeContext.fillRect(0, 0, width, height);
+        treeContext.fillStyle = "#819b7e";
+        treeContext.fillRect(0, height - 9, width, 9);
+        branches.slice(0, count).forEach(function (line) {
+          treeContext.beginPath();
+          treeContext.moveTo(line.x, line.y);
+          treeContext.lineTo(line.endX, line.endY);
+          treeContext.lineWidth = Math.max(1, line.thickness);
+          treeContext.lineCap = "round";
+          treeContext.strokeStyle = line.level > 2 ? "#604d3e" : "#4e6d4d";
+          treeContext.stroke();
+          if (treeLeaves.checked && line.level === 0 && count === branches.length) {
+            treeContext.beginPath();
+            treeContext.arc(line.endX, line.endY, 3.5, 0, Math.PI * 2);
+            treeContext.fillStyle = "#668653";
+            treeContext.fill();
+          }
+        });
+      }
+      if (!animate || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        paint(branches.length);
+        return;
+      }
+      var visible = 0;
+      function growFrame() {
+        visible = Math.min(branches.length, visible + Math.ceil(branches.length / 16));
+        paint(visible);
+        if (visible < branches.length) treeFrame = requestAnimationFrame(growFrame);
+        else treeFrame = 0;
+      }
+      growFrame();
+    }
+    function updateTreeDepth() {
+      treeDepthValue.value = treeDepth.value;
+      treeDepthValue.textContent = treeDepth.value;
+      treeStatus.textContent = "Træet er tegnet med " + treeDepth.value + " forgreningsniveauer.";
+    }
+    treeDepth.addEventListener("input", function () { updateTreeDepth(); drawTree(true); });
+    treeLeaves.addEventListener("change", function () { drawTree(false); });
+    treeGrow.addEventListener("click", function () { drawTree(true); treeStatus.textContent = "En ny træform vokser frem."; });
+    window.addEventListener("resize", function () { drawTree(false); });
+    updateTreeDepth();
+    drawTree(false);
+  }
+
+  var terrainCanvas = document.querySelector("[data-terrain-canvas]");
+  var terrainRoughness = document.querySelector("[data-terrain-roughness]");
+  var terrainGenerate = document.querySelector("[data-terrain-generate]");
+  if (terrainCanvas && terrainRoughness && terrainGenerate) {
+    var terrainContext = terrainCanvas.getContext("2d");
+    var terrainValue = document.querySelector("[data-terrain-value]");
+    function generateTerrain() {
+      if (!terrainContext) return;
+      var bounds = terrainCanvas.getBoundingClientRect();
+      var ratio = Math.min(window.devicePixelRatio || 1, 2);
+      var width = Math.max(1, bounds.width);
+      var height = Math.max(1, bounds.height);
+      terrainCanvas.width = Math.round(width * ratio);
+      terrainCanvas.height = Math.round(height * ratio);
+      terrainContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+      var size = 33;
+      var max = size - 1;
+      var map = new Float32Array(size * size);
+      function get(x, y) { return x < 0 || x > max || y < 0 || y > max ? null : map[x + size * y]; }
+      function set(x, y, value) {
+        map[x + size * y] = value;
+      }
+      function average(points) {
+        var sum = 0;
+        var count = 0;
+        points.forEach(function (point) {
+          if (point !== null) { sum += point; count++; }
+        });
+        return count ? sum / count : 0;
+      }
+      set(0, 0, .5); set(max, 0, .5); set(0, max, .5); set(max, max, .5);
+      var step = max;
+      var roughness = Number(terrainRoughness.value) / 100;
+      var amplitude = .65;
+      while (step > 1) {
+        var half = step / 2;
+        for (var y = half; y < max; y += step) {
+          for (var x = half; x < max; x += step) {
+            set(x, y, average([get(x - half, y - half), get(x + half, y - half), get(x - half, y + half), get(x + half, y + half)]) + (Math.random() * 2 - 1) * amplitude);
+          }
+        }
+        for (var dy = 0; dy <= max; dy += half) {
+          for (var dx = (dy + half) % step; dx <= max; dx += step) {
+            set(dx, dy, average([get(dx - half, dy), get(dx + half, dy), get(dx, dy - half), get(dx, dy + half)]) + (Math.random() * 2 - 1) * amplitude);
+          }
+        }
+        step = half;
+        amplitude *= roughness;
+      }
+      var profile = [];
+      var row = Math.floor(max / 2);
+      for (var column = 0; column <= max; column++) profile.push(get(column, row));
+      var low = Math.min.apply(null, profile);
+      var high = Math.max.apply(null, profile);
+      var sky = terrainContext.createLinearGradient(0, 0, 0, height);
+      sky.addColorStop(0, "#b9d5d7");
+      sky.addColorStop(1, "#f1e4c6");
+      terrainContext.clearRect(0, 0, width, height);
+      terrainContext.fillStyle = sky;
+      terrainContext.fillRect(0, 0, width, height);
+      terrainContext.beginPath();
+      terrainContext.arc(width * .8, height * .25, 19, 0, Math.PI * 2);
+      terrainContext.fillStyle = "#f4d58d";
+      terrainContext.fill();
+      terrainContext.beginPath();
+      profile.forEach(function (value, index) {
+        var x = index / max * width;
+        var normalized = (value - low) / Math.max(.001, high - low);
+        var y = height * (.66 - normalized * .38);
+        if (!index) terrainContext.moveTo(x, y);
+        else terrainContext.lineTo(x, y);
+      });
+      terrainContext.lineTo(width, height);
+      terrainContext.lineTo(0, height);
+      terrainContext.closePath();
+      var ground = terrainContext.createLinearGradient(0, height * .35, 0, height);
+      ground.addColorStop(0, "#718e78");
+      ground.addColorStop(1, "#304d49");
+      terrainContext.fillStyle = ground;
+      terrainContext.fill();
+      terrainCanvas.setAttribute("aria-label", "Tilfældigt genereret terræn, ujævnhed " + terrainRoughness.value + " procent");
+    }
+    function updateTerrainValue() {
+      terrainValue.value = (Number(terrainRoughness.value) / 100).toFixed(2).replace(".", ",");
+      terrainValue.textContent = terrainValue.value;
+    }
+    terrainRoughness.addEventListener("input", function () { updateTerrainValue(); generateTerrain(); });
+    terrainGenerate.addEventListener("click", generateTerrain);
+    window.addEventListener("resize", generateTerrain);
+    updateTerrainValue();
+    generateTerrain();
+  }
+
+  var speechBubble = document.querySelector("[data-speech-bubble]");
+  var bubbleInput = document.querySelector("[data-bubble-input]");
+  var bubbleStatus = document.querySelector("[data-bubble-status]");
+  if (speechBubble && bubbleInput && bubbleStatus) {
+    document.querySelectorAll("[data-bubble-shape]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        speechBubble.dataset.bubbleShape = button.dataset.bubbleShape;
+        document.querySelectorAll(".bubble-shape-controls [data-bubble-shape]").forEach(function (choice) {
+          choice.setAttribute("aria-pressed", String(choice === button));
+        });
+        bubbleStatus.textContent = "Form: " + button.textContent + ".";
+      });
+    });
+    var bubbleCopy = document.querySelector("[data-bubble-copy]");
+    function updateBubbleCopy() {
+      bubbleCopy.textContent = bubbleInput.value.trim() || "Skriv en lille replik.";
+    }
+    bubbleInput.addEventListener("input", updateBubbleCopy);
+    updateBubbleCopy();
+  }
+
+  var depthRange = document.querySelector("[data-depth-range]");
+  var depthScene = document.querySelector("[data-depth-scene]");
+  var depthValue = document.querySelector("[data-depth-value]");
+  if (depthRange && depthScene && depthValue) {
+    function updateDepthScene() {
+      var distance = Number(depthRange.value);
+      depthScene.style.setProperty("--far-offset", (-distance * .22).toFixed(1) + "px");
+      depthScene.style.setProperty("--near-offset", (distance * .48).toFixed(1) + "px");
+      depthValue.value = distance + " px";
+      depthValue.textContent = distance + " px";
+    }
+    depthRange.addEventListener("input", updateDepthScene);
+    updateDepthScene();
+  }
+
+  var textCardInput = document.querySelector("[data-text-card-input]");
+  var textCardCount = document.querySelector("[data-text-card-count]");
+  var textCardCopy = document.querySelector("[data-text-card-copy]");
+  var textCardStatus = document.querySelector("[data-text-card-status]");
+  if (textCardInput && textCardCount && textCardCopy && textCardStatus) {
+    function updateTextCardCount() {
+      textCardCount.value = textCardInput.value.length + " / " + textCardInput.maxLength + " tegn";
+      textCardCount.textContent = textCardCount.value;
+    }
+    textCardInput.addEventListener("input", updateTextCardCount);
+    textCardCopy.addEventListener("click", function () {
+      var text = textCardInput.value;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          textCardStatus.textContent = "Teksten er kopieret til udklipsholderen.";
+        }, function () {
+          textCardStatus.textContent = "Browseren afviste kopiering. Markér teksten og kopiér den manuelt.";
+        });
+        return;
+      }
+      textCardInput.focus();
+      textCardInput.select();
+      var copied = document.execCommand("copy");
+      textCardCopy.focus();
+      textCardStatus.textContent = copied ? "Teksten er kopieret til udklipsholderen." : "Kopiering understøttes ikke her. Markér teksten og kopiér den manuelt.";
+    });
+    updateTextCardCount();
+  }
+
+  var weatherCard = document.querySelector("[data-weather-card]");
+  if (weatherCard) {
+    var weatherScenarios = {
+      sun: { symbol: "☀", title: "Sol og plads til en pause", copy: "En lys dag til at følge en ny tanke.", label: "Illustreret solskinsvejr" },
+      rain: { symbol: "☂", title: "Regn og ro til fordybelse", copy: "En stille stund til at samle sine idéer.", label: "Illustreret regnvejr" },
+      wind: { symbol: "➝", title: "Vind i en ny retning", copy: "Lad en frisk brise flytte lidt på planen.", label: "Illustreret blæsevejr" },
+      snow: { symbol: "❄", title: "Sne og plads til pauser", copy: "Små skridt kan stadig føre langt.", label: "Illustreret snevejr" }
+    };
+    var weatherSymbol = document.querySelector("[data-weather-symbol]");
+    var weatherTitle = document.querySelector("[data-weather-title]");
+    var weatherCopy = document.querySelector("[data-weather-copy]");
+    document.querySelectorAll("[data-weather-choice]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        var scene = weatherScenarios[button.dataset.weatherChoice];
+        if (!scene) return;
+        weatherCard.dataset.weather = button.dataset.weatherChoice;
+        weatherCard.setAttribute("aria-label", scene.label);
+        weatherSymbol.textContent = scene.symbol;
+        weatherTitle.textContent = scene.title;
+        weatherCopy.textContent = scene.copy;
+        document.querySelectorAll("[data-weather-choice]").forEach(function (choice) {
+          choice.setAttribute("aria-pressed", String(choice === button));
+        });
+      });
+    });
+  }
 })();
