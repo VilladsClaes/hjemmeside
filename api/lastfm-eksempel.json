@@ -1,0 +1,77 @@
+{
+  "bruger": "villadsclaes",
+  "spor": [
+    {
+      "titel": "Sommerfugl",
+      "kunstner": "Sort Sol",
+      "album": "Glamour Box",
+      "billede": "",
+      "url": "https://www.last.fm/music/Sort+Sol/_/Sommerfugl",
+      "nu": true,
+      "tid": 0
+    },
+    {
+      "titel": "Vi er her",
+      "kunstner": "Gilli",
+      "album": "Vi er her",
+      "billede": "",
+      "url": "https://www.last.fm/music/Gilli/_/Vi+er+her",
+      "nu": false,
+      "tid": 1791413607
+    },
+    {
+      "titel": "Superhelt",
+      "kunstner": "Medina",
+      "album": "Velkommen til Medina",
+      "billede": "",
+      "url": "https://www.last.fm/music/Medina/_/Superhelt",
+      "nu": false,
+      "tid": 1791413367
+    },
+    {
+      "titel": "Teardrop",
+      "kunstner": "Massive Attack",
+      "album": "Mezzanine",
+      "billede": "",
+      "url": "https://www.last.fm/music/Massive+Attack/_/Teardrop",
+      "nu": false,
+      "tid": 1791412347
+    },
+    {
+      "titel": "Hjem fra fabrikken",
+      "kunstner": "Gnags",
+      "album": "Burhøns",
+      "billede": "",
+      "url": "https://www.last.fm/music/Gnags/_/Hjem+fra+fabrikken",
+      "nu": false,
+      "tid": 1791408147
+    },
+    {
+      "titel": "Hoppípolla",
+      "kunstner": "Sigur Rós",
+      "album": "Takk...",
+      "billede": "",
+      "url": "https://www.last.fm/music/Sigur+Rós/_/Hoppípolla",
+      "nu": false,
+      "tid": 1791399447
+    },
+    {
+      "titel": "Vuggevise",
+      "kunstner": "Lukas Graham",
+      "album": "Lukas Graham",
+      "billede": "",
+      "url": "https://www.last.fm/music/Lukas+Graham/_/Vuggevise",
+      "nu": false,
+      "tid": 1791323847
+    },
+    {
+      "titel": "Holocene",
+      "kunstner": "Bon Iver",
+      "album": "Bon Iver, Bon Iver",
+      "billede": "",
+      "url": "https://www.last.fm/music/Bon+Iver/_/Holocene",
+      "nu": false,
+      "tid": 1791173847
+    }
+  ]
+}

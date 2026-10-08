@@ -67,6 +67,153 @@
     items.forEach(function (el) { el.classList.add("in"); });
   }
 
+  // Musik fra Last.fm. api/lastfm.php henter data på serveren, så API-nøglen forbliver hemmelig.
+  // Python-serveren kan ikke køre PHP, så lokalt vises eksempeldata i stedet.
+  var musik = document.querySelector("[data-musik]");
+  if (musik && window.fetch) {
+    var lokal = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+    var kilde = lokal ? "api/lastfm-eksempel.json" : "api/lastfm.php";
+    var nuKort = musik.querySelector("[data-nu]");
+    var liste = musik.querySelector("[data-spor]");
+    var pille = document.querySelector("[data-nu-pill]");
+    var menupunkt = document.querySelector("[data-musik-link]");
+    var sidst = "";
+    var node = "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M9 18V5l12-2v13'/><circle cx='6' cy='18' r='3'/><circle cx='18' cy='16' r='3'/></svg>";
+    var harRtf = window.Intl && Intl.RelativeTimeFormat;
+    var rtf = harRtf ? new Intl.RelativeTimeFormat("da", { numeric: "auto" }) : null;
+    var rtfKort = harRtf ? new Intl.RelativeTimeFormat("da", { numeric: "auto", style: "short" }) : null;
+
+    // "for 5 minutter siden", "i går" osv. Med kort = true: "for 5 min. siden"
+    var siden = function (tid, kort) {
+      var fmt = kort ? rtfKort : rtf;
+      var f = function (n, enhed, forkortelse) { return fmt ? fmt.format(-n, enhed) : n + " " + forkortelse + " siden"; };
+      var min = Math.floor((Date.now() / 1000 - tid) / 60);
+      if (min < 1) return "lige nu";
+      if (min < 60) return f(min, "minute", "min.");
+      var timer = Math.floor(min / 60);
+      if (timer < 24) return f(timer, "hour", "t.");
+      var dage = Math.floor(timer / 24);
+      if (dage < 7) return f(dage, "day", "d.");
+      return "d. " + new Date(tid * 1000).toLocaleDateString("da-DK", { day: "numeric", month: "short" });
+    };
+
+    var el = function (tag, klasse, tekst) {
+      var e = document.createElement(tag);
+      if (klasse) e.className = klasse;
+      if (tekst) e.textContent = tekst;
+      return e;
+    };
+
+    var omslag = function (src) {
+      var c = el("span", "cover");
+      c.innerHTML = node;
+      if (/^https:\/\//.test(src)) {
+        var img = new Image();
+        img.alt = "";
+        img.loading = "lazy";
+        img.decoding = "async";
+        img.onerror = function () { img.remove(); };
+        img.src = src;
+        c.appendChild(img);
+      }
+      return c;
+    };
+
+    // Link kun til Last.fm selv, aldrig til hvad som helst der måtte stå i data
+    var link = function (spor) {
+      if (!/^https:\/\/www\.last\.fm\//.test(spor.url)) return el("div");
+      var a = el("a");
+      a.href = spor.url;
+      a.rel = "noopener";
+      return a;
+    };
+
+    var tidspunkt = function (spor) {
+      var t = el("time");
+      if (spor.nu) {
+        t.textContent = "nu";
+      } else {
+        t.setAttribute("data-tid", spor.tid);
+        t.setAttribute("data-kort", "");
+        t.dateTime = new Date(spor.tid * 1000).toISOString();
+        t.textContent = siden(spor.tid, true);
+      }
+      return t;
+    };
+
+    var opdaterTider = function () {
+      musik.querySelectorAll("[data-tid]").forEach(function (t) {
+        t.textContent = (t.getAttribute("data-forstavelse") || "") + siden(+t.getAttribute("data-tid"), t.hasAttribute("data-kort"));
+      });
+    };
+
+    var vis = function (data) {
+      var spor = data && data.spor;
+      if (!spor || !spor.length) return;
+      var noegle = JSON.stringify(spor);
+      if (noegle === sidst) return opdaterTider();
+      sidst = noegle;
+
+      // Det store kort: det der spiller nu, eller det seneste nummer
+      var f = spor[0];
+      nuKort.classList.toggle("playing", !!f.nu);
+      var a = link(f);
+      a.appendChild(omslag(f.billede));
+      var tekst = el("div");
+      var status = el("p", "now-status");
+      if (f.nu) {
+        status.innerHTML = "<span class='eq' aria-hidden='true'><i></i><i></i><i></i></span>";
+        status.appendChild(el("span", "", "Lytter lige nu"));
+      } else {
+        var st = el("span", "", "Sidst hørt " + siden(f.tid));
+        st.setAttribute("data-tid", f.tid);
+        st.setAttribute("data-forstavelse", "Sidst hørt ");
+        status.appendChild(st);
+      }
+      tekst.appendChild(status);
+      tekst.appendChild(el("h3", "", f.titel));
+      tekst.appendChild(el("p", "now-artist", f.kunstner));
+      if (f.album && f.album !== f.titel) tekst.appendChild(el("p", "now-album", f.album));
+      a.appendChild(tekst);
+      nuKort.replaceChildren(a);
+
+      // Listen med resten
+      liste.replaceChildren.apply(liste, spor.slice(1).map(function (s) {
+        var li = el("li", "track");
+        var r = link(s);
+        var navn = el("div");
+        navn.appendChild(el("strong", "", s.titel));
+        navn.appendChild(el("span", "", s.kunstner));
+        r.appendChild(omslag(s.billede));
+        r.appendChild(navn);
+        r.appendChild(tidspunkt(s));
+        li.appendChild(r);
+        return li;
+      }));
+
+      // Pillen i toppen vises kun, når der faktisk spiller noget
+      if (pille) {
+        pille.hidden = !f.nu;
+        pille.querySelector("[data-nu-pill-titel]").textContent = f.titel;
+        pille.querySelector("[data-nu-pill-kunstner]").textContent = f.kunstner;
+      }
+
+      musik.hidden = false;
+      if (menupunkt) menupunkt.hidden = false;
+    };
+
+    var hent = function () {
+      fetch(kilde, { cache: "no-store" })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(vis)
+        .catch(function () {}); // Går det galt, forbliver sektionen bare skjult
+    };
+
+    hent();
+    setInterval(function () { if (!document.hidden) hent(); }, 30000);
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) hent(); });
+  }
+
   // Årstal i footer
   document.querySelectorAll("[data-year]").forEach(function (el) {
     el.textContent = new Date().getFullYear();
