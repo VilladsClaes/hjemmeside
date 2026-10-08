@@ -30,6 +30,88 @@ api/lastfm.ashx Henter mine seneste numre fra Last.fm (ASP.NET, kører på webho
 img/            Læg dine billeder her
 ```
 
+## Opsætning af den delte opgaveliste (Firebase + Microsoft To Do)
+
+Opgavelisten (`opgaveliste.html` / `opgaveliste-admin.html`) er en selvstændig
+funktion oven på den statiske hjemmeside. Den statiske del uploades stadig via
+FTP som hele resten af siden, men selve databasen og synkroniseringen med
+Microsoft To Do kører i et separat **Firebase**-projekt (Firestore + Cloud
+Functions), fordi webhotellet ikke kan køre server-kode.
+
+### Hvordan det hænger sammen
+
+```
+Besøgende  ──▶  opgaveliste.html  ──▶  Firestore (Firebase)  ──▶  Cloud Functions  ──▶  Microsoft Graph (To Do)
+                                              ▲                         │
+                                              └─────── planlagt pull ───┘  (hvert 15. min)
+```
+
+- Besøgende kan se godkendte opgaver, foreslå nye, og "tage" ubemandede opgaver.
+  Alt det nye går i en godkendelseskø (`pendingSubmissions` / `pendingClaims`).
+- Du godkender/afviser på `opgaveliste-admin.html` (kræver login med din
+  Google-konto — kun den e-mail, du sætter som `OWNER_EMAIL`, har adgang).
+- Når du godkender, opretter en Cloud Function opgaven i en dedikeret liste
+  ("Fra hjemmesiden") i din Microsoft To Do via Microsoft Graph-API'et.
+- Hver 15. minut henter en planlagt Cloud Function ændringer fra Microsoft To
+  Do (fuldført, omdøbt, slettet) og opdaterer `opgaveliste.html` tilsvarende.
+- **Google Tasks** kan bruges som fallback-udbyder (`ACTIVE_PROVIDER=google` i
+  `functions/.env`), hvis Microsoft Graph-opsætningen for private Microsoft-
+  konti viser sig for besværlig.
+- **FocusToDo er ikke understøttet.** De har ingen offentlig API eller
+  udvikler-dokumentation, så det er teknisk ikke muligt at integrere med dem.
+
+### Trin 1 — Opret Firebase-projekt
+
+1. Gå til [console.firebase.google.com](https://console.firebase.google.com) → **Tilføj projekt**.
+2. Aktivér **Firestore Database** (produktionstilstand) og **Authentication**
+   → actionér **Google** som sign-in-metode.
+3. Opgrader til **Blaze-planen** (betal-efter-forbrug) — det er et krav for at
+   bruge Cloud Functions, men for en lille opgaveliste koster det reelt intet
+   eller meget lidt om måneden.
+4. Under **Projektindstillinger → Dine apps**, opret en **Web-app** og kopiér
+   konfigurationsobjektet ind i `js/firebase-config.js`.
+5. Log ind én gang på `opgaveliste-admin.html` med den Google-konto, du vil
+   bruge som ejer. Find din **UID** under **Authentication → Users**, og sæt
+   den ind i `firestore.rules` i stedet for `OWNER_UID_PLACEHOLDER`.
+
+### Trin 2 — Registrér en Azure AD-app (til Microsoft To Do)
+
+1. Gå til [portal.azure.com](https://portal.azure.com) → **Microsoft Entra ID** → **App-registreringer** → **Ny registrering**.
+2. Vælg **Konti i enhver organisationskatalog og private Microsoft-konti**
+   (så din private Microsoft-konto kan bruges).
+3. Under **Godkendelse**, tilføj en **Web**-redirect-URI, der peger på din
+   kommende `msOauthCallback`-funktion, typisk:
+   `https://REGION-PROJEKT-ID.cloudfunctions.net/msOauthCallback`
+4. Under **Certifikater og hemmeligheder**, opret en ny **client secret** og
+   gem den — den skal bruges som Firebase-secret (se nedenfor), ikke i kode.
+5. Under **API-tilladelser**, tilføj delegerede Microsoft Graph-tilladelser:
+   `Tasks.ReadWrite` og `offline_access`.
+
+### Trin 3 — Konfigurér Cloud Functions
+
+```bash
+cd functions
+npm install
+cp .env.example .env        # udfyld OWNER_EMAIL, MS_CLIENT_ID, MS_REDIRECT_URI m.m.
+firebase functions:secrets:set MS_CLIENT_SECRET
+firebase functions:secrets:set TOKEN_ENCRYPTION_KEY   # generér med:
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+cp ../.firebaserc.example ../.firebaserc   # udfyld dit Firebase-projekt-id
+```
+
+### Trin 4 — Deploy
+
+```bash
+firebase deploy --only functions,firestore:rules
+```
+
+### Trin 5 — Forbind Microsoft To Do
+
+Log ind på `opgaveliste-admin.html` og klik **"Forbind Microsoft To Do"**. Det
+åbner Microsofts login i en ny fane; godkend adgangen, og du er klar. (Hvis du
+i stedet vælger Google Tasks som fallback, bruges "Forbind Google Tasks"-
+knappen, og `ACTIVE_PROVIDER` i `.env` skal sættes til `google`.)
+
 ## Opsætning (skal kun gøres én gang)
 
 ### 1. Find dine FTP-oplysninger hos webhotellet

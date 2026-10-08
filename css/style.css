@@ -683,3 +683,51 @@ section { scroll-margin-top: 80px; }
   .typewriter-cursor { animation: none; }
   .competency-segment, .competency-picker button { transition: none; }
 }
+
+/* ==========================================================================
+   Opgaveliste — den offentlige, delte opgaveliste og dens admin-side
+   ========================================================================== */
+.todo-hero .section-head { max-width: 720px; }
+
+.task-form { margin-bottom: 40px; padding: clamp(20px, 4vw, 32px); }
+.task-form h2 { margin: 0 0 18px; font-size: 1.3rem; }
+.task-form .field { margin-bottom: 16px; }
+.task-form .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field label { display: block; margin-bottom: 6px; font: 600 .82rem/1 var(--font-body); color: var(--muted); }
+.field input, .field textarea {
+  width: 100%; padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink); font: 400 .95rem/1.4 var(--font-body);
+}
+.field input:focus, .field textarea:focus { outline: 2px solid var(--fjord); outline-offset: 1px; }
+.field.honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-note { margin: 10px 0 0; font-size: .82rem; color: var(--muted); }
+.form-status { margin: 8px 0 0; font-size: .85rem; color: var(--fjord); min-height: 1.2em; }
+
+.task-board h2 { margin: 32px 0 14px; font-size: 1.1rem; }
+.task-board h2:first-child { margin-top: 0; }
+.task-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.task-list-empty { color: var(--muted); font-size: .92rem; padding: 14px 0; }
+.task-item {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  padding: 16px 18px;
+}
+.task-item h3 { margin: 0 0 6px; font-size: 1.05rem; }
+.task-description { margin: 0 0 10px; color: var(--muted); font-size: .9rem; white-space: pre-line; }
+.task-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.task-list-done .task-item { opacity: .7; }
+.task-list-done .task-item h3 { text-decoration: line-through; }
+
+.btn-small { padding: 7px 14px; font-size: .85rem; }
+
+.claim-form { margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--line); }
+.claim-form .field { margin-bottom: 12px; }
+.claim-form-actions { display: flex; gap: 10px; }
+
+.todo-admin .card { margin-bottom: 28px; }
+.admin-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.admin-connect { display: flex; gap: 12px; flex-wrap: wrap; }
+.admin-row-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+@media (max-width: 560px) {
+  .task-form .field-row { grid-template-columns: minmax(0, 1fr); }
+}
