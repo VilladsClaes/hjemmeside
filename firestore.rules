@@ -1,0 +1,73 @@
+rules_version = '2';
+
+// Sikkerhedsregler til den delte, offentlige opgaveliste.
+//
+// - "tasks": de godkendte opgaver. Alle må læse. Ingen må skrive direkte —
+//   det sker udelukkende via Cloud Functions (Admin SDK), som ikke er
+//   underlagt disse regler. Det sikrer at hver opgave altid følges af den
+//   tilhørende synkronisering til Microsoft To Do / Google Tasks.
+// - "pendingSubmissions" / "pendingClaims": besøgende må oprette (foreslå),
+//   men kun ejeren må læse, opdatere eller slette (dvs. godkende/afvise).
+// - "config": interne, krypterede tokens m.m. til Cloud Functions. Aldrig
+//   tilgængelig for klienten, hverken læsning eller skrivning.
+//
+// VIGTIGT: Udskift OWNER_UID nedenfor med din egen Firebase Auth UID, når du
+// har oprettet din ejer-konto (se README.md, afsnittet "Opsætning af den
+// delte opgaveliste"). Du finder UID'et under Firebase-konsollen ->
+// Authentication -> Users, efter du har logget ind én gang på
+// opgaveliste-admin.html.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner() {
+      return request.auth != null
+        && request.auth.uid == "OWNER_UID_PLACEHOLDER";
+    }
+
+    function isNonEmptyShortString(value, maxLen) {
+      return value is string && value.size() > 0 && value.size() <= maxLen;
+    }
+
+    function isOptionalShortString(value, maxLen) {
+      return value == null || (value is string && value.size() <= maxLen);
+    }
+
+    match /tasks/{taskId} {
+      allow read: if true;
+      allow write: if false; // kun Cloud Functions (Admin SDK) må skrive
+    }
+
+    match /pendingSubmissions/{submissionId} {
+      allow read, update, delete: if isOwner();
+      allow create: if
+        isNonEmptyShortString(request.resource.data.title, 160) &&
+        isOptionalShortString(request.resource.data.description, 2000) &&
+        isOptionalShortString(request.resource.data.contactName, 120) &&
+        isOptionalShortString(request.resource.data.contactEmail, 200) &&
+        request.resource.data.status == 'pending' &&
+        request.resource.data.keys().hasOnly([
+          'title', 'description', 'contactName', 'contactEmail',
+          'status', 'createdAt'
+        ]);
+    }
+
+    match /pendingClaims/{claimId} {
+      allow read, update, delete: if isOwner();
+      allow create: if
+        request.resource.data.taskId is string &&
+        exists(/databases/$(database)/documents/tasks/$(request.resource.data.taskId)) &&
+        isNonEmptyShortString(request.resource.data.claimantName, 120) &&
+        isOptionalShortString(request.resource.data.claimantContact, 200) &&
+        request.resource.data.status == 'pending' &&
+        request.resource.data.keys().hasOnly([
+          'taskId', 'claimantName', 'claimantContact', 'status', 'createdAt'
+        ]);
+    }
+
+    // Krypterede provider-tokens og synkroniserings-state. Kun Admin SDK
+    // (Cloud Functions) kan læse/skrive — ingen klientadgang overhovedet.
+    match /config/{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
