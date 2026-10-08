@@ -27,6 +27,7 @@
         <li><a href="#projekter">Projekter</a></li>
         <li><a href="#droemme">Drømme</a></li>
         <li><a href="#personaer">Personaer</a></li>
+        <li data-musik-link hidden><a href="#musik">Musik</a></li>
         <li><a href="#familie">Familie</a></li>
         <li><a href="legeplads.html">Legeplads</a></li>
         <li><a href="#kontakt">Kontakt</a></li>
@@ -61,6 +62,10 @@
           </a>
           <a class="btn btn-ghost" href="#kontakt">Kontakt mig</a>
         </div>
+        <a class="now-pill" href="#musik" data-nu-pill hidden>
+          <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="now-pill-text">Lytter til <strong data-nu-pill-titel></strong> · <span data-nu-pill-kunstner></span></span>
+        </a>
       </div>
 
       <div class="landscape" aria-hidden="true">
@@ -446,8 +451,29 @@
       </div>
     </section>
 
+    <!-- ============ MUSIK ============ -->
+    <!-- Fyldes ud af js/main.js med data fra Last.fm. Sektionen er skjult, indtil der er noget at vise -->
+    <section class="section section-alt" id="musik" data-musik hidden>
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Musik</span>
+          <h2>Det lytter jeg til</h2>
+          <p>Direkte fra min Last.fm. Listen opdaterer sig selv, mens du er her.</p>
+        </div>
+
+        <div class="music">
+          <article class="now reveal" data-nu aria-live="polite"></article>
+          <div class="recent reveal" data-delay="100">
+            <h3>Senest hørt</h3>
+            <ol class="tracks" data-spor></ol>
+            <a class="recent-more" href="https://www.last.fm/user/villadsclaes" rel="noopener">Se hele historikken på Last.fm →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ FAMILIE ============ -->
-    <section class="section section-alt" id="familie">
+    <section class="section" id="familie">
       <div class="wrap family">
         <div class="family-text reveal">
           <span class="eyebrow">Familie</span>
