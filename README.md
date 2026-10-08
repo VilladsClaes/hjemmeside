@@ -20,20 +20,14 @@ Automatikken står i `.github/workflows/udgiv.yml`. Du kan følge med i fanen **
 ## Struktur
 
 ```
-index.html            Forside: om mig, værdier, drømme, personaer, familie, kontakt
-cv.html               CV (kan gemmes som PDF via knappen eller Ctrl+P)
-legeplads.html        122 interaktive UI- og CSS/JS-eksperimenter, porteret fra CodePen-idéer
-opgaveliste.html      Offentlig, delt opgaveliste — besøgende kan foreslå/tage opgaver
-opgaveliste-admin.html Admin-side (kun ejeren) til at godkende forslag og forbinde Microsoft To Do
-css/style.css         Al styling. Farverne ligger som variabler øverst i filen
-js/main.js            Hilsen efter tidspunkt, lyst/mørkt tema, menu og scroll-animation
-js/legeplads.js       Interaktioner til legepladsens 122 små demoer
-js/firebase-config.js Firebase-projektets web-config (udfyldes ved opsætning, se nedenfor)
-js/opgaveliste.js     Logik til den offentlige opgaveliste
-js/opgaveliste-admin.js Logik til admin-siden
-functions/            Firebase Cloud Functions: godkendelse + synkronisering med Microsoft To Do/Google Tasks
-firestore.rules        Firestore-sikkerhedsregler til opgavelisten
-img/                  Læg dine billeder her
+index.html      Forside: om mig, projekter, interaktive værksteder, drømme, familie, kontakt
+cv.html         CV (kan gemmes som PDF via knappen eller Ctrl+P)
+legeplads.html  122 interaktive UI- og CSS/JS-eksperimenter, porteret fra CodePen-idéer
+css/style.css   Al styling. Farverne ligger som variabler øverst i filen
+js/main.js      Hilsen, tema, menu, scroll-animation, interaktive værksteder og musik
+js/legeplads.js Interaktioner til legepladsens 122 små demoer
+api/lastfm.ashx Henter mine seneste numre fra Last.fm (ASP.NET, kører på webhotellet)
+img/            Læg dine billeder her
 ```
 
 ## Opsætning af den delte opgaveliste (Firebase + Microsoft To Do)

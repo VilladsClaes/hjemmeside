@@ -463,47 +463,30 @@ section { scroll-margin-top: 80px; }
 .traditions ul { margin: 0; padding-left: 1.1em; color: var(--ink); }
 .traditions li { margin-bottom: 4px; }
 
-/* Vejr-widget */
-.weather-widget { max-width: 560px; margin: 0 auto; display: grid; gap: 22px; }
-.weather-search { position: relative; display: grid; gap: 6px; }
-.weather-search label { font-size: .85rem; font-weight: 600; color: var(--ink); }
-.weather-search-input {
-  width: 100%; padding: 13px 16px; border: 1px solid var(--line); border-radius: var(--radius-sm);
-  background: var(--bg); color: var(--ink); font: 400 1rem/1.3 var(--font-body);
+/* Interaktive værksteder */
+.workshop-grid { align-items: stretch; }
+.workshop-card { display: flex; flex-direction: column; }
+.workshop-label { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; color: var(--muted); font-size: .85rem; font-weight: 600; }
+.workshop-card h3 { margin-bottom: 10px; }
+.workshop-card > p { color: var(--muted); }
+.workshop-demo { display: grid; gap: 14px; margin-top: auto; padding-top: 20px; }
+.workshop-prompt { margin: 0; color: var(--muted); font-size: .9rem; }
+.workshop-fields { display: grid; gap: 8px; }
+.workshop-fields label { font-size: .88rem; font-weight: 600; }
+.workshop-fields select {
+  width: 100%; min-height: 44px; padding: 9px 36px 9px 12px; border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--ink); font: inherit; font-size: .95rem;
 }
-.weather-search-input:focus-visible { outline: 2px solid var(--fjord); outline-offset: 2px; }
-.weather-search-hint, .weather-status { color: var(--muted); font-size: .82rem; }
-.weather-city-results {
-  position: absolute; z-index: 2; top: calc(100% + 4px); left: 0; right: 0;
-  display: grid; gap: 2px; max-height: 220px; overflow-y: auto; padding: 6px;
-  border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); box-shadow: var(--shadow);
-}
-.weather-city-results[hidden] { display: none; }
-.weather-city-results button {
-  width: 100%; padding: 9px 12px; border: 0; border-radius: 6px; background: transparent;
-  color: var(--ink); text-align: left; font: 400 .92rem/1.3 var(--font-body); cursor: pointer;
-}
-.weather-city-results button span { display: block; color: var(--muted); font-size: .78rem; }
-.weather-city-results button:hover,
-.weather-city-results button[aria-selected="true"] { background: var(--sage-soft); }
-.weather-city-results button:focus-visible { outline: 2px solid var(--fjord); outline-offset: -2px; }
-
-.weather-result {
-  display: flex; align-items: center; gap: 18px; padding: 20px; border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, var(--fjord-soft), var(--sun-soft));
-  transition: opacity .2s ease;
-}
-.weather-result.is-loading { opacity: .6; }
-.weather-result-icon { flex: none; font-size: 2.6rem; line-height: 1; }
-.weather-result-body { min-width: 0; }
-.weather-result-headline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
-.weather-result-temp { font-family: var(--font-display); font-size: 2.1rem; color: var(--ink); }
-.weather-result-place { font-weight: 600; color: var(--ink); }
-.weather-result-description { margin: 2px 0 0; color: var(--muted); }
-.weather-result-meta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; color: var(--muted); font-size: .85rem; }
-@media (max-width: 560px) {
-  .weather-result { flex-direction: column; align-items: flex-start; text-align: left; }
-}
+.workshop-output { margin: 0; padding: 14px 16px; border-radius: var(--radius-sm); background: var(--bg-alt); color: var(--ink); font-size: .94rem; line-height: 1.6; }
+.word-breadcrumb { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: .85rem; }
+.word-breadcrumb button { padding: 0; border: 0; background: none; color: var(--fjord); font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.word-breadcrumb [aria-current="location"] { color: var(--muted); }
+.word-choices { display: grid; gap: 7px; }
+.word-choice { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); color: var(--ink); font: inherit; font-size: .9rem; text-align: left; cursor: pointer; transition: border-color .2s ease, background-color .2s ease; }
+.word-choice:hover { border-color: var(--fjord); background: var(--fjord-soft); }
+.word-choice span { color: var(--fjord); }
+.workshop-button { justify-content: center; margin-top: 8px; }
+.activity-output { min-height: 7.5em; }
 
 /* Kontakt */
 .contact {
