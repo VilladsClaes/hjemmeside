@@ -509,6 +509,21 @@ section { scroll-margin-top: 80px; }
 .contact .btn-ghost:hover { border-color: #fff; }
 .contact .hero-actions { justify-content: center; }
 
+.social-links { margin-top: 36px; }
+.social-links h3 {
+  color: rgba(255, 255, 255, .85); font-size: .8rem; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; margin: 0 0 16px;
+}
+.social-grid {
+  list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+}
+.social-link {
+  display: inline-flex; align-items: center; padding: 7px 14px; border-radius: 999px;
+  background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .2);
+  color: rgba(255, 255, 255, .85); text-decoration: none; font-size: .85rem; transition: background .2s ease, border-color .2s ease;
+}
+.social-link:hover { background: rgba(255, 255, 255, .22); border-color: rgba(255, 255, 255, .4); color: #fff; }
+
 /* Footer */
 .site-footer { padding: 40px 0 48px; color: var(--muted); font-size: .9rem; }
 .site-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
