@@ -26,7 +26,7 @@ legeplads.html  122 interaktive UI- og CSS/JS-eksperimenter, porteret fra CodePe
 css/style.css   Al styling. Farverne ligger som variabler øverst i filen
 js/main.js      Hilsen efter tidspunkt, lyst/mørkt tema, menu, scroll-animation og musik
 js/legeplads.js Interaktioner til legepladsens 122 små demoer
-api/lastfm.php  Henter mine seneste numre fra Last.fm (kører på webhotellet)
+api/lastfm.ashx Henter mine seneste numre fra Last.fm (ASP.NET, kører på webhotellet)
 img/            Læg dine billeder her
 ```
 
@@ -61,7 +61,7 @@ Sektionen "Det lytter jeg til" viser, hvad du lytter til lige nu. Den kræver en
 3. Kopiér **API key** (32 tegn). Du skal ikke bruge "Shared secret".
 4. Opret den som repository secret med navnet `LASTFM_API_KEY`, ligesom FTP-oplysningerne.
 
-Nøglen bliver kun lagt på webhotellet, aldrig i koden. Brugernavnet står øverst i `api/lastfm.php`. Mangler nøglen, bliver musik-sektionen bare ikke vist. Lokalt med `python -m http.server` bliver eksempeldata fra `api/lastfm-eksempel.json` vist, fordi Python-serveren ikke kan køre PHP.
+Nøglen bliver kun lagt på webhotellet, aldrig i koden. Brugernavnet står øverst i `api/lastfm.ashx`. Mangler nøglen, bliver musik-sektionen bare ikke vist. Lokalt med `python -m http.server` bliver eksempeldata fra `api/lastfm-eksempel.json` vist, fordi Python-serveren ikke kan køre ASP.NET.
 
 ### 4. Første udgivelse
 
@@ -85,5 +85,5 @@ Gå til fanen **Actions** → **Udgiv til webhotel** → **Run workflow**. Efter
 
 - **Rødt ✗ i Actions med "timeout" eller "TLS":** Webhotellet understøtter måske ikke krypteret FTP. Ret `protocol: ftps` til `protocol: ftp` i `.github/workflows/udgiv.yml`.
 - **"Login incorrect":** Ret `FTP_BRUGER` eller `FTP_ADGANGSKODE` under Settings → Secrets.
-- **Musik-sektionen vises ikke:** Åbn `https://mig.villadsclaes.dk/api/lastfm.php` i browseren. Står der "API-nøglen mangler", er secret'en `LASTFM_API_KEY` ikke sat (kør udgivelsen igen bagefter). Står der en fejl fra Last.fm, så tjek at nøglen er kopieret rigtigt.
+- **Musik-sektionen vises ikke:** Åbn `https://mig.villadsclaes.dk/api/lastfm.ashx` i browseren. Står der "API-nøglen mangler", er secret'en `LASTFM_API_KEY` ikke sat (kør udgivelsen igen bagefter). Står der en fejl fra Last.fm, så tjek at nøglen er kopieret rigtigt.
 - **Siden viser ikke ændringerne:** Tryk Ctrl+F5 i browseren for at hente den nyeste version.

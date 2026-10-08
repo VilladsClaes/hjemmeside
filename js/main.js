@@ -67,12 +67,12 @@
     items.forEach(function (el) { el.classList.add("in"); });
   }
 
-  // Musik fra Last.fm. api/lastfm.php henter data på serveren, så API-nøglen forbliver hemmelig.
-  // Python-serveren kan ikke køre PHP, så lokalt vises eksempeldata i stedet.
+  // Musik fra Last.fm. api/lastfm.ashx henter data på serveren, så API-nøglen forbliver hemmelig.
+  // Python-serveren kan ikke køre ASP.NET, så lokalt vises eksempeldata i stedet.
   var musik = document.querySelector("[data-musik]");
   if (musik && window.fetch) {
     var lokal = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
-    var kilde = lokal ? "api/lastfm-eksempel.json" : "api/lastfm.php";
+    var kilde = lokal ? "api/lastfm-eksempel.json" : "api/lastfm.ashx";
     var nuKort = musik.querySelector("[data-nu]");
     var liste = musik.querySelector("[data-spor]");
     var pille = document.querySelector("[data-nu-pill]");
