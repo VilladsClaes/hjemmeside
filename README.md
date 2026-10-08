@@ -140,7 +140,18 @@ Secrets er krypterede: Ingen kan læse dem igen, heller ikke dig, og de står al
 1. Åbn repoet på github.com → **Settings** → **Secrets and variables** → **Actions**.
 2. Klik **New repository secret** fire gange og opret `FTP_SERVER`, `FTP_BRUGER`, `FTP_ADGANGSKODE` og `FTP_MAPPE`. Navnene skal staves præcis sådan.
 
-### 3. Første udgivelse
+### 3. Last.fm (musikken på forsiden)
+
+Sektionen "Det lytter jeg til" viser, hvad du lytter til lige nu. Den kræver en gratis API-nøgle fra Last.fm.
+
+1. Gå til [last.fm/api/account/create](https://www.last.fm/api/account/create), og log ind med din Last.fm-konto.
+2. Udfyld navn (f.eks. `mig.villadsclaes.dk`) og en kort beskrivelse. Resten kan stå tomt.
+3. Kopiér **API key** (32 tegn). Du skal ikke bruge "Shared secret".
+4. Opret den som repository secret med navnet `LASTFM_API_KEY`, ligesom FTP-oplysningerne.
+
+Nøglen bliver kun lagt på webhotellet, aldrig i koden. Brugernavnet står øverst i `api/lastfm.ashx`. Mangler nøglen, bliver musik-sektionen bare ikke vist. Lokalt med `python -m http.server` bliver eksempeldata fra `api/lastfm-eksempel.json` vist, fordi Python-serveren ikke kan køre ASP.NET.
+
+### 4. Første udgivelse
 
 Gå til fanen **Actions** → **Udgiv til webhotel** → **Run workflow**. Efter et minut er siden live.
 
@@ -162,4 +173,5 @@ Gå til fanen **Actions** → **Udgiv til webhotel** → **Run workflow**. Efter
 
 - **Rødt ✗ i Actions med "timeout" eller "TLS":** Webhotellet understøtter måske ikke krypteret FTP. Ret `protocol: ftps` til `protocol: ftp` i `.github/workflows/udgiv.yml`.
 - **"Login incorrect":** Ret `FTP_BRUGER` eller `FTP_ADGANGSKODE` under Settings → Secrets.
+- **Musik-sektionen vises ikke:** Åbn `https://mig.villadsclaes.dk/api/lastfm.ashx` i browseren. Står der "API-nøglen mangler", er secret'en `LASTFM_API_KEY` ikke sat (kør udgivelsen igen bagefter). Står der en fejl fra Last.fm, så tjek at nøglen er kopieret rigtigt.
 - **Siden viser ikke ændringerne:** Tryk Ctrl+F5 i browseren for at hente den nyeste version.

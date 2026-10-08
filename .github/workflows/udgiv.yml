@@ -26,6 +26,20 @@ jobs:
         if: env.HAR_FTP == 'true'
         uses: actions/checkout@v5
 
+      # Musikken på forsiden henter data fra Last.fm via api/lastfm.ashx, som skal bruge en API-nøgle.
+      # Nøglen skrives til App_Data, som IIS aldrig udleverer til besøgende, og kommer aldrig i git.
+      - name: Gem Last.fm-nøglen
+        if: env.HAR_FTP == 'true'
+        env:
+          LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
+        run: |
+          if [[ ! "$LASTFM_API_KEY" =~ ^[0-9a-f]{32}$ ]]; then
+            echo "::warning::LASTFM_API_KEY mangler eller ser forkert ud, så musik-sektionen bliver ikke vist. Se README.md."
+            exit 0
+          fi
+          mkdir -p App_Data
+          printf "%s" "$LASTFM_API_KEY" > App_Data/lastfm-noegle.txt
+
       - name: Upload via FTP
         if: env.HAR_FTP == 'true'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -41,3 +55,4 @@ jobs:
             .github/**
             .claude/**
             README.md
+            api/lastfm-eksempel.json
