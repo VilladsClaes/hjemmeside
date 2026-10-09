@@ -56,3 +56,9 @@ jobs:
             .claude/**
             README.md
             api/lastfm-eksempel.json
+            api/lastfm-top-eksempel.json
+            functions/**
+            firebase.json
+            firestore.rules
+            firestore.indexes.json
+            .firebaserc.example
