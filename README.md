@@ -25,10 +25,27 @@ cv.html         CV (kan gemmes som PDF via knappen eller Ctrl+P)
 legeplads.html  122 interaktive UI- og CSS/JS-eksperimenter, porteret fra CodePen-idéer
 css/style.css   Al styling. Farverne ligger som variabler øverst i filen
 js/main.js      Hilsen, tema, menu, scroll-animation, interaktive værksteder og musik
-js/legeplads.js Interaktioner til legepladsens 122 små demoer
-api/lastfm.ashx Henter mine seneste numre fra Last.fm (ASP.NET, kører på webhotellet)
+js/legeplads.js Interaktioner til legepladsens små UI-demoer
+js/legeplads-levende.js  Legepladsens demoer med rigtigt indhold (data og live-kilder)
+data/           Indholdet bag legepladsen: projekter, CV, ordnet og undervisning
+api/lastfm.ashx Henter mine seneste numre fra Last.fm (med ?vis=top: månedens kunstnere)
 img/            Læg dine billeder her
 ```
+
+### Ret indholdet på legepladsen
+
+Mange af legepladsens demoer viser rigtigt indhold, som ligger i `data/`. Ret dér, så følger alle demoerne med:
+
+| Fil | Indhold | Bruges af |
+|---|---|---|
+| `data/projekter.js` | Mine projekter | Søgning, atelier, mosaik, galleri, vendekort |
+| `data/cv.js` | Forløb, kompetenceområder, værktøjer, sprog, værdier | Tidslinje, trin, medaljer, periodisk system, værdier |
+| `data/ordnet.js` | Begreber med over-/underbegreber, dele og associationer | Semantisk netværk, ordkort, ordbog |
+| `data/undervisning.js` | Huskespilsæt, exit ticket, timer, materialer, stavealfabet | Værktøjerne til klassen |
+
+`cv.html` og forsiden er stadig skrevet i ren HTML (så de kan printes og læses uden JavaScript), så husk at rette dem også.
+
+Live-demoerne henter selv data: Last.fm (via `api/lastfm.ashx`), vejret i Højbjerg fra Open-Meteo og min offentlige aktivitet fra GitHub. Ingen af dem kræver nøgler i browseren.
 
 ## Opsætning af den delte opgaveliste (Firebase + Microsoft To Do)
 
