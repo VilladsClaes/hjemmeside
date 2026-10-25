@@ -5,6 +5,7 @@
 // API-nøglen ligger i App_Data/lastfm-noegle.txt, som GitHub Actions skriver ud fra secret'en LASTFM_API_KEY.
 // IIS udleverer aldrig filer fra App_Data, så nøglen kan ikke hentes af besøgende.
 // Svaret gemmes i 20 sekunder, så Last.fm ikke bliver kaldt for hver eneste besøgende.
+// Med ?vis=top kommer i stedet månedens mest spillede kunstnere (bruges af legepladsens retroplakat), gemt i en time.
 // Webhotellet kører .NET Framework og oversætter filen selv, så koden holder sig til C# 5.
 
 using System;
@@ -24,8 +25,8 @@ public class LastFm : IHttpHandler
   const int CacheSekunder = 20;
   // Last.fm bruger dette billede, når et album ikke har et omslag. Så viser vi hellere vores eget.
   const string TomtOmslag = "2a96cbd8b46e442fc41c2b86b821562f";
-  const string FriskNoegle = "lastfm-frisk";
-  const string GammelNoegle = "lastfm-gammel";
+  const int TopAntal = 5;
+  const int TopCacheSekunder = 3600;
 
   public bool IsReusable { get { return true; } }
 
@@ -37,8 +38,12 @@ public class LastFm : IHttpHandler
     res.Cache.SetCacheability(HttpCacheability.NoCache);
     res.AddHeader("X-Content-Type-Options", "nosniff");
 
+    var top = context.Request.QueryString["vis"] == "top";
+    var friskNoegle = top ? "lastfm-top-frisk" : "lastfm-frisk";
+    var gammelNoegle = top ? "lastfm-top-gammel" : "lastfm-gammel";
+
     var cache = HttpRuntime.Cache;
-    var frisk = cache[FriskNoegle] as string;
+    var frisk = cache[friskNoegle] as string;
     if (frisk != null) { res.Write(frisk); return; }
 
     var noegleFil = context.Server.MapPath("~/App_Data/lastfm-noegle.txt");
@@ -48,29 +53,30 @@ public class LastFm : IHttpHandler
     string json;
     try
     {
-      json = Hent(noegle);
+      json = top ? Omsaet(HentRaat("user.gettopartists", noegle, "&period=1month&limit=" + TopAntal), true)
+                 : Omsaet(HentRaat("user.getrecenttracks", noegle, "&limit=" + Antal));
     }
     catch (Exception)
     {
       // Hvis Last.fm driller, viser vi hellere lidt gamle data end ingenting
-      var gammel = cache[GammelNoegle] as string;
+      var gammel = cache[gammelNoegle] as string;
       if (gammel != null) { res.Write(gammel); return; }
       Fejl(res, 502, "Kunne ikke hente fra Last.fm");
       return;
     }
 
-    cache.Insert(FriskNoegle, json, null, DateTime.UtcNow.AddSeconds(CacheSekunder), Cache.NoSlidingExpiration);
-    cache.Insert(GammelNoegle, json, null, DateTime.UtcNow.AddDays(1), Cache.NoSlidingExpiration);
+    cache.Insert(friskNoegle, json, null, DateTime.UtcNow.AddSeconds(top ? TopCacheSekunder : CacheSekunder), Cache.NoSlidingExpiration);
+    cache.Insert(gammelNoegle, json, null, DateTime.UtcNow.AddDays(1), Cache.NoSlidingExpiration);
     res.Write(json);
   }
 
-  static string Hent(string noegle)
+  static string HentRaat(string metode, string noegle, string ekstra)
   {
     // Ældre .NET bruger ikke TLS 1.2 af sig selv, og det kræver Last.fm
     ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
 
-    var url = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&format=json" +
-      "&user=" + Uri.EscapeDataString(Bruger) + "&limit=" + Antal + "&api_key=" + Uri.EscapeDataString(noegle);
+    var url = "https://ws.audioscrobbler.com/2.0/?method=" + metode + "&format=json" +
+      "&user=" + Uri.EscapeDataString(Bruger) + ekstra + "&api_key=" + Uri.EscapeDataString(noegle);
     var req = (HttpWebRequest)WebRequest.Create(url);
     req.Timeout = 6000;
     req.UserAgent = "mig.villadsclaes.dk";
@@ -81,7 +87,36 @@ public class LastFm : IHttpHandler
     {
       raa = laeser.ReadToEnd();
     }
-    return Omsaet(raa);
+    return raa;
+  }
+
+  // Gør svaret fra user.gettopartists om til { bruger, kunstnere: [{ navn, antal, url }] }
+  public static string Omsaet(string raa, bool top)
+  {
+    var serializer = new JavaScriptSerializer();
+    var data = serializer.DeserializeObject(raa) as IDictionary<string, object>;
+    var topartists = Felt(data, "topartists") as IDictionary<string, object>;
+    var kunstnere = Felt(topartists, "artist");
+    if (kunstnere is IDictionary<string, object>) kunstnere = new object[] { kunstnere };
+    var liste = kunstnere as IEnumerable;
+    if (liste == null) throw new InvalidDataException("Uventet svar fra Last.fm");
+
+    var ud = new List<object>();
+    foreach (var element in liste)
+    {
+      var k = element as IDictionary<string, object>;
+      if (k == null) continue;
+      if (ud.Count == TopAntal) break;
+      long antal;
+      long.TryParse(Tekst(k, "playcount"), out antal);
+      ud.Add(new Dictionary<string, object> {
+        { "navn", Tekst(k, "name") },
+        { "antal", antal },
+        { "url", Tekst(k, "url") },
+      });
+    }
+
+    return serializer.Serialize(new Dictionary<string, object> { { "bruger", Bruger }, { "periode", "1month" }, { "kunstnere", ud } });
   }
 
   // Gør Last.fms store svar om til den korte form, som js/main.js forventer
