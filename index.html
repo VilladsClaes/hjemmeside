@@ -25,6 +25,7 @@
       <ul class="nav-links" id="menu">
         <li><a href="#om-mig">Om mig</a></li>
         <li><a href="#projekter">Projekter</a></li>
+        <li><a href="#eksperimenter">Eksperimenter</a></li>
         <li><a href="#droemme">Drømme</a></li>
         <li><a href="#personaer">Personaer</a></li>
         <li><a href="#familie">Familie</a></li>
@@ -37,7 +38,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
         </button>
         <button class="icon-btn menu-btn" type="button" data-menu aria-controls="menu" aria-expanded="false" aria-label="Åbn menu">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/><path class="close-menu-icon" d="m6 6 12 12M18 6 6 18"/></svg>
         </button>
       </div>
     </nav>
@@ -60,6 +61,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
           <a class="btn btn-ghost" href="#kontakt">Kontakt mig</a>
+          <a class="btn btn-ghost" href="#eksperimenter">Se web-eksperimenter</a>
         </div>
       </div>
 
@@ -275,6 +277,123 @@
             <ul class="project-tags" aria-label="Kompetencer">
               <li class="tag">Webudvikling</li><li class="tag">IT-support</li><li class="tag">Brugervejledninger</li>
             </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WEB-EKSPERIMENTER ============ -->
+    <section class="section section-alt" id="eksperimenter">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Leg med nettet</span>
+          <h2>Små web-eksperimenter</h2>
+          <p>En håndfuld finurlige idéer fra CSS, SVG og JavaScript — bygget om til små, tilgængelige oplevelser.</p>
+        </div>
+
+        <div class="experiment-grid">
+          <article class="experiment card reveal">
+            <div class="experiment-stage landscape-stage" data-parallax role="img" aria-label="Et animeret landskab, der følger markøren">
+              <canvas class="warp-canvas" data-warp-canvas aria-hidden="true"></canvas>
+              <svg class="parallax-landscape" viewBox="0 0 640 270" role="img" aria-label="Lagdelte bakker med en sol">
+                <circle class="scene-sun" data-depth="1" cx="470" cy="86" r="43"/>
+                <circle class="scene-bubble" data-depth=".7" cx="536" cy="112" r="11"/>
+                <circle class="scene-bubble" data-depth=".5" cx="562" cy="93" r="5"/>
+                <path class="scene-hill scene-hill-back" data-depth=".45" d="M0 164Q115 88 248 146T470 139T640 111V270H0Z"/>
+                <path class="scene-hill scene-hill-mid" data-depth=".8" d="M0 190Q112 134 260 181T510 164T640 184V270H0Z"/>
+                <path class="scene-hill scene-hill-front" data-depth="1.2" d="M0 223Q170 184 324 223T640 208V270H0Z"/>
+                <g class="scene-birds" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M116 85q9-10 18 0q9-10 18 0"/>
+                  <path d="M166 62q7-8 14 0q7-8 14 0"/>
+                </g>
+              </svg>
+              <span class="stage-caption">Bevæg markøren over landskabet</span>
+            </div>
+            <div class="experiment-copy">
+              <div class="experiment-tags"><span class="tag tag-sun">Parallakse</span><span class="tag tag-fjord">SVG + shader</span></div>
+              <h3>Et landskab med dybde</h3>
+              <p>Lagene følger musen i forskellig fart, mens en rolig, flydende farveflade giver landskabet liv.</p>
+            </div>
+          </article>
+
+          <article class="experiment card reveal" data-delay="80">
+            <div class="experiment-stage particle-stage">
+              <canvas data-particle-canvas aria-hidden="true"></canvas>
+              <span class="stage-caption">Flyt markøren — eller tryk for at sætte et punkt</span>
+            </div>
+            <div class="experiment-copy">
+              <div class="experiment-tags"><span class="tag tag-fjord">Partikler</span><span class="tag tag-sage">Canvas-sti</span></div>
+              <h3>Et netværk i bevægelse</h3>
+              <p>Små punkter danner forbindelser omkring markøren og gør en abstrakt idé om fællesskab synlig.</p>
+            </div>
+          </article>
+
+          <article class="experiment card reveal" data-delay="160">
+            <div class="experiment-stage type-stage">
+              <span class="type-backdrop" aria-hidden="true"></span>
+              <span class="type-word" aria-hidden="true"><span class="type-word-strip"><span>Skab</span><span>Del</span><span>Lær</span></span></span>
+              <p class="knockout-title">Ord<br>med liv</p>
+              <span class="stage-caption">Typografi · bevægelse · lag</span>
+            </div>
+            <div class="experiment-copy">
+              <div class="experiment-tags"><span class="tag tag-berry">3D-bogstaver</span><span class="tag tag-sun">Knockout-tekst</span></div>
+              <h3>Ord, der bevæger sig</h3>
+              <p>En lille roterende ordskulptur og tekst, der lader baggrundens farver skinne igennem.</p>
+            </div>
+          </article>
+
+          <article class="experiment card reveal" data-delay="80">
+            <div class="experiment-stage portrait-stage">
+              <canvas data-text-portrait role="img" aria-label="Et abstrakt portræt af bogstaver i fjordens og solens farver"></canvas>
+              <span class="stage-caption">Et lille portræt tegnet med tekst</span>
+            </div>
+            <div class="experiment-copy">
+              <div class="experiment-tags"><span class="tag tag-berry">Billede som tekst</span><span class="tag tag-fjord">Canvas</span></div>
+              <h3>Et billede af bogstaver</h3>
+              <p>Canvas læser farverne i et lille, genereret portræt og tegner billedet igen med tegn i stedet for pixels.</p>
+            </div>
+          </article>
+
+          <article class="experiment card reveal" data-delay="160">
+            <div class="weather-stage" data-weather="sun">
+              <svg class="weather-art" viewBox="0 0 240 150" role="img" aria-label="Solen skinner mellem skyerne">
+                <circle class="weather-sun" cx="166" cy="54" r="26"/>
+                <path class="weather-cloud" d="M51 100h127a22 22 0 0 0 0-44 32 32 0 0 0-61-8A26 26 0 0 0 51 100Z"/>
+                <g class="weather-rain"><path d="m77 112-7 14m35-14-7 14m35-14-7 14m35-14-7 14"/></g>
+                <g class="weather-snow"><path d="M77 112v16m-7-12 14 8m0-8-14 8m44-12v16m-7-12 14 8m0-8-14 8m44-12v16m-7-12 14 8m0-8-14 8"/></g>
+                <path class="weather-wind" d="M42 115h54q14 0 14-10t-12-9m-39 33h78q14 0 14-10t-12-9"/>
+                <path class="weather-lightning" d="m137 103-12 22h13l-8 18 25-29h-14l8-11z"/>
+              </svg>
+              <div class="weather-summary"><span class="weather-state" data-weather-label>Solskin</span><span>Højbjerg · lige nu</span></div>
+              <button class="weather-toggle" type="button" data-weather-toggle aria-label="Skift vejr. Nuværende vejr: Solskin">Skift vejr <span aria-hidden="true">↻</span></button>
+            </div>
+            <div class="experiment-copy">
+              <div class="experiment-tags"><span class="tag tag-fjord">SVG-animation</span><span class="tag tag-sun">Interaktivt kort</span></div>
+              <h3>Vejret skifter humør</h3>
+              <p>Et lille vejrkort skifter mellem sol, regn, blæst, sne og torden — helt uden eksterne API'er.</p>
+            </div>
+          </article>
+
+          <article class="experiment card reveal" data-delay="240">
+            <div class="experiment-gallery">
+              <div class="gallery-controls" role="group" aria-label="Filtrér galleri">
+                <button class="gallery-filter is-active" type="button" data-gallery-filter="all" aria-pressed="true">Alle</button>
+                <button class="gallery-filter" type="button" data-gallery-filter="words" aria-pressed="false">Sprog</button>
+                <button class="gallery-filter" type="button" data-gallery-filter="people" aria-pressed="false">Mennesker</button>
+                <button class="gallery-filter" type="button" data-gallery-filter="web" aria-pressed="false">Web</button>
+              </div>
+              <div class="gallery-tiles" data-gallery>
+                <button class="gallery-tile tile-words" type="button" data-category="words" data-detail="Ord kan bygge bro mellem faglig viden og digitale værktøjer."><span>Sprog</span><b>01</b></button>
+                <button class="gallery-tile tile-people" type="button" data-category="people" data-detail="Trygge fællesskaber begynder med nysgerrighed og plads til alle."><span>Fællesskab</span><b>02</b></button>
+                <button class="gallery-tile tile-web" type="button" data-category="web" data-detail="Gode digitale løsninger gør det lettere at finde rundt og komme videre."><span>Web</span><b>03</b></button>
+              </div>
+              <p class="gallery-detail" data-gallery-detail aria-live="polite">Vælg et kort for at læse mere.</p>
+            </div>
+            <div class="experiment-copy">
+              <div class="experiment-tags"><span class="tag tag-sage">Filtrérbart galleri</span><span class="tag tag-berry">Kortinteraktion</span></div>
+              <h3>Find din egen indgang</h3>
+              <p>Et lille, tastaturvenligt galleri med filtre og kort, der folder detaljerne ud ved valg eller fokus.</p>
+            </div>
           </article>
         </div>
       </div>

@@ -20,14 +20,16 @@ Automatikken står i `.github/workflows/udgiv.yml`. Du kan følge med i fanen **
 ## Struktur
 
 ```
-index.html      Forside: om mig, værdier, drømme, personaer, familie, kontakt
+index.html      Forside: om mig, projekter, web-eksperimenter, drømme, familie, kontakt
 cv.html         CV (kan gemmes som PDF via knappen eller Ctrl+P)
 legeplads.html  122 interaktive UI- og CSS/JS-eksperimenter, porteret fra CodePen-idéer
-css/style.css   Al styling. Farverne ligger som variabler øverst i filen
-js/main.js      Hilsen efter tidspunkt, lyst/mørkt tema, menu og scroll-animation
+css/style.css   Al styling, inklusive responsive eksperimentkort og bevægelsestilstande
+js/main.js      Tema, navigation, scroll-effekter, canvas-animationer og interaktive demoer
 js/legeplads.js Interaktioner til legepladsens 122 små demoer
 img/            Læg dine billeder her
 ```
+
+Forsidens web-eksperimenter bruger almindelig CSS, SVG, Canvas og WebGL uden eksterne JavaScript-biblioteker. Animationer respekterer brugerens indstilling for reduceret bevægelse, og canvas-effekterne sættes på pause, når de ikke er synlige.
 
 ## Opsætning (skal kun gøres én gang)
 
