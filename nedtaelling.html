@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="da" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nedtælling · Villads Claes</title>
+  <meta name="description" content="Opret en delbar nedtælling til en rigtig begivenhed. Alt data ligger i linket — intet gemmes på nogen server.">
+  <meta name="theme-color" content="#f6f4ef">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/legeplads.css">
+</head>
+<body>
+  <a class="skip" href="#indhold">Spring til indhold</a>
+
+  <header class="site-header">
+    <nav class="wrap nav" aria-label="Hovedmenu">
+      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span>Villads</a>
+      <ul class="nav-links" id="menu">
+        <li><a href="./#om-mig">Om mig</a></li>
+        <li><a href="./#projekter">Projekter</a></li>
+        <li><a href="./#droemme">Drømme</a></li>
+        <li><a href="./#personaer">Personaer</a></li>
+        <li><a href="./#familie">Familie</a></li>
+        <li><a href="legeplads.html">Legeplads</a></li>
+        <li><a href="opgaveliste.html">Opgaveliste</a></li>
+        <li><a href="nedtaelling.html" aria-current="page">Nedtælling</a></li>
+        <li><a href="./#kontakt">Kontakt</a></li>
+        <li><a class="nav-cta" href="cv.html">CV</a></li>
+      </ul>
+      <div class="nav-tools">
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Skift mellem lyst og mørkt tema">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <button class="icon-btn menu-btn" type="button" data-menu aria-controls="menu" aria-expanded="false" aria-label="Åbn menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="indhold">
+    <section class="section countdown-hero">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Nedtælling</span>
+          <h1>En rigtig, delbar nedtælling</h1>
+          <p>Opret en nedtælling til en bestemt dato — en fødselsdag, en eksamen, en ferie. Du får et link, du kan
+            dele med andre, og alle der åbner det, ser den samme nedtælling tikke ned i realtid. Der gemmes intet
+            på nogen server: hele nedtællingen bor i selve linket.</p>
+        </div>
+
+        <div class="card demo-balloon-clock countdown-display reveal" data-delay="80" data-countdown-display hidden>
+          <div class="balloon-row" aria-hidden="true">
+            <span class="party-balloon balloon-gold"><i></i></span>
+            <span class="party-balloon balloon-rose"><i></i></span>
+            <span class="party-balloon balloon-blue"><i></i></span>
+          </div>
+          <h2 data-countdown-title></h2>
+          <p class="countdown-target" data-countdown-target></p>
+          <div class="countdown-values" role="timer" aria-label="Tid tilbage" data-countdown-values>
+            <span><strong data-unit="d">00</strong><small>dage</small></span>
+            <span><strong data-unit="t">00</strong><small>timer</small></span>
+            <span><strong data-unit="m">00</strong><small>min</small></span>
+            <span><strong data-unit="s">00</strong><small>sek</small></span>
+          </div>
+          <p class="countdown-status" data-countdown-status aria-live="polite"></p>
+          <p class="countdown-note" data-countdown-note hidden></p>
+          <button type="button" class="btn btn-ghost btn-small make-own" data-make-own>Lav din egen nedtælling</button>
+        </div>
+
+        <div class="card countdown-error reveal" data-delay="80" data-countdown-error hidden>
+          <h2>Linket kunne ikke læses</h2>
+          <p>Det ser ud til, at linket mangler noget eller er blevet ødelagt undervejs. Du kan oprette en ny
+            nedtælling herunder.</p>
+        </div>
+
+        <form id="countdown-form" class="card task-form countdown-form reveal" data-delay="80" novalidate>
+          <h2>Opret en nedtælling</h2>
+          <div class="field">
+            <label for="countdown-title">Titel <span aria-hidden="true">*</span></label>
+            <input id="countdown-title" name="title" type="text" maxlength="120" required placeholder="Fx sommerferien, eksamen, bryllup">
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="countdown-date">Dato <span aria-hidden="true">*</span></label>
+              <input id="countdown-date" name="date" type="date" required>
+            </div>
+            <div class="field">
+              <label for="countdown-time">Klokkeslæt</label>
+              <input id="countdown-time" name="time" type="time" value="12:00">
+            </div>
+          </div>
+          <div class="field">
+            <label for="countdown-note">Note (valgfrit)</label>
+            <textarea id="countdown-note" name="note" maxlength="280" rows="2" placeholder="En lille besked til dem, der åbner linket"></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">Opret og få et delbart link</button>
+          <p class="form-note">Titel, dato og note kodes direkte ind i linket nedenfor — intet sendes til eller
+            gemmes på en server.</p>
+          <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="card countdown-share reveal" data-delay="120" data-countdown-share hidden>
+          <h2>Dit delbare link</h2>
+          <div class="countdown-share-row">
+            <input type="text" readonly data-share-link aria-label="Delbart link til nedtællingen">
+            <button type="button" class="btn btn-ghost btn-small" data-copy-link>Kopiér link</button>
+            <button type="button" class="btn btn-ghost btn-small" data-share-native hidden>Del …</button>
+          </div>
+          <p class="form-status" data-copy-status role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="countdown-mine reveal" data-delay="160" data-countdown-mine hidden>
+          <h2>Dine nedtællinger på denne enhed</h2>
+          <ul class="countdown-mine-list" data-countdown-mine-list></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© <span data-year>2026</span> Villads Claes</span>
+      <span>Lavet med kaffe og godt humør · <a href="cv.html">CV</a></span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script type="module" src="js/nedtaelling.js"></script>
+</body>
+</html>
