@@ -32,6 +32,8 @@ api/lastfm.ashx Henter mine seneste numre fra Last.fm (med ?vis=top: månedens k
 img/            Læg dine billeder her
 ```
 
+Forsiden rummer også web-eksperimenter med CSS, SVG, Canvas og WebGL. Animationerne respekterer reduceret bevægelse, og canvas-effekterne sættes på pause, når de ikke er synlige.
+
 ### Ret indholdet på legepladsen
 
 Mange af legepladsens demoer viser rigtigt indhold, som ligger i `data/`. Ret dér, så følger alle demoerne med:
@@ -128,7 +130,6 @@ Log ind på `opgaveliste-admin.html` og klik **"Forbind Microsoft To Do"**. Det
 åbner Microsofts login i en ny fane; godkend adgangen, og du er klar. (Hvis du
 i stedet vælger Google Tasks som fallback, bruges "Forbind Google Tasks"-
 knappen, og `ACTIVE_PROVIDER` i `.env` skal sættes til `google`.)
-
 ## Opsætning (skal kun gøres én gang)
 
 ### 1. Find dine FTP-oplysninger hos webhotellet
