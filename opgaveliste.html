@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="da" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Opgaveliste · Villads Claes</title>
+  <meta name="description" content="En offentlig opgaveliste — foreslå en opgave til Villads, eller tag en ubemandet opgave som ansvarlig.">
+  <meta name="theme-color" content="#f6f4ef">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#indhold">Spring til indhold</a>
+
+  <header class="site-header">
+    <nav class="wrap nav" aria-label="Hovedmenu">
+      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span>Villads</a>
+      <ul class="nav-links" id="menu">
+        <li><a href="./#om-mig">Om mig</a></li>
+        <li><a href="./#projekter">Projekter</a></li>
+        <li><a href="./#droemme">Drømme</a></li>
+        <li><a href="./#personaer">Personaer</a></li>
+        <li><a href="./#familie">Familie</a></li>
+        <li><a href="legeplads.html">Legeplads</a></li>
+        <li><a href="opgaveliste.html" aria-current="page">Opgaveliste</a></li>
+        <li><a href="./#kontakt">Kontakt</a></li>
+        <li><a class="nav-cta" href="cv.html">CV</a></li>
+      </ul>
+      <div class="nav-tools">
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Skift mellem lyst og mørkt tema">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <button class="icon-btn menu-btn" type="button" data-menu aria-controls="menu" aria-expanded="false" aria-label="Åbn menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="indhold">
+    <section class="section todo-hero">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Opgaveliste</span>
+          <h1>En delt opgaveliste — foreslå, eller tag en opgave</h1>
+          <p>Dette er min rigtige, levende opgaveliste. Opgaver, jeg godkender herfra, lander direkte i min
+            Microsoft To Do, og ændringer jeg laver der, kommer tilbage hertil. Har du en idé eller lyst til at
+            tage ansvar for noget? Skriv endelig.</p>
+        </div>
+
+        <form id="task-form" class="card task-form reveal" data-delay="80" novalidate>
+          <h2>Foreslå en ny opgave</h2>
+          <div class="field">
+            <label for="task-title">Titel <span aria-hidden="true">*</span></label>
+            <input id="task-title" name="title" type="text" maxlength="160" required>
+          </div>
+          <div class="field">
+            <label for="task-description">Beskrivelse (valgfrit)</label>
+            <textarea id="task-description" name="description" maxlength="2000" rows="3"></textarea>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="task-contact-name">Dit navn (valgfrit)</label>
+              <input id="task-contact-name" name="contactName" type="text" maxlength="120" autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="task-contact-email">Din kontakt (valgfrit)</label>
+              <input id="task-contact-email" name="contactEmail" type="text" maxlength="200" autocomplete="email" placeholder="e-mail eller andet">
+            </div>
+          </div>
+          <!-- Honeypot: usynligt for mennesker, men udfyldes ofte af spam-bots -->
+          <div class="field honeypot" aria-hidden="true">
+            <label for="task-website">Lad dette felt stå tomt</label>
+            <input id="task-website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <button class="btn btn-primary" type="submit">Send forslag</button>
+          <p class="form-note">Forslag bliver gennemgået af mig, før de vises her og sendes videre. Det kan tage
+            lidt tid.</p>
+          <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="task-board reveal" data-delay="160">
+          <h2>Åbne opgaver</h2>
+          <ul class="task-list" data-task-list="open">
+            <li class="task-list-empty" data-loading>Henter opgaver …</li>
+          </ul>
+
+          <h2>Afsluttede opgaver</h2>
+          <ul class="task-list task-list-done" data-task-list="done"></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© <span data-year>2026</span> Villads Claes</span>
+      <span>Lavet med kaffe og godt humør · <a href="cv.html">CV</a></span>
+    </div>
+  </footer>
+
+  <script src="js/firebase-config.js"></script>
+  <script src="js/main.js"></script>
+  <script type="module" src="js/opgaveliste.js"></script>
+</body>
+</html>

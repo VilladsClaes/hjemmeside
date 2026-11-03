@@ -1,0 +1,11 @@
+{
+  "bruger": "villadsclaes",
+  "periode": "1month",
+  "kunstnere": [
+    { "navn": "Sort Sol", "antal": 31, "url": "https://www.last.fm/music/Sort+Sol" },
+    { "navn": "Gilli", "antal": 24, "url": "https://www.last.fm/music/Gilli" },
+    { "navn": "Medina", "antal": 18, "url": "https://www.last.fm/music/Medina" },
+    { "navn": "Gnags", "antal": 12, "url": "https://www.last.fm/music/Gnags" },
+    { "navn": "Bon Iver", "antal": 9, "url": "https://www.last.fm/music/Bon+Iver" }
+  ]
+}

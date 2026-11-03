@@ -1,1 +1,7 @@
 .claude/
+
+# Firebase-projektspecifik opsætning til opgavelisten (se .firebaserc.example)
+.firebaserc
+firebase-debug.log
+firebase-debug.*.log
+.firebase/
