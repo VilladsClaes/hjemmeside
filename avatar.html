@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="da" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Avatar-værksted · Villads Claes</title>
+  <meta name="description" content="Byg din egen lille avatar — vælg ansigt, tilbehør og baggrundsfarve, og hent den som et rigtigt PNG-billede.">
+  <meta name="theme-color" content="#f6f4ef">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/legeplads.css">
+</head>
+<body>
+  <a class="skip" href="#indhold">Spring til indhold</a>
+
+  <header class="site-header">
+    <nav class="wrap nav" aria-label="Hovedmenu">
+      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span>Villads</a>
+      <ul class="nav-links" id="menu">
+        <li><a href="./#om-mig">Om mig</a></li>
+        <li><a href="./#projekter">Projekter</a></li>
+        <li><a href="./#droemme">Drømme</a></li>
+        <li><a href="./#personaer">Personaer</a></li>
+        <li><a href="./#familie">Familie</a></li>
+        <li><a href="legeplads.html">Legeplads</a></li>
+        <li><a href="opgaveliste.html">Opgaveliste</a></li>
+        <li><a href="nedtaelling.html">Nedtælling</a></li>
+        <li><a href="invitation.html">Invitation</a></li>
+        <li><a href="avatar.html" aria-current="page">Avatar</a></li>
+        <li><a href="./#kontakt">Kontakt</a></li>
+        <li><a class="nav-cta" href="cv.html">CV</a></li>
+      </ul>
+      <div class="nav-tools">
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Skift mellem lyst og mørkt tema">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <button class="icon-btn menu-btn" type="button" data-menu aria-controls="menu" aria-expanded="false" aria-label="Åbn menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="indhold">
+    <section class="section avatar-hero">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Avatar-værksted</span>
+          <h1>Byg din egen lille avatar</h1>
+          <p>Vælg et ansigtsudtryk, et stykke tilbehør og en baggrundsfarve — og hent din avatar som et rigtigt
+            PNG-billede, du kan bruge som profilbillede eller bare gemme. Alt sker i din egen browser: der sendes
+            og gemmes intet på nogen server.</p>
+        </div>
+
+        <div class="card avatar-builder reveal" data-delay="80">
+          <div class="avatar-preview-wrap">
+            <canvas class="avatar-canvas" width="512" height="512" aria-label="Forhåndsvisning af din avatar"></canvas>
+            <button type="button" class="btn btn-primary avatar-download">Hent som PNG</button>
+          </div>
+          <div class="avatar-controls">
+            <fieldset class="emoji-face-options avatar-face-options">
+              <legend>Vælg ansigtsudtryk</legend>
+              <label><input type="radio" name="avatar-face" value="😊" data-name="Glad" checked><span>😊<small>Glad</small></span></label>
+              <label><input type="radio" name="avatar-face" value="🤩" data-name="Begejstret"><span>🤩<small>Begejstret</small></span></label>
+              <label><input type="radio" name="avatar-face" value="😎" data-name="Cool"><span>😎<small>Cool</small></span></label>
+              <label><input type="radio" name="avatar-face" value="😴" data-name="Træt"><span>😴<small>Træt</small></span></label>
+              <label><input type="radio" name="avatar-face" value="🥳" data-name="Festklar"><span>🥳<small>Festklar</small></span></label>
+            </fieldset>
+            <fieldset class="emoji-accessory-options avatar-accessory-options">
+              <legend>Vælg tilbehør</legend>
+              <label><input type="radio" name="avatar-accessory" value="" data-name="Intet" checked><span>Ingen</span></label>
+              <label><input type="radio" name="avatar-accessory" value="⭐" data-name="Stjerne"><span>⭐</span></label>
+              <label><input type="radio" name="avatar-accessory" value="☕" data-name="Kaffe"><span>☕</span></label>
+              <label><input type="radio" name="avatar-accessory" value="🌿" data-name="Blad"><span>🌿</span></label>
+              <label><input type="radio" name="avatar-accessory" value="💡" data-name="Idé"><span>💡</span></label>
+            </fieldset>
+            <fieldset class="avatar-color-options">
+              <legend>Vælg baggrundsfarve</legend>
+              <label><input type="radio" name="avatar-color" value="#dde8ec" data-name="Fjord" checked><span style="background:#dde8ec"></span></label>
+              <label><input type="radio" name="avatar-color" value="#e3ebe2" data-name="Sage"><span style="background:#e3ebe2"></span></label>
+              <label><input type="radio" name="avatar-color" value="#fbefd6" data-name="Sol"><span style="background:#fbefd6"></span></label>
+              <label><input type="radio" name="avatar-color" value="#f7e2dc" data-name="Tyttebær"><span style="background:#f7e2dc"></span></label>
+              <label><input type="radio" name="avatar-color" value="#efebe3" data-name="Sand"><span style="background:#efebe3"></span></label>
+              <label><input type="radio" name="avatar-color" value="" data-name="Gennemsigtig"><span class="avatar-color-transparent"></span></label>
+            </fieldset>
+            <span class="avatar-status" aria-live="polite">Glad uden tilbehør på fjordblå baggrund — klar til at blive hentet.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© <span data-year>2026</span> Villads Claes</span>
+      <span>Lavet med kaffe og godt humør · <a href="cv.html">CV</a></span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script type="module" src="js/avatar.js"></script>
+</body>
+</html>

@@ -1930,3 +1930,33 @@ a.atelier-link:hover { text-decoration: underline; }
 @media (max-width: 560px) {
   .invitation-actions { flex-direction: column; align-items: stretch; }
 }
+
+/* ---------- Avatar-værksted ---------- */
+.avatar-builder { display: grid; grid-template-columns: minmax(200px, .8fr) minmax(0, 1.2fr); align-items: start; gap: 24px; }
+.avatar-preview-wrap { display: grid; justify-items: center; gap: 12px; }
+.avatar-canvas {
+  width: 220px; height: 220px; border-radius: 50%; background-image:
+    linear-gradient(45deg, var(--bg-alt) 25%, transparent 25%), linear-gradient(-45deg, var(--bg-alt) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--bg-alt) 75%), linear-gradient(-45deg, transparent 75%, var(--bg-alt) 75%);
+  background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+  box-shadow: inset 0 -8px 16px rgba(30,45,45,.06), 0 8px 18px rgba(30,45,45,.1);
+}
+.avatar-controls { display: grid; gap: 14px; align-content: start; }
+.avatar-color-options { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; margin: 0; padding: 0; border: 0; }
+.avatar-color-options legend { flex-basis: 100%; margin-bottom: 6px; color: var(--muted); font-size: .72rem; }
+.avatar-color-options label { position: relative; cursor: pointer; }
+.avatar-color-options input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+.avatar-color-options label > span { display: block; width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 50%; }
+.avatar-color-options input:checked + span { outline: 2px solid var(--fjord); outline-offset: 2px; }
+.avatar-color-options input:focus-visible + span { outline: 2px solid var(--fjord); outline-offset: 2px; }
+.avatar-color-transparent {
+  background-image: linear-gradient(45deg, var(--bg-alt) 25%, transparent 25%), linear-gradient(-45deg, var(--bg-alt) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--bg-alt) 75%), linear-gradient(-45deg, transparent 75%, var(--bg-alt) 75%);
+  background-size: 10px 10px; background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+}
+.avatar-status { display: block; color: var(--muted); font-size: .72rem; }
+.avatar-download { width: 100%; justify-content: center; }
+@media (max-width: 640px) {
+  .avatar-builder { grid-template-columns: minmax(0,1fr); justify-items: center; }
+  .avatar-preview-wrap { width: 100%; max-width: 260px; }
+}
