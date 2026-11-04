@@ -1960,3 +1960,33 @@ a.atelier-link:hover { text-decoration: underline; }
   .avatar-builder { grid-template-columns: minmax(0,1fr); justify-items: center; }
   .avatar-preview-wrap { width: 100%; max-width: 260px; }
 }
+
+/* ---------- Citat-generator ---------- */
+.quote-builder { display: grid; grid-template-columns: minmax(220px, .9fr) minmax(0, 1.1fr); align-items: start; gap: 24px; }
+.quote-preview-wrap { display: grid; justify-items: center; gap: 12px; }
+.quote-canvas {
+  width: 100%; max-width: 320px; aspect-ratio: 1 / 1; border-radius: var(--radius-sm);
+  box-shadow: inset 0 0 0 1px var(--line), 0 8px 18px rgba(30,45,45,.1);
+}
+.quote-download { width: 100%; max-width: 320px; justify-content: center; }
+.quote-controls { display: grid; gap: 14px; align-content: start; }
+.quote-controls label { display: grid; gap: 4px; color: var(--muted); font-size: .72rem; font-weight: 600; }
+.quote-text-input, .quote-author-input {
+  width: 100%; padding: 9px 10px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--surface); color: var(--ink); font: .8rem/1.5 var(--font-body);
+}
+.quote-text-input { resize: vertical; min-height: 90px; }
+.quote-text-input:focus, .quote-author-input:focus { border-color: var(--fjord); outline: 2px solid var(--fjord-soft); outline-offset: 1px; }
+.quote-count { display: block; margin-top: -6px; color: var(--muted); font-size: .68rem; font-variant-numeric: tabular-nums; }
+.quote-theme-options { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; margin: 0; padding: 0; border: 0; }
+.quote-theme-options legend { flex-basis: 100%; margin-bottom: 6px; color: var(--muted); font-size: .72rem; }
+.quote-theme-options label { position: relative; cursor: pointer; display: block; }
+.quote-theme-options input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+.quote-theme-options label > span { display: block; width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 8px; }
+.quote-theme-options input:checked + span { outline: 2px solid var(--fjord); outline-offset: 2px; }
+.quote-theme-options input:focus-visible + span { outline: 2px solid var(--fjord); outline-offset: 2px; }
+.quote-status { display: block; color: var(--muted); font-size: .72rem; }
+@media (max-width: 640px) {
+  .quote-builder { grid-template-columns: minmax(0,1fr); justify-items: center; }
+  .quote-preview-wrap { width: 100%; }
+}
