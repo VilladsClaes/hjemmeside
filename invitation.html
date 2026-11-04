@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="da" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Invitation · Villads Claes</title>
+  <meta name="description" content="Opret en delbar kalenderinvitation til en rigtig begivenhed, og hent en .ics-fil der virker i almindelige kalenderprogrammer. Intet gemmes på nogen server.">
+  <meta name="theme-color" content="#f6f4ef">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/legeplads.css">
+</head>
+<body>
+  <a class="skip" href="#indhold">Spring til indhold</a>
+
+  <header class="site-header">
+    <nav class="wrap nav" aria-label="Hovedmenu">
+      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span>Villads</a>
+      <ul class="nav-links" id="menu">
+        <li><a href="./#om-mig">Om mig</a></li>
+        <li><a href="./#projekter">Projekter</a></li>
+        <li><a href="./#droemme">Drømme</a></li>
+        <li><a href="./#personaer">Personaer</a></li>
+        <li><a href="./#familie">Familie</a></li>
+        <li><a href="legeplads.html">Legeplads</a></li>
+        <li><a href="opgaveliste.html">Opgaveliste</a></li>
+        <li><a href="nedtaelling.html">Nedtælling</a></li>
+        <li><a href="invitation.html" aria-current="page">Invitation</a></li>
+        <li><a href="./#kontakt">Kontakt</a></li>
+        <li><a class="nav-cta" href="cv.html">CV</a></li>
+      </ul>
+      <div class="nav-tools">
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Skift mellem lyst og mørkt tema">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <button class="icon-btn menu-btn" type="button" data-menu aria-controls="menu" aria-expanded="false" aria-label="Åbn menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="indhold">
+    <section class="section countdown-hero">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Invitation</span>
+          <h1>En rigtig, delbar kalenderinvitation</h1>
+          <p>Opret en invitation til en begivenhed — et møde, en fest, en aftale. Du får et link, du kan dele med
+            andre. Alle der åbner det, kan se detaljerne og hente en rigtig .ics-fil, der kan åbnes i Google
+            Kalender, Outlook, Apple Kalender og de fleste andre kalenderprogrammer. Der gemmes intet på nogen
+            server: hele invitationen bor i selve linket.</p>
+        </div>
+
+        <div class="card invitation-display reveal" data-delay="80" data-invitation-display hidden>
+          <span class="eyebrow">DU ER INVITERET</span>
+          <h2 data-invitation-title></h2>
+          <p class="invitation-when" data-invitation-when></p>
+          <p class="invitation-where" data-invitation-where hidden></p>
+          <p class="invitation-note" data-invitation-note hidden></p>
+          <div class="invitation-actions">
+            <button type="button" class="btn btn-primary" data-download-ics>Hent kalenderfil (.ics)</button>
+            <button type="button" class="btn btn-ghost btn-small make-own" data-make-own>Lav din egen invitation</button>
+          </div>
+          <p class="form-status" data-download-status role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="card countdown-error reveal" data-delay="80" data-invitation-error hidden>
+          <h2>Linket kunne ikke læses</h2>
+          <p>Det ser ud til, at linket mangler noget eller er blevet ødelagt undervejs. Du kan oprette en ny
+            invitation herunder.</p>
+        </div>
+
+        <form id="invitation-form" class="card task-form invitation-form reveal" data-delay="80" novalidate>
+          <h2>Opret en invitation</h2>
+          <div class="field">
+            <label for="invitation-title">Titel <span aria-hidden="true">*</span></label>
+            <input id="invitation-title" name="title" type="text" maxlength="120" required placeholder="Fx teammøde, fødselsdag, aftentur">
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="invitation-date">Dato <span aria-hidden="true">*</span></label>
+              <input id="invitation-date" name="date" type="date" required>
+            </div>
+            <div class="field">
+              <label for="invitation-time">Klokkeslæt <span aria-hidden="true">*</span></label>
+              <input id="invitation-time" name="time" type="time" value="10:00" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="invitation-duration">Varighed</label>
+            <select id="invitation-duration" name="duration">
+              <option value="30">30 minutter</option>
+              <option value="60" selected>1 time</option>
+              <option value="90">1,5 time</option>
+              <option value="120">2 timer</option>
+              <option value="240">4 timer</option>
+              <option value="1440">Hele dagen</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="invitation-location">Sted (valgfrit)</label>
+            <input id="invitation-location" name="location" type="text" maxlength="160" placeholder="Fx adressen eller et mødelink">
+          </div>
+          <div class="field">
+            <label for="invitation-note">Note (valgfrit)</label>
+            <textarea id="invitation-note" name="note" maxlength="280" rows="2" placeholder="En lille besked til dem, der åbner linket"></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">Opret og få et delbart link</button>
+          <p class="form-note">Titel, dato, sted og note kodes direkte ind i linket nedenfor — intet sendes til
+            eller gemmes på en server.</p>
+          <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="card countdown-share reveal" data-delay="120" data-invitation-share hidden>
+          <h2>Dit delbare link</h2>
+          <div class="countdown-share-row">
+            <input type="text" readonly data-share-link aria-label="Delbart link til invitationen">
+            <button type="button" class="btn btn-ghost btn-small" data-copy-link>Kopiér link</button>
+            <button type="button" class="btn btn-ghost btn-small" data-share-native hidden>Del …</button>
+          </div>
+          <p class="form-status" data-copy-status role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="countdown-mine reveal" data-delay="160" data-invitation-mine hidden>
+          <h2>Dine invitationer på denne enhed</h2>
+          <ul class="countdown-mine-list" data-invitation-mine-list></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© <span data-year>2026</span> Villads Claes</span>
+      <span>Lavet med kaffe og godt humør · <a href="cv.html">CV</a></span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script type="module" src="js/invitation.js"></script>
+</body>
+</html>
