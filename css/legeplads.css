@@ -1108,6 +1108,7 @@
 .city-results[hidden] { display: none; }
 .city-results button { width: 100%; padding: 7px 9px; border: 0; border-radius: 4px; background: transparent; color: var(--ink); text-align: left; font: 400 .75rem var(--font-body); cursor: pointer; }
 .city-results button:hover, .city-results button[aria-selected="true"] { background: var(--sage-soft); }
+.city-results-extra { display: block; margin-top: 1px; color: var(--muted); font-size: .67rem; }
 .demo-hatched-type { display: grid; align-content: center; gap: 6px; }
 .hatched-title { width: 100%; color: var(--fjord); overflow: visible; }
 .hatched-title text { font: 800 90px var(--font-display); }
