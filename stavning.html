@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="da" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stavning · Villads Claes</title>
+  <meta name="description" content="Stav et navn eller ord med det danske stavealfabet, og del et link der viser og læser præcis den samme stavning. Intet gemmes på nogen server.">
+  <meta name="theme-color" content="#f6f4ef">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/legeplads.css">
+</head>
+<body>
+  <a class="skip" href="#indhold">Spring til indhold</a>
+
+  <header class="site-header">
+    <nav class="wrap nav" aria-label="Hovedmenu">
+      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span>Villads</a>
+      <ul class="nav-links" id="menu">
+        <li><a href="./#om-mig">Om mig</a></li>
+        <li><a href="./#projekter">Projekter</a></li>
+        <li><a href="./#droemme">Drømme</a></li>
+        <li><a href="./#personaer">Personaer</a></li>
+        <li><a href="./#familie">Familie</a></li>
+        <li><a href="legeplads.html">Legeplads</a></li>
+        <li><a href="opgaveliste.html">Opgaveliste</a></li>
+        <li><a href="nedtaelling.html">Nedtælling</a></li>
+        <li><a href="invitation.html">Invitation</a></li>
+        <li><a href="stavning.html" aria-current="page">Stavning</a></li>
+        <li><a href="avatar.html">Avatar</a></li>
+        <li><a href="citat.html">Citat</a></li>
+        <li><a href="./#kontakt">Kontakt</a></li>
+        <li><a class="nav-cta" href="cv.html">CV</a></li>
+      </ul>
+      <div class="nav-tools">
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Skift mellem lyst og mørkt tema">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <button class="icon-btn menu-btn" type="button" data-menu aria-controls="menu" aria-expanded="false" aria-label="Åbn menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="indhold">
+    <section class="section countdown-hero">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Stavning</span>
+          <h1>Stav det i telefonen — og del det</h1>
+          <p>Skriv et navn, ord eller en kode, og få det stavet med det danske stavealfabet (Anna, Bernhard,
+            Christian, …). Du får et link, du kan dele med andre — fx over sms eller mail. Alle der åbner linket,
+            ser og kan høre præcis den samme stavning, uden selv at skulle skrive noget ind. Der gemmes intet på
+            nogen server: hele stavningen bor i selve linket.</p>
+        </div>
+
+        <div class="card invitation-display reveal" data-delay="80" data-stavning-display hidden>
+          <span class="eyebrow">STAVNING</span>
+          <h2 data-stavning-word></h2>
+          <div class="demo demo-letters">
+            <span class="letter-buttons" role="group" aria-label="Bogstaverne i ordet" data-stavning-letters></span>
+            <p class="spell-output" aria-live="polite" data-stavning-output></p>
+            <div class="spell-actions">
+              <button type="button" class="spell-read" data-read-all hidden>Læs det hele op</button>
+              <span class="demo-note" data-tale-note></span>
+            </div>
+          </div>
+          <div class="invitation-actions">
+            <button type="button" class="btn btn-ghost btn-small make-own" data-make-own>Stav noget andet</button>
+          </div>
+        </div>
+
+        <div class="card countdown-error reveal" data-delay="80" data-stavning-error hidden>
+          <h2>Linket kunne ikke læses</h2>
+          <p>Det ser ud til, at linket mangler noget eller er blevet ødelagt undervejs. Du kan stave et nyt ord
+            herunder.</p>
+        </div>
+
+        <form id="stavning-form" class="card task-form invitation-form reveal" data-delay="80" novalidate>
+          <h2>Stav et navn eller ord</h2>
+          <div class="field">
+            <label for="stavning-ord">Navn eller ord <span aria-hidden="true">*</span></label>
+            <input id="stavning-ord" name="ord" type="text" maxlength="24" required placeholder="Fx Villads" value="Villads" autocomplete="off">
+          </div>
+          <button class="btn btn-primary" type="submit">Stav det og få et delbart link</button>
+          <p class="form-note">Ordet kodes direkte ind i linket nedenfor — intet sendes til eller gemmes på en
+            server.</p>
+          <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="card countdown-share reveal" data-delay="120" data-stavning-share hidden>
+          <h2>Dit delbare link</h2>
+          <div class="countdown-share-row">
+            <input type="text" readonly data-share-link aria-label="Delbart link til stavningen">
+            <button type="button" class="btn btn-ghost btn-small" data-copy-link>Kopiér link</button>
+            <button type="button" class="btn btn-ghost btn-small" data-share-native hidden>Del …</button>
+          </div>
+          <p class="form-status" data-copy-status role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="countdown-mine reveal" data-delay="160" data-stavning-mine hidden>
+          <h2>Dine stavninger på denne enhed</h2>
+          <ul class="countdown-mine-list" data-stavning-mine-list></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© <span data-year>2026</span> Villads Claes</span>
+      <span>Lavet med kaffe og godt humør · <a href="cv.html">CV</a></span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="data/undervisning.js"></script>
+  <script type="module" src="js/stavning.js"></script>
+</body>
+</html>
