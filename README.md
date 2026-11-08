@@ -27,6 +27,7 @@ nedtaelling.html  Opret og del en nedtælling til en rigtig dato — alt data li
 invitation.html Opret og del en kalenderinvitation — hent en rigtig .ics-fil, alt data ligger i selve linket
 avatar.html     Byg en lille avatar og hent den som et rigtigt PNG-billede (canvas → toBlob())
 citat.html      Skriv et citat, vælg et tema, og hent det som et delbart PNG-billede (canvas → toBlob())
+replik.html     Skriv en replik i en talebobbel, og del den med et rigtigt link — alt data ligger i selve linket
 css/style.css   Al styling. Farverne ligger som variabler øverst i filen
 js/main.js      Hilsen, tema, menu, scroll-animation, interaktive værksteder og musik
 js/legeplads.js Interaktioner til legepladsens små UI-demoer
@@ -34,6 +35,7 @@ js/legeplads-levende.js  Legepladsens demoer med rigtigt indhold (data og live-k
 js/nedtaelling.js  Koder/afkoder nedtællingens data til og fra URL'ens hash-fragment (base64url)
 js/invitation.js  Koder/afkoder invitationens data (base64url) og genererer .ics-kalenderfiler
 js/citat.js     Tegner citat-kortet på canvas (ordombrydning, skriftstørrelse-tilpasning) og eksporterer som PNG
+js/replik.js    Koder/afkoder replikkens bobleform og tekst til og fra URL'ens hash-fragment (base64url)
 data/           Indholdet bag legepladsen: projekter, CV, ordnet og undervisning
 api/lastfm.ashx Henter mine seneste numre fra Last.fm (med ?vis=top: månedens kunstnere)
 img/            Læg dine billeder her
