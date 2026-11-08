@@ -90,7 +90,10 @@ Besøgende  ──▶  opgaveliste.html  ──▶  Firestore (Firebase)  ──
 
 1. Gå til [console.firebase.google.com](https://console.firebase.google.com) → **Tilføj projekt**.
 2. Aktivér **Firestore Database** (produktionstilstand) og **Authentication**
-   → actionér **Google** som sign-in-metode.
+   → aktivér **Google** som sign-in-metode.
+   → aktivér også **E-mail/adgangskode** som sign-in-metode — den bruges af
+     den rigtige konto-oprettelse på `opgaveliste.html` (besøgende kan
+     oprette en konto og følge status på egne forslag/anmodninger).
 3. Opgrader til **Blaze-planen** (betal-efter-forbrug) — det er et krav for at
    bruge Cloud Functions, men for en lille opgaveliste koster det reelt intet
    eller meget lidt om måneden.
@@ -130,6 +133,13 @@ cp ../.firebaserc.example ../.firebaserc   # udfyld dit Firebase-projekt-id
 ```bash
 firebase deploy --only functions,firestore:rules
 ```
+
+> Har du allerede et Firebase-projekt sat op fra før kontooprettelsen blev
+> tilføjet? Så skal du bare: aktivér **E-mail/adgangskode** under
+> **Authentication → Sign-in method** (se Trin 1 ovenfor), og kør
+> `firebase deploy --only functions,firestore:rules` igen, så de opdaterede
+> regler og Cloud Functions (som nu gemmer `uid` på forslag/anmodninger) er i
+> drift.
 
 ### Trin 5 — Forbind Microsoft To Do
 

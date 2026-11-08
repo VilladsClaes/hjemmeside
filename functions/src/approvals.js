@@ -38,6 +38,7 @@ const approveSubmission = onCall({ secrets: sharedSecrets }, async (request) => 
     status: "open",
     assignee: submission.contactName || null,
     assigneeContact: submission.contactEmail || null,
+    submitterUid: submission.uid || null,
     provider,
     remoteListId: listId,
     remoteTaskId: remoteId,
@@ -86,6 +87,7 @@ const approveClaim = onCall({ secrets: sharedSecrets }, async (request) => {
   await taskRef.update({
     assignee: claim.claimantName,
     assigneeContact: claim.claimantContact || null,
+    claimantUid: claim.uid || null,
     updatedAt: FieldValue.serverTimestamp(),
   });
   await claimRef.delete();
