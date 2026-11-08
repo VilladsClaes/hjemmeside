@@ -1487,53 +1487,104 @@
   var cityResults = document.querySelector(".city-results");
   var citySearchStatus = document.querySelector(".city-search-status");
   if (citySearch && cityResults && citySearchStatus) {
-    var danishCities = ["Aalborg", "Aarhus", "Esbjerg", "Fredericia", "Helsingør", "Herning", "Hillerød", "Hjørring", "Holbæk", "Horsens", "Kolding", "København", "Næstved", "Odense", "Randers", "Roskilde", "Silkeborg", "Skive", "Slagelse", "Svendborg", "Vejle", "Viborg"];
+    // Samme localStorage-nøgle som den live vejr-widget på forsiden (index.html#vejret) bruger.
+    var CITY_STORAGE_KEY = "weather-widget-city";
     var activeCityIndex = -1;
-    function normalizeCity(value) {
-      return value.toLocaleLowerCase("da").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    var citySuggestions = [];
+    var cityGeocodeController = null;
+    var cityGeocodeTimer = null;
+
+    function cityLabel(city) {
+      var extra = [city.admin1, city.country].filter(Boolean).join(", ");
+      return extra ? city.name + " (" + extra + ")" : city.name;
     }
+
     function closeCityResults() {
       cityResults.hidden = true;
+      cityResults.replaceChildren();
       citySearch.setAttribute("aria-expanded", "false");
       citySearch.removeAttribute("aria-activedescendant");
       activeCityIndex = -1;
+      citySuggestions = [];
     }
+
     function selectCity(city) {
-      citySearch.value = city;
+      citySearch.value = city.name;
       closeCityResults();
-      citySearchStatus.textContent = city + " valgt.";
+      citySearchStatus.textContent = cityLabel(city) + " er gemt til vejr-widgetten på forsiden.";
+      try { localStorage.setItem(CITY_STORAGE_KEY, JSON.stringify(city)); } catch (e) {}
     }
-    function renderCityResults() {
-      var query = normalizeCity(citySearch.value.trim());
+
+    function renderCityResults(cities) {
       cityResults.replaceChildren();
+      citySuggestions = cities;
       activeCityIndex = -1;
-      if (!query) {
-        closeCityResults();
-        citySearchStatus.textContent = "Skriv for at se forslag.";
-        return;
-      }
-      var matches = danishCities.filter(function (city) {
-        return normalizeCity(city).includes(query);
-      }).slice(0, 5);
-      if (!matches.length) {
-        closeCityResults();
-        citySearchStatus.textContent = "Ingen byer matcher endnu.";
-        return;
-      }
-      matches.forEach(function (city, index) {
+      cities.forEach(function (city, index) {
         var option = document.createElement("button");
         option.type = "button";
         option.id = "city-suggestion-" + index;
         option.setAttribute("role", "option");
         option.setAttribute("aria-selected", "false");
-        option.textContent = city;
+        option.textContent = city.name;
+        var extra = [city.admin1, city.country].filter(Boolean).join(", ");
+        if (extra) {
+          var span = document.createElement("span");
+          span.className = "city-results-extra";
+          span.textContent = extra;
+          option.appendChild(span);
+        }
         cityResults.appendChild(option);
       });
-      cityResults.hidden = false;
-      citySearch.setAttribute("aria-expanded", "true");
-      citySearchStatus.textContent = matches.length + " forslag.";
+      cityResults.hidden = cities.length === 0;
+      citySearch.setAttribute("aria-expanded", String(cities.length > 0));
     }
-    citySearch.addEventListener("input", renderCityResults);
+
+    function searchCities(query) {
+      if (cityGeocodeController) cityGeocodeController.abort();
+      cityGeocodeController = ("AbortController" in window) ? new AbortController() : null;
+      var url = "https://geocoding-api.open-meteo.com/v1/search?name=" + encodeURIComponent(query) +
+        "&count=6&language=da&format=json";
+      fetch(url, cityGeocodeController ? { signal: cityGeocodeController.signal } : undefined)
+        .then(function (response) {
+          if (!response.ok) throw new Error("geocoding-fejl");
+          return response.json();
+        })
+        .then(function (data) {
+          var cities = (data.results || []).map(function (result) {
+            return {
+              name: result.name,
+              admin1: result.admin1 || "",
+              country: result.country || "",
+              latitude: result.latitude,
+              longitude: result.longitude
+            };
+          });
+          if (cities.length === 0) {
+            closeCityResults();
+            citySearchStatus.textContent = "Ingen byer matcher \"" + query + "\".";
+            return;
+          }
+          renderCityResults(cities);
+          citySearchStatus.textContent = cities.length + " forslag fundet.";
+        })
+        .catch(function (error) {
+          if (error.name === "AbortError") return;
+          closeCityResults();
+          citySearchStatus.textContent = "Kunne ikke søge byer lige nu. Prøv igen om lidt.";
+        });
+    }
+
+    citySearch.addEventListener("input", function () {
+      var query = citySearch.value.trim();
+      window.clearTimeout(cityGeocodeTimer);
+      if (query.length < 2) {
+        closeCityResults();
+        citySearchStatus.textContent = "Skriv mindst 2 bogstaver for at se forslag.";
+        return;
+      }
+      citySearchStatus.textContent = "Søger …";
+      cityGeocodeTimer = window.setTimeout(function () { searchCities(query); }, 350);
+    });
     citySearch.addEventListener("keydown", function (event) {
       var options = cityResults.querySelectorAll('[role="option"]');
       if ((event.key === "ArrowDown" || event.key === "ArrowUp") && options.length) {
@@ -1543,20 +1594,34 @@
           option.setAttribute("aria-selected", index === activeCityIndex ? "true" : "false");
         });
         citySearch.setAttribute("aria-activedescendant", options[activeCityIndex].id);
-      } else if (event.key === "Enter" && activeCityIndex >= 0 && options[activeCityIndex]) {
+        options[activeCityIndex].scrollIntoView({ block: "nearest" });
+      } else if (event.key === "Enter" && activeCityIndex >= 0 && citySuggestions[activeCityIndex]) {
         event.preventDefault();
-        selectCity(options[activeCityIndex].textContent);
+        selectCity(citySuggestions[activeCityIndex]);
       } else if (event.key === "Escape") {
         closeCityResults();
       }
     });
     cityResults.addEventListener("click", function (event) {
       var option = event.target.closest('[role="option"]');
-      if (option) selectCity(option.textContent);
+      if (!option) return;
+      var index = Array.prototype.indexOf.call(cityResults.querySelectorAll('[role="option"]'), option);
+      if (citySuggestions[index]) selectCity(citySuggestions[index]);
     });
     citySearch.addEventListener("blur", function () {
       window.setTimeout(closeCityResults, 120);
     });
+
+    try {
+      var savedCityRaw = localStorage.getItem(CITY_STORAGE_KEY);
+      if (savedCityRaw) {
+        var savedCity = JSON.parse(savedCityRaw);
+        if (savedCity && savedCity.name) {
+          citySearch.value = savedCity.name;
+          citySearchStatus.textContent = cityLabel(savedCity) + " er gemt til vejr-widgetten på forsiden.";
+        }
+      }
+    } catch (e) {}
   }
 
   var hatchAngle = document.querySelector(".hatch-angle");

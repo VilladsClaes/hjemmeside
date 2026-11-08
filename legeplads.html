@@ -1001,15 +1001,16 @@
             <div class="demo demo-recipe" data-levende="materialer"></div>
           </article>
 
-          <article class="experiment reveal" data-kategori="ui" id="bysoegning" data-codepen="opslag api byer søgefelt filtrering">
-            <div class="experiment-heading"><span class="experiment-number">82</span><div><h3>Find en by — helt uden API</h3><p>En lokal autocomplete med forslag, der også kan vælges fra tastaturet.</p></div></div>
+          <article class="experiment reveal" data-kategori="live" id="bysoegning" data-codepen="opslag api byer søgefelt filtrering">
+            <div class="experiment-heading"><span class="experiment-number">82</span><div><h3>Find en by — med rigtig geocoding</h3><p>Søg efter en hvilken som helst by i verden, og vælg den til den live vejr-widget på forsiden.</p></div></div>
             <div class="demo demo-city-search">
-              <label for="city-search">Søg blandt danske byer</label>
-              <input id="city-search" class="city-search-input" type="search" role="combobox" aria-autocomplete="list" aria-controls="city-results" aria-expanded="false" aria-describedby="city-search-hint" autocomplete="off" placeholder="Fx Aarhus">
-              <span id="city-search-hint" class="city-search-hint">Forslagene er en lille indbygget demo-liste.</span>
+              <label for="city-search">Søg efter en by</label>
+              <input id="city-search" class="city-search-input" type="search" role="combobox" aria-autocomplete="list" aria-controls="city-results" aria-expanded="false" aria-describedby="city-search-hint" autocomplete="off" placeholder="Fx Aarhus, Paris, Tokyo">
+              <span id="city-search-hint" class="city-search-hint">Skriv mindst 2 bogstaver — forslagene hentes fra Open-Meteos geocoding-API.</span>
               <div id="city-results" class="city-results" role="listbox" aria-label="Byforslag" hidden></div>
               <span class="city-search-status" aria-live="polite">Skriv for at se forslag.</span>
             </div>
+            <p class="demo-note"><a href="index.html#vejret">Se den rigtige, levende vejr-widget med din valgte by →</a></p>
           </article>
 
           <article class="experiment reveal" data-kategori="ui" id="skraaskrift" data-codepen="overskrift skrå streger effekt css">
