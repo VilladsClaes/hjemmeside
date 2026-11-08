@@ -2068,16 +2068,64 @@
     });
   }
 
-  document.querySelectorAll("[data-coupon-toggle]").forEach(function (button) {
-    var details = document.getElementById(button.getAttribute("aria-controls"));
-    if (!details) return;
-    button.addEventListener("click", function () {
-      var expanded = button.getAttribute("aria-expanded") === "true";
-      button.setAttribute("aria-expanded", String(!expanded));
-      details.hidden = expanded;
-      button.textContent = expanded ? "Vis detalje" : "Skjul detalje";
+  var couponGrid = document.querySelector("[data-coupon-grid]");
+  if (couponGrid && window.VC_DATA && window.VC_DATA.tilbud) {
+    var couponColors = ["coupon-sage", "coupon-sun", "coupon-berry", "coupon-fjord", "coupon-plum", "coupon-clay"];
+    window.VC_DATA.tilbud.forEach(function (tilbud, index) {
+      var card = document.createElement("article");
+      card.className = "coupon-card " + couponColors[index % couponColors.length];
+      card.setAttribute("data-coupon-open", "false");
+
+      var kicker = document.createElement("span");
+      kicker.className = "coupon-kicker";
+      kicker.textContent = "TJENESTE " + String(index + 1).padStart(2, "0");
+      card.appendChild(kicker);
+
+      var title = document.createElement("strong");
+      title.textContent = tilbud.titel;
+      card.appendChild(title);
+
+      var mark = document.createElement("span");
+      mark.className = "coupon-mark";
+      mark.textContent = tilbud.pris;
+      card.appendChild(mark);
+
+      var button = document.createElement("button");
+      button.type = "button";
+      button.setAttribute("aria-expanded", "false");
+      var detailId = "coupon-detail-" + tilbud.id;
+      button.setAttribute("aria-controls", detailId);
+      button.textContent = "Vis tilbud";
+      card.appendChild(button);
+
+      var detail = document.createElement("p");
+      detail.className = "coupon-detail";
+      detail.id = detailId;
+      detail.hidden = true;
+      detail.textContent = tilbud.beskrivelse;
+      card.appendChild(detail);
+
+      var buyLink = document.createElement("a");
+      buyLink.className = "coupon-buy-link";
+      buyLink.href = "https://venskab.villadsclaes.dk/tjenester/" + tilbud.slug;
+      buyLink.target = "_blank";
+      buyLink.rel = "noopener";
+      buyLink.hidden = true;
+      buyLink.textContent = "Køb for " + tilbud.pris + " →";
+      card.appendChild(buyLink);
+
+      button.addEventListener("click", function () {
+        var expanded = button.getAttribute("aria-expanded") === "true";
+        button.setAttribute("aria-expanded", String(!expanded));
+        card.setAttribute("data-coupon-open", String(!expanded));
+        detail.hidden = expanded;
+        buyLink.hidden = expanded;
+        button.textContent = expanded ? "Vis tilbud" : "Skjul tilbud";
+      });
+
+      couponGrid.appendChild(card);
     });
-  });
+  }
 
   var reliefStage = document.querySelector("[data-relief-stage]");
   var reliefDepth = document.querySelector("[data-relief-depth]");
