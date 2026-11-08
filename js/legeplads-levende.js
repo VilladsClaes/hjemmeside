@@ -303,6 +303,83 @@
   });
 
   // ======================================================================
+  // TJENESTER (data/tjenester.js) — rigtige venskabstjenester fra venskab.villadsclaes.dk
+  // ======================================================================
+  var tjenester = DATA.tjenester ? DATA.tjenester.liste : [];
+  var tjenesteKategorier = DATA.tjenester ? DATA.tjenester.kategorier : {};
+
+  hver("tjenestemenukort", function (demo) {
+    var aktivKategori = "alle";
+    var valgtKnap = null;
+    var soeg = el("input", { class: "project-search", id: "tjeneste-search", type: "search", placeholder: "Prøv fx digt, besøg eller undskyldning" });
+    var status = el("p", { class: "filter-status", "aria-live": "polite" });
+    var titelEl = el("strong", { "data-menu-detail-title": "" });
+    var copyEl = el("p", { "data-menu-detail-copy": "" });
+    var prisEl = el("span", { class: "menu-board-detail-pris" });
+    var koebLink = el("a", { class: "menu-board-detail-link", target: "_blank", rel: "noopener" }, ["Køb på venskab.villadsclaes.dk ↗"]);
+    var detalje = el("div", { class: "menu-board-detail", "aria-live": "polite" }, [titelEl, copyEl, prisEl, koebLink]);
+
+    var knapper = [el("button", { type: "button", "data-kategori-id": "alle", "aria-pressed": "true", text: "Alle (" + tjenester.length + ")" })]
+      .concat(Object.keys(tjenesteKategorier).map(function (id) {
+        var antal = tjenester.filter(function (t) { return t.kategori === id; }).length;
+        return el("button", { type: "button", "data-kategori-id": id, "aria-pressed": "false", text: tjenesteKategorier[id] + " (" + antal + ")" });
+      }));
+
+    function visDetalje(t, knap) {
+      valgtKnap = knap;
+      kort.forEach(function (candidate) { candidate.setAttribute("aria-pressed", String(candidate === knap)); });
+      titelEl.textContent = t.emoji + " " + t.titel;
+      copyEl.textContent = t.beskrivelse;
+      prisEl.textContent = t.pris + (t.solgt ? " · 🔥 1 solgt" : "");
+      koebLink.href = "https://venskab.villadsclaes.dk/tjenester/" + t.slug;
+    }
+
+    var kort = tjenester.map(function (t) {
+      var b = el("button", { class: "menu-board-item", type: "button", "aria-pressed": "false" }, [
+        el("span", { text: t.emoji + (t.solgt ? " 🔥" : "") }),
+        el("strong", { text: t.titel }),
+        el("small", { text: t.tagline }),
+        el("em", { class: "menu-board-item-pris", text: t.pris })
+      ]);
+      b.dataset.kategori = t.kategori;
+      b.dataset.soeg = (t.titel + " " + t.tagline + " " + t.beskrivelse).toLocaleLowerCase("da");
+      b.addEventListener("click", function () { visDetalje(t, b); });
+      return b;
+    });
+
+    function filtrer() {
+      var q = soeg.value.trim().toLocaleLowerCase("da");
+      var synlige = 0;
+      kort.forEach(function (b, i) {
+        var t = tjenester[i];
+        var vis = (aktivKategori === "alle" || t.kategori === aktivKategori) && (!q || b.dataset.soeg.indexOf(q) > -1);
+        b.hidden = !vis;
+        if (vis) synlige++;
+      });
+      status.textContent = synlige === 0 ? "Ingen tjenester matcher — prøv en anden søgning."
+        : synlige === 1 ? "Viser 1 af " + tjenester.length + " tjenester" : "Viser " + synlige + " af " + tjenester.length + " tjenester";
+      if (!valgtKnap || valgtKnap.hidden) {
+        var foersteIndex = kort.findIndex(function (b) { return !b.hidden; });
+        if (foersteIndex > -1) visDetalje(tjenester[foersteIndex], kort[foersteIndex]);
+      }
+    }
+    knapper.forEach(function (k) {
+      k.addEventListener("click", function () { aktivKategori = k.dataset.kategoriId; tryk(knapper, k); filtrer(); });
+    });
+    soeg.addEventListener("input", filtrer);
+
+    demo.replaceChildren(
+      el("label", { class: "project-search-label", for: "tjeneste-search", text: "Søg i tjenester" }),
+      soeg,
+      el("div", { class: "menu-board-filters", role: "group", "aria-label": "Filtrér menukort" }, knapper),
+      el("div", { class: "menu-board-items" }, kort),
+      status,
+      detalje
+    );
+    visDetalje(tjenester[0], kort[0]);
+  });
+
+  // ======================================================================
   // CV (data/cv.js)
   // ======================================================================
   var cv = DATA.cv || { forloeb: [], omraader: [], grundstoffer: [], vaerdier: [], grupper: {} };

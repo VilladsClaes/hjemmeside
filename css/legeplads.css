@@ -1515,10 +1515,15 @@
 .menu-board-item > span { color: var(--berry); font-size: .55rem; font-weight: 700; letter-spacing: .12em; }
 .menu-board-item strong { font: 700 .9rem var(--font-display); }
 .menu-board-item small { color: var(--muted); font-size: .63rem; line-height: 1.4; }
-.menu-board-detail { padding: 10px 12px; border-left: 3px solid var(--sun); background: var(--surface); }
+.menu-board-item-pris { font: 600 .68rem var(--font-body); color: var(--sage); font-style: normal; }
+.menu-board-detail { display: grid; gap: 4px; padding: 10px 12px; border-left: 3px solid var(--sun); background: var(--surface); }
 .menu-board-detail strong { font: 700 .82rem var(--font-display); }
 .menu-board-detail p { margin: 3px 0 0; color: var(--muted); font-size: .67rem; }
+.menu-board-detail-pris { font: 700 .72rem var(--font-body); color: var(--berry); }
+.menu-board-detail-link { justify-self: start; margin-top: 4px; padding: 6px 12px; border: 1px solid var(--fjord); border-radius: 999px; background: var(--fjord); color: #fff; font: 600 .7rem var(--font-body); text-decoration: none; }
+.menu-board-detail-link:hover { opacity: .9; }
 .menu-board-item[hidden] { display: none; }
+.demo-menu-board .menu-board-items { max-height: 360px; overflow-y: auto; padding-right: 2px; }
 
 .demo-coupon-sheet { background: #e7e0d2; }
 .coupon-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }

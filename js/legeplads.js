@@ -2037,37 +2037,6 @@
     });
   }
 
-  var menuBoard = document.querySelector(".demo-menu-board");
-  if (menuBoard) {
-    var menuItems = Array.from(menuBoard.querySelectorAll(".menu-board-item"));
-    var menuTitle = menuBoard.querySelector("[data-menu-detail-title]");
-    var menuCopy = menuBoard.querySelector("[data-menu-detail-copy]");
-    function selectMenuItem(item) {
-      menuItems.forEach(function (candidate) {
-        candidate.setAttribute("aria-pressed", String(candidate === item));
-      });
-      menuTitle.textContent = item.dataset.menuName;
-      menuCopy.textContent = item.dataset.menuDescription;
-    }
-    menuBoard.querySelectorAll("[data-menu-filter]").forEach(function (filter) {
-      filter.addEventListener("click", function () {
-        var category = filter.dataset.menuFilter;
-        menuBoard.querySelectorAll("[data-menu-filter]").forEach(function (button) {
-          button.setAttribute("aria-pressed", String(button === filter));
-        });
-        menuItems.forEach(function (item) {
-          item.hidden = category !== "all" && item.dataset.menuCategory !== category;
-        });
-        var selected = menuItems.find(function (item) { return !item.hidden && item.getAttribute("aria-pressed") === "true"; });
-        if (!selected) selected = menuItems.find(function (item) { return !item.hidden; });
-        if (selected) selectMenuItem(selected);
-      });
-    });
-    menuItems.forEach(function (item) {
-      item.addEventListener("click", function () { selectMenuItem(item); });
-    });
-  }
-
   var couponGrid = document.querySelector("[data-coupon-grid]");
   if (couponGrid && window.VC_DATA && window.VC_DATA.tilbud) {
     var couponColors = ["coupon-sage", "coupon-sun", "coupon-berry", "coupon-fjord", "coupon-plum", "coupon-clay"];
