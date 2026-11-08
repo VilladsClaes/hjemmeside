@@ -1523,17 +1523,26 @@
 .demo-coupon-sheet { background: #e7e0d2; }
 .coupon-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
 .coupon-card {
-  position: relative; display: grid; align-content: start; gap: 8px; min-height: 158px; padding: 12px;
+  position: relative; display: grid; align-content: start; gap: 8px; min-height: 120px; padding: 12px;
   border: 1px dashed rgba(31,42,51,.38); border-radius: 8px; color: #1f2a33; overflow: hidden;
 }
 .coupon-sage { background: #d9e6d9; }
 .coupon-sun { background: #f7e6b8; }
 .coupon-berry { background: #f0d5ca; }
+.coupon-fjord { background: #d7e4ea; }
+.coupon-plum { background: #e6d9ea; }
+.coupon-clay { background: #ecdccb; }
 .coupon-kicker { font-size: .52rem; font-weight: 800; letter-spacing: .13em; }
-.coupon-card > strong { max-width: 15ch; font: 700 .95rem/1.1 var(--font-display); }
-.coupon-mark { position: absolute; top: 10px; right: 10px; padding: 4px 6px; border: 1px solid currentColor; border-radius: 50%; font-size: .65rem; font-weight: 800; transform: rotate(8deg); }
+.coupon-card > strong { max-width: 18ch; font: 700 .95rem/1.1 var(--font-display); }
+.coupon-mark { position: absolute; top: 10px; right: 10px; padding: 4px 7px; border: 1px solid currentColor; border-radius: 10px; font-size: .62rem; font-weight: 800; transform: rotate(4deg); white-space: nowrap; }
 .coupon-card button { justify-self: start; margin-top: auto; padding: 5px 8px; border: 1px solid rgba(31,42,51,.5); border-radius: 4px; background: rgba(255,255,255,.44); color: inherit; font: 600 .6rem var(--font-body); cursor: pointer; }
-.coupon-card p { margin: 0; font-size: .63rem; line-height: 1.45; }
+.coupon-card p.coupon-detail { margin: 0; font-size: .63rem; line-height: 1.45; }
+.coupon-card[data-coupon-open="true"] { border-style: solid; }
+.coupon-buy-link {
+  justify-self: start; display: inline-block; margin-top: 2px; padding: 5px 9px; border-radius: 4px;
+  background: var(--fjord); color: #fff; font: 700 .63rem var(--font-body); text-decoration: none;
+}
+.coupon-buy-link:hover { background: var(--berry); }
 
 .demo-type-relief { display: grid; align-content: center; gap: 12px; }
 .type-relief-stage {

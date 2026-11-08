@@ -1320,23 +1320,8 @@
           <article class="experiment experiment-wide reveal" data-kategori="ui" id="kuponvaerksted" data-codepen="reklame avis css">
             <div class="experiment-heading"><span class="experiment-number">112</span><div><h3>Små tilbud fra idéavisen</h3><p>Et redaktionelt kuponlayout, hvor detaljerne først folder sig ud, når du vælger dem.</p></div></div>
             <div class="demo demo-coupon-sheet">
-              <div class="coupon-grid">
-                <article class="coupon-card coupon-sage">
-                  <span class="coupon-kicker">LILLE FORSPRING</span><strong>En ekstra time til at tænke</strong><span class="coupon-mark">−15%</span>
-                  <button type="button" data-coupon-toggle aria-expanded="false" aria-controls="coupon-detail-one">Vis detalje</button>
-                  <p id="coupon-detail-one" hidden>Gælder én rolig time til skitser, noter eller en god samtale.</p>
-                </article>
-                <article class="coupon-card coupon-sun">
-                  <span class="coupon-kicker">TO FOR ÉN</span><strong>To idéer går bedre sammen</strong><span class="coupon-mark">2×</span>
-                  <button type="button" data-coupon-toggle aria-expanded="false" aria-controls="coupon-detail-two">Vis detalje</button>
-                  <p id="coupon-detail-two" hidden>Tag en makker med, og byg videre på hinandens første udkast.</p>
-                </article>
-                <article class="coupon-card coupon-berry">
-                  <span class="coupon-kicker">KUN I DAG</span><strong>En venlig genvej til næste skridt</strong><span class="coupon-mark">GO</span>
-                  <button type="button" data-coupon-toggle aria-expanded="false" aria-controls="coupon-detail-three">Vis detalje</button>
-                  <p id="coupon-detail-three" hidden>Vælg én lille handling, der gør det nemmere at komme i gang.</p>
-                </article>
-              </div>
+              <div class="coupon-grid" data-coupon-grid></div>
+              <p class="demo-note">Rigtige venskabstjenester fra <a href="https://venskab.villadsclaes.dk/tjenester" target="_blank" rel="noopener">venskab.villadsclaes.dk</a> — vælg en kupon, og køb den, hvis den rammer noget.</p>
             </div>
           </article>
 
@@ -1482,6 +1467,7 @@
   <script src="data/cv.js"></script>
   <script src="data/ordnet.js"></script>
   <script src="data/undervisning.js"></script>
+  <script src="data/tilbud.js"></script>
   <script src="js/legeplads-levende.js"></script>
   <script src="js/legeplads.js"></script>
 </body>
