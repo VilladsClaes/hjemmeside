@@ -1931,6 +1931,17 @@ a.atelier-link:hover { text-decoration: underline; }
   .invitation-actions { flex-direction: column; align-items: stretch; }
 }
 
+/* ==========================================================================
+   Replik — en lille tegneserie-stemme, klar til at dele (replik.html)
+   ========================================================================== */
+.replik-display { padding: clamp(28px, 5vw, 44px); margin-bottom: 32px; text-align: center; }
+.replik-display .speech-bubble-stage { margin: 10px 0 16px; }
+.replik-display .make-own { border-color: rgba(73, 102, 92, .3); color: #1f2a33; }
+.replik-display .make-own:hover { border-color: #2f5d73; color: #2f5d73; }
+
+#replik-form .speech-bubble-stage { margin-bottom: 14px; }
+#replik-form .bubble-shape-controls { margin-bottom: 16px; }
+
 /* ---------- Avatar-værksted ---------- */
 .avatar-builder { display: grid; grid-template-columns: minmax(200px, .8fr) minmax(0, 1.2fr); align-items: start; gap: 24px; }
 .avatar-preview-wrap { display: grid; justify-items: center; gap: 12px; }
