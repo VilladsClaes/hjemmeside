@@ -880,3 +880,40 @@ section { scroll-margin-top: 80px; }
 @media (max-width: 560px) {
   .task-form .field-row { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* ---- Konto: opret/log ind, kodeordsmåler og "Mine forslag og opgaver" ---- */
+.account-card { margin-bottom: 40px; padding: clamp(20px, 4vw, 32px); }
+.account-card h2 { margin: 0 0 6px; font-size: 1.3rem; }
+.account-intro { margin: 0 0 18px; color: var(--muted); font-size: .88rem; line-height: 1.5; }
+
+.account-tabs { display: flex; gap: 6px; margin-bottom: 18px; border-bottom: 1px solid var(--line); }
+.account-tab {
+  padding: 8px 4px 10px; border: 0; border-bottom: 2px solid transparent; background: transparent;
+  color: var(--muted); font: 600 .85rem var(--font-body); cursor: pointer; margin-right: 14px;
+}
+.account-tab[aria-selected="true"] { color: var(--fjord); border-bottom-color: var(--fjord); }
+.account-tab:focus-visible { outline: 2px solid var(--fjord); outline-offset: 2px; }
+
+.account-form .field { margin-bottom: 14px; }
+.account-form-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+.password-input-wrap { display: flex; min-width: 0; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); }
+.password-input-wrap input { flex: 1; width: 0; min-width: 0; border: 0; border-radius: inherit; padding: 10px 12px; background: transparent; color: var(--ink); font: 400 .95rem/1.4 var(--font-body); }
+.password-input-wrap input:focus { outline: 2px solid var(--fjord); outline-offset: 1px; }
+.password-visibility { flex: none; margin: 4px; padding: 6px 10px; border: 0; border-radius: 7px; background: var(--sage-soft); color: var(--fjord); font: 600 .72rem var(--font-body); cursor: pointer; }
+.password-visibility:focus-visible { outline: 2px solid var(--fjord); outline-offset: 2px; }
+.password-meter { height: 7px; overflow: hidden; border-radius: 999px; background: var(--line); margin: 8px 0 4px; }
+.password-meter-fill { display: block; width: 0; height: 100%; border-radius: inherit; background: #bd7162; transition: width .2s ease, background-color .2s ease; }
+.password-strength-text { display: block; min-height: 1.2em; color: var(--muted); font-size: .78rem; }
+.password-strength-text.is-ok { color: #3d5a41; }
+
+.account-signed-in { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+.account-signed-in strong { color: var(--ink); }
+
+.my-items h3 { margin: 0 0 10px; font-size: 1rem; }
+.my-items .task-list { margin-bottom: 20px; }
+.my-items .task-list:last-child { margin-bottom: 0; }
+
+@media (max-width: 560px) {
+  .account-signed-in { flex-direction: column; align-items: flex-start; }
+}

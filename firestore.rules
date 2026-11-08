@@ -6,8 +6,11 @@ rules_version = '2';
 //   det sker udelukkende via Cloud Functions (Admin SDK), som ikke er
 //   underlagt disse regler. Det sikrer at hver opgave altid følges af den
 //   tilhørende synkronisering til Microsoft To Do / Google Tasks.
-// - "pendingSubmissions" / "pendingClaims": besøgende må oprette (foreslå),
-//   men kun ejeren må læse, opdatere eller slette (dvs. godkende/afvise).
+// - "pendingSubmissions" / "pendingClaims": besøgende må oprette (foreslå).
+//   Kun ejeren må opdatere eller slette (dvs. godkende/afvise). Læsning er
+//   tilladt for ejeren, samt for en logget-ind bruger, der læser sit eget
+//   forslag (matchet på et valgfrit "uid"-felt sat ved oprettelse, når
+//   brugeren har en konto — se "Rigtig kodeordstjek"-funktionen).
 // - "config": interne, krypterede tokens m.m. til Cloud Functions. Aldrig
 //   tilgængelig for klienten, hverken læsning eller skrivning.
 //
@@ -32,35 +35,52 @@ service cloud.firestore {
       return value == null || (value is string && value.size() <= maxLen);
     }
 
+    // Et valgfrit "uid"-felt må kun være enten fraværende/null (anonym
+    // indsendelse) eller den afsendende brugers egen uid — aldrig en andens.
+    function isOwnOptionalUid(value) {
+      return value == null || (request.auth != null && value == request.auth.uid);
+    }
+
+    // Den logget-ind bruger, der selv oprettede dokumentet (matchet på uid).
+    function isSubmitter(resourceData) {
+      return request.auth != null
+        && resourceData.uid != null
+        && resourceData.uid == request.auth.uid;
+    }
+
     match /tasks/{taskId} {
       allow read: if true;
       allow write: if false; // kun Cloud Functions (Admin SDK) må skrive
     }
 
     match /pendingSubmissions/{submissionId} {
-      allow read, update, delete: if isOwner();
+      allow read: if isOwner() || isSubmitter(resource.data);
+      allow update, delete: if isOwner();
       allow create: if
         isNonEmptyShortString(request.resource.data.title, 160) &&
         isOptionalShortString(request.resource.data.description, 2000) &&
         isOptionalShortString(request.resource.data.contactName, 120) &&
         isOptionalShortString(request.resource.data.contactEmail, 200) &&
+        isOwnOptionalUid(request.resource.data.uid) &&
         request.resource.data.status == 'pending' &&
         request.resource.data.keys().hasOnly([
           'title', 'description', 'contactName', 'contactEmail',
-          'status', 'createdAt'
+          'status', 'createdAt', 'uid'
         ]);
     }
 
     match /pendingClaims/{claimId} {
-      allow read, update, delete: if isOwner();
+      allow read: if isOwner() || isSubmitter(resource.data);
+      allow update, delete: if isOwner();
       allow create: if
         request.resource.data.taskId is string &&
         exists(/databases/$(database)/documents/tasks/$(request.resource.data.taskId)) &&
         isNonEmptyShortString(request.resource.data.claimantName, 120) &&
         isOptionalShortString(request.resource.data.claimantContact, 200) &&
+        isOwnOptionalUid(request.resource.data.uid) &&
         request.resource.data.status == 'pending' &&
         request.resource.data.keys().hasOnly([
-          'taskId', 'claimantName', 'claimantContact', 'status', 'createdAt'
+          'taskId', 'claimantName', 'claimantContact', 'status', 'createdAt', 'uid'
         ]);
     }
 

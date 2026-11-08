@@ -56,6 +56,81 @@
             tage ansvar for noget? Skriv endelig.</p>
         </div>
 
+        <div id="opret-konto" class="card account-card reveal" data-delay="40">
+          <div data-account-signed-out>
+            <h2>Opret en konto eller log ind</h2>
+            <p class="account-intro">Valgfrit: opret en konto for at følge status på dine indsendte forslag og
+              "tag denne opgave"-anmodninger. Du kan stadig foreslå opgaver anonymt uden konto, som i dag.</p>
+
+            <div class="account-tabs" role="tablist" aria-label="Konto">
+              <button type="button" class="account-tab" role="tab" id="tab-signup" aria-selected="true"
+                aria-controls="signup-form" data-account-tab="signup">Opret konto</button>
+              <button type="button" class="account-tab" role="tab" id="tab-signin" aria-selected="false"
+                aria-controls="signin-form" tabindex="-1" data-account-tab="signin">Log ind</button>
+            </div>
+
+            <form id="signup-form" class="account-form" role="tabpanel" aria-labelledby="tab-signup" novalidate>
+              <div class="field">
+                <label for="signup-name">Dit navn</label>
+                <input id="signup-name" name="name" type="text" maxlength="120" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="signup-email">E-mail</label>
+                <input id="signup-email" name="email" type="email" maxlength="200" autocomplete="email" required>
+              </div>
+              <div class="field">
+                <label for="signup-password">Kodeord</label>
+                <div class="password-input-wrap">
+                  <input id="signup-password" name="password" type="password" autocomplete="new-password" required>
+                  <button class="password-visibility" type="button" aria-pressed="false" aria-label="Vis kodeord">Vis</button>
+                </div>
+                <div class="password-meter" role="meter" aria-label="Kodeordsstyrke" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"><span class="password-meter-fill"></span></div>
+                <span class="password-strength-text" data-signup-strength aria-live="polite">Skriv et kodeord på mindst 8 tegn.</span>
+              </div>
+              <div class="field">
+                <label for="signup-password-confirm">Gentag kodeord</label>
+                <input id="signup-password-confirm" name="passwordConfirm" type="password" autocomplete="new-password" required>
+              </div>
+              <div class="account-form-actions">
+                <button class="btn btn-primary" type="submit" data-signup-submit disabled>Opret konto</button>
+              </div>
+              <p class="form-status" data-signup-status role="status" aria-live="polite"></p>
+            </form>
+
+            <form id="signin-form" class="account-form" role="tabpanel" aria-labelledby="tab-signin" novalidate hidden>
+              <div class="field">
+                <label for="signin-email">E-mail</label>
+                <input id="signin-email" name="email" type="email" maxlength="200" autocomplete="email" required>
+              </div>
+              <div class="field">
+                <label for="signin-password">Kodeord</label>
+                <input id="signin-password" name="password" type="password" autocomplete="current-password" required>
+              </div>
+              <div class="account-form-actions">
+                <button class="btn btn-primary" type="submit">Log ind</button>
+              </div>
+              <p class="form-status" data-signin-status role="status" aria-live="polite"></p>
+            </form>
+          </div>
+
+          <div data-account-signed-in hidden>
+            <div class="account-signed-in">
+              <span>Logget ind som <strong data-account-name></strong></span>
+              <button class="btn btn-ghost btn-small" type="button" data-account-signout>Log ud</button>
+            </div>
+            <div class="my-items">
+              <h3>Mine indsendte forslag</h3>
+              <ul class="task-list" data-my-list="submissions">
+                <li class="task-list-empty">Du har ikke indsendt nogen forslag endnu.</li>
+              </ul>
+              <h3>Mine "tag denne opgave"-anmodninger</h3>
+              <ul class="task-list" data-my-list="claims">
+                <li class="task-list-empty">Du har ikke bedt om at tage nogen opgaver endnu.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <form id="task-form" class="card task-form reveal" data-delay="80" novalidate>
           <h2>Foreslå en ny opgave</h2>
           <div class="field">
