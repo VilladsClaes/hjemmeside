@@ -89,5 +89,34 @@ service cloud.firestore {
     match /config/{document=**} {
       allow read, write: if false;
     }
+
+    // "ratings": delt, anonym vurdering af legepladsens eksperimenter
+    // (legeplads.html). Hvert dokument er KUN et aggregeret tal — ingen
+    // individuelle stemmer eller uid'er gemmes. Klienten skriver direkte
+    // (increment-only), så der er ikke behov for en Cloud Function, men
+    // reglerne sikrer at hver skrivning kun kan lægge præcis én stemme
+    // (mellem 1 og 5) til summen og tælleren, og at ingen andre felter kan
+    // ændres eller forfalskes.
+    function isValidRatingVote(value) {
+      return value is int && value >= 1 && value <= 5;
+    }
+
+    match /ratings/{experimentId} {
+      allow read: if true;
+      allow delete: if false;
+
+      // Første stemme på et eksperiment opretter dokumentet.
+      allow create: if
+        request.resource.data.keys().hasOnly(['count', 'sum', 'updatedAt']) &&
+        request.resource.data.count == 1 &&
+        isValidRatingVote(request.resource.data.sum);
+
+      // Hver efterfølgende stemme må kun lægge præcis 1 til tælleren og
+      // mellem 1-5 til summen (den nye stemmes værdi) — intet andet må ændres.
+      allow update: if
+        request.resource.data.keys().hasOnly(['count', 'sum', 'updatedAt']) &&
+        request.resource.data.count == resource.data.count + 1 &&
+        isValidRatingVote(request.resource.data.sum - resource.data.sum);
+    }
   }
 }
