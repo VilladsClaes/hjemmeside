@@ -58,7 +58,7 @@ Mange af legepladsens demoer viser rigtigt indhold, som ligger i `data/`. Ret d�
 
 `cv.html` og forsiden er stadig skrevet i ren HTML (så de kan printes og læses uden JavaScript), så husk at rette dem også.
 
-Live-demoerne henter selv data: Last.fm (via `api/lastfm.ashx`), vejret i Højbjerg fra Open-Meteo og min offentlige aktivitet fra GitHub. Ingen af dem kræver nøgler i browseren.
+Live-demoerne henter selv data: Last.fm (via `api/lastfm.ashx`), vejret i Højbjerg fra Open-Meteo og min offentlige aktivitet fra GitHub. Ingen af dem kræver nøgler i browseren. Alle 122 eksperimenter kan også vurderes af besøgende (1-5) — en rigtig, delt funktion i Firebase, se afsnittet om den delte opgaveliste nedenfor.
 
 ## Opsætning af den delte opgaveliste (Firebase + Microsoft To Do)
 
@@ -151,6 +151,26 @@ Log ind på `opgaveliste-admin.html` og klik **"Forbind Microsoft To Do"**. Det
 åbner Microsofts login i en ny fane; godkend adgangen, og du er klar. (Hvis du
 i stedet vælger Google Tasks som fallback, bruges "Forbind Google Tasks"-
 knappen, og `ACTIVE_PROVIDER` i `.env` skal sættes til `google`.)
+
+### Bonus: delt vurdering af legepladsens eksperimenter
+
+Samme Firebase-projekt (og samme `js/firebase-config.js`) bruges også til en
+rigtig, delt rating-funktion på `legeplads.html`: besøgende kan vurdere hvert
+eksperiment fra 1-5, og siden viser live gennemsnit samt en lille "Mest
+populære eksperimenter"-oversigt ved filterbaren. Der gemmes kun aggregerede
+tal (collection `ratings`, ét dokument pr. eksperiment med antal stemmer og
+summen af dem) — ingen individuelle stemmer eller uid'er. Skrivningen sker
+direkte fra klienten (intet behov for en Cloud Function), men er valideret af
+`firestore.rules`, så en stemme kun kan lægge præcis 1 til antallet og 1-5 til
+summen. Hver browser må kun stemme én gang pr. eksperiment (husket lokalt).
+
+Er Firebase allerede sat op til opgavelisten (Trin 1-4 ovenfor), kræver denne
+funktion intet ekstra ud over at redeploye de opdaterede regler:
+
+```bash
+firebase deploy --only firestore:rules
+```
+
 ## Opsætning (skal kun gøres én gang)
 
 ### 1. Find dine FTP-oplysninger hos webhotellet

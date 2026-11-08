@@ -570,6 +570,11 @@
 .rating-buttons button:hover { transform: translateY(-2px); border-color: var(--fjord); }
 .rating-buttons button[aria-pressed="true"] { border-color: var(--fjord); background: var(--fjord); color: #fff; }
 .rating-buttons button:focus-visible, .checklist-clear:focus-visible, .rating-reset:focus-visible { outline: 2px solid var(--fjord); outline-offset: 3px; }
+.experiment-rating { margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--line); }
+.experiment-rating-label { margin: 0 0 8px; color: var(--muted); font-size: .72rem; }
+.experiment-rating .rating-buttons { max-width: 190px; }
+.experiment-rating .rating-buttons button { font-size: .78rem; }
+.experiment-rating .rating-footer { margin-top: 8px; }
 @media (max-width: 760px) {
   .demo-pattern-maker { grid-template-columns: minmax(0,1fr); }
   .pattern-controls { grid-template-columns: repeat(2, minmax(0,1fr)); }
@@ -1741,6 +1746,14 @@
 .kategori-filter button[aria-pressed="true"] span { background: rgba(255,255,255,.2); color: #fff; }
 .kategori-filter button:focus-visible { outline: 2px solid var(--sun); outline-offset: 2px; }
 .kategori-status { min-height: 1.2em; margin: 0 0 18px; color: var(--muted); font-size: .8rem; }
+.populaere-eksperimenter { margin: 0 0 18px; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--bg-alt); }
+.populaere-status { margin: 0 0 8px; color: var(--muted); font-size: .8rem; }
+.populaere-liste { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0; padding: 0; list-style: none; counter-reset: populaer; }
+.populaere-liste li { display: flex; align-items: center; gap: 6px; counter-increment: populaer; font-size: .85rem; }
+.populaere-liste li::before { content: counter(populaer) "."; color: var(--muted); font-weight: 600; }
+.populaere-liste a { color: var(--ink); font-weight: 600; text-decoration: none; }
+.populaere-liste a:hover { color: var(--fjord); text-decoration: underline; }
+.populaer-snit { color: var(--muted); font-size: .76rem; font-variant-numeric: tabular-nums; }
 
 .levende-kilde { margin: 8px 0 0; color: var(--muted); font-size: .66rem; line-height: 1.45; text-align: center; }
 .levende-kilde a { color: inherit; }

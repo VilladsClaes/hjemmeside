@@ -754,37 +754,8 @@
     emojiMaker.addEventListener("change", updateEmojiMaker);
   }
 
-  var ratingButtons = Array.from(document.querySelectorAll("[data-rating]"));
-  var ratingStatus = document.querySelector(".rating-status");
-  if (ratingButtons.length && ratingStatus) {
-    var ratingDescriptions = ["meget lidt", "lidt", "en del", "meget", "masser"];
-    function selectRating(selectedButton) {
-      var value = Number(selectedButton.dataset.rating);
-      ratingButtons.forEach(function (button) {
-        button.setAttribute("aria-pressed", String(button === selectedButton));
-      });
-      ratingStatus.textContent = "Du valgte " + value + " af 5 — " + ratingDescriptions[value - 1] + ". Dit svar er kun her på siden.";
-    }
-    ratingButtons.forEach(function (button, index) {
-      button.addEventListener("click", function () { selectRating(button); });
-      button.addEventListener("keydown", function (event) {
-        var nextIndex;
-        if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (index + 1) % ratingButtons.length;
-        else if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (index - 1 + ratingButtons.length) % ratingButtons.length;
-        else if (event.key === "Home") nextIndex = 0;
-        else if (event.key === "End") nextIndex = ratingButtons.length - 1;
-        else return;
-        event.preventDefault();
-        ratingButtons[nextIndex].focus();
-        selectRating(ratingButtons[nextIndex]);
-      });
-    });
-    document.querySelector(".rating-reset").addEventListener("click", function () {
-      ratingButtons.forEach(function (button) { button.setAttribute("aria-pressed", "false"); });
-      ratingStatus.textContent = "Vælg et tal — dit svar bliver kun her på siden.";
-      ratingButtons[0].focus();
-    });
-  }
+  // Rating-knapperne (1-5) er nu en rigtig, delt funktion — se
+  // "VURDERINGER" i js/legeplads-levende.js.
 
   var ctaStatus = document.querySelector(".cta-gallery-status");
   if (ctaStatus) {

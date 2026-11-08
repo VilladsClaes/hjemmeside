@@ -78,6 +78,7 @@
           <button type="button" data-kategori-valg="ui" aria-pressed="false">UI-detaljer <span></span></button>
         </div>
         <p class="kategori-status" data-kategori-status aria-live="polite"></p>
+        <div class="populaere-eksperimenter" data-levende="populaere-eksperimenter"></div>
 
         <div class="experiment-grid">
           <article class="experiment reveal" data-kategori="ui" id="markoer">
@@ -547,22 +548,7 @@
 
           <article class="experiment reveal" data-kategori="ui" id="vaerdiskala" data-codepen="evaluering formular skala 1-5">
             <div class="experiment-heading"><span class="experiment-number">45</span><div><h3>En lille skala</h3><p>Vælg, hvor meget energi idéen giver dig, fra 1 til 5.</p></div></div>
-            <div class="demo demo-rating">
-              <fieldset class="rating-options">
-                <legend>Hvor meget energi giver idéen dig?</legend>
-                <div class="rating-buttons" role="group" aria-label="Vurder idéens energi fra 1 til 5">
-                  <button type="button" data-rating="1" aria-pressed="false" aria-label="1 af 5, meget lidt">1</button>
-                  <button type="button" data-rating="2" aria-pressed="false" aria-label="2 af 5, lidt">2</button>
-                  <button type="button" data-rating="3" aria-pressed="false" aria-label="3 af 5, en del">3</button>
-                  <button type="button" data-rating="4" aria-pressed="false" aria-label="4 af 5, meget">4</button>
-                  <button type="button" data-rating="5" aria-pressed="false" aria-label="5 af 5, masser">5</button>
-                </div>
-              </fieldset>
-              <div class="rating-footer">
-                <span class="rating-status" aria-live="polite">Vælg et tal — dit svar bliver kun her på siden.</span>
-                <button class="rating-reset" type="button">Nulstil</button>
-              </div>
-            </div>
+            <div class="demo demo-rating" data-levende="vurdering"></div>
           </article>
 
           <article class="experiment reveal" data-kategori="ui" id="billedkort-hover" data-codepen="billede hover link mouseover knap">

@@ -109,6 +109,26 @@
     return p;
   }
 
+  // Deles af alle Firebase-baserede demoer (opgaveliste, vurderinger), så vi
+  // kun opretter "legeplads"-app'en og henter firestore-modulerne én gang.
+  var firebaseLaster = null;
+  function firebaseApp() {
+    if (firebaseLaster) return firebaseLaster;
+    var cfg = window.FIREBASE_CONFIG;
+    if (!cfg || /UDFYLD/.test(cfg.apiKey || "")) {
+      firebaseLaster = Promise.reject(new Error("firebase-ikke-konfigureret"));
+      return firebaseLaster;
+    }
+    var v = "12.19.0";
+    firebaseLaster = Promise.all([
+      import("https://www.gstatic.com/firebasejs/" + v + "/firebase-app.js"),
+      import("https://www.gstatic.com/firebasejs/" + v + "/firebase-firestore.js")
+    ]).then(function (m) {
+      return { fs: m[1], db: m[1].getFirestore(m[0].initializeApp(cfg, "legeplads")) };
+    });
+    return firebaseLaster;
+  }
+
   // ======================================================================
   // PROJEKTER (data/projekter.js)
   // ======================================================================
@@ -1641,27 +1661,155 @@
     }
     filtre.forEach(function (k) { k.addEventListener("click", function () { filter = k.dataset.todoFilter; tryk(filtre, k); tegn(); }); });
 
-    var cfg = window.FIREBASE_CONFIG;
-    if (!cfg || /UDFYLD/.test(cfg.apiKey || "")) {
-      liste.replaceChildren(el("li", { class: "todo-empty", text: "Den delte opgaveliste er ikke koblet til Firebase endnu." }));
-      return;
-    }
-    var v = "12.19.0";
-    Promise.all([
-      import("https://www.gstatic.com/firebasejs/" + v + "/firebase-app.js"),
-      import("https://www.gstatic.com/firebasejs/" + v + "/firebase-firestore.js")
-    ]).then(function (m) {
-      var app = m[0].initializeApp(cfg, "legeplads");
-      var fs = m[1];
-      var db = fs.getFirestore(app);
-      fs.onSnapshot(fs.query(fs.collection(db, "tasks"), fs.orderBy("createdAt", "desc")), function (snap) {
+    firebaseApp().then(function (f) {
+      f.fs.onSnapshot(f.fs.query(f.fs.collection(f.db, "tasks"), f.fs.orderBy("createdAt", "desc")), function (snap) {
         opgaver = snap.docs.map(function (d) { return d.data(); });
         tegn();
       }, function () {
         liste.replaceChildren(el("li", { class: "todo-empty", text: "Opgavelisten kunne ikke hentes lige nu." }));
       });
     }).catch(function () {
-      liste.replaceChildren(el("li", { class: "todo-empty", text: "Opgavelisten kunne ikke hentes lige nu." }));
+      liste.replaceChildren(el("li", { class: "todo-empty", text: "Den delte opgaveliste er ikke koblet til Firebase endnu." }));
+    });
+  });
+
+  // ======================================================================
+  // VURDERINGER — delt, anonym rating af legepladsens eksperimenter
+  // (Firestore-collection "ratings", kun aggregerede tal, se firestore.rules)
+  // ======================================================================
+
+  // Bygger en rating-kontrol (knapperne 1-5 + status) bundet til ét
+  // eksperiment-id. Bruges både til den fulde udgave (eksperiment #45, som
+  // selv er et UI-showcase af mønstret) og den kompakte udgave, der
+  // tilføjes automatisk til alle andre eksperimenter.
+  function byggVurdering(id, legend) {
+    var knapper = [1, 2, 3, 4, 5].map(function (n) {
+      return el("button", { type: "button", "data-rating": n, "aria-pressed": "false", "aria-label": n + " af 5" }, [String(n)]);
+    });
+    var status = el("span", { class: "rating-status", "aria-live": "polite", text: "Henter vurdering …" });
+    var felt = el("fieldset", { class: "rating-options" }, (legend ? [el("legend", { text: legend })] : []).concat([
+      el("div", { class: "rating-buttons", role: "group", "aria-label": "Vurdér fra 1 til 5" }, knapper)
+    ]));
+    var fod = el("div", { class: "rating-footer" }, [status]);
+    var noegle = "vurdering:" + id;
+    var minStemme = gemt(noegle, null);
+
+    function visning(data) {
+      var count = (data && data.count) || 0;
+      var sum = (data && data.sum) || 0;
+      var dele = [];
+      if (minStemme) dele.push("Du gav " + minStemme + "/5.");
+      dele.push(count ? "Gennemsnit: " + (sum / count).toFixed(1) + " af 5 (" + count + (count === 1 ? " stemme" : " stemmer") + ")." : "Ingen stemmer endnu — vær den første.");
+      status.textContent = dele.join(" ");
+    }
+
+    if (minStemme) {
+      knapper.forEach(function (k) {
+        k.setAttribute("aria-pressed", String(Number(k.dataset.rating) === minStemme));
+        k.disabled = true;
+      });
+    }
+
+    knapper.forEach(function (knap, index) {
+      knap.addEventListener("click", function () {
+        if (minStemme) return;
+        var value = Number(knap.dataset.rating);
+        knapper.forEach(function (k) { k.disabled = true; });
+        firebaseApp().then(function (f) {
+          var ref = f.fs.doc(f.db, "ratings", id);
+          return f.fs.setDoc(ref, {
+            count: f.fs.increment(1),
+            sum: f.fs.increment(value),
+            updatedAt: f.fs.serverTimestamp()
+          }, { merge: true });
+        }).then(function () {
+          minStemme = value;
+          gem(noegle, value);
+          knapper.forEach(function (k) { k.setAttribute("aria-pressed", String(Number(k.dataset.rating) === value)); });
+        }).catch(function () {
+          knapper.forEach(function (k) { k.disabled = !!minStemme; });
+          status.textContent = "Din vurdering kunne ikke gemmes lige nu — prøv igen.";
+        });
+      });
+      knap.addEventListener("keydown", function (event) {
+        var nextIndex;
+        if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (index + 1) % knapper.length;
+        else if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (index - 1 + knapper.length) % knapper.length;
+        else if (event.key === "Home") nextIndex = 0;
+        else if (event.key === "End") nextIndex = knapper.length - 1;
+        else return;
+        event.preventDefault();
+        knapper[nextIndex].focus();
+      });
+    });
+
+    firebaseApp().then(function (f) {
+      f.fs.onSnapshot(f.fs.doc(f.db, "ratings", id), function (snap) { visning(snap.data()); }, function () {
+        status.textContent = "Vurderingen kunne ikke hentes lige nu.";
+      });
+    }).catch(function () {
+      knapper.forEach(function (k) { k.disabled = true; });
+      status.textContent = "Den delte vurdering er ikke koblet til Firebase endnu.";
+    });
+
+    return { felt: felt, fod: fod };
+  }
+
+  // Eksperiment #45 — den fulde udgave er selve demoen (viser mønstret).
+  hver("vurdering", function (demo) {
+    var v = byggVurdering("vaerdiskala", "Hvor meget energi giver idéen dig?");
+    demo.replaceChildren(v.felt, v.fod);
+  });
+
+  // Alle øvrige eksperimenter får en kompakt "Vurdér dette eksperiment"-kontrol
+  // tilføjet automatisk nederst i kortet.
+  Array.prototype.slice.call(document.querySelectorAll(".experiment[id]")).forEach(function (artikel) {
+    if (artikel.id === "vaerdiskala") return;
+    var v = byggVurdering(artikel.id, null);
+    artikel.appendChild(el("div", { class: "experiment-rating" }, [
+      el("p", { class: "experiment-rating-label", text: "Vurdér dette eksperiment" }),
+      v.felt,
+      v.fod
+    ]));
+  });
+
+  // "Mest populære eksperimenter" — lille oversigt ved filterbaren, baseret
+  // på gennemsnit fra hele "ratings"-collectionen.
+  hver("populaere-eksperimenter", function (boks) {
+    var status = el("p", { class: "populaere-status", "aria-live": "polite", text: "Henter de mest populære eksperimenter …" });
+    var liste = el("ol", { class: "populaere-liste" });
+    boks.replaceChildren(status, liste);
+    var titler = {};
+    document.querySelectorAll(".experiment[id]").forEach(function (a) {
+      var h3 = a.querySelector("h3");
+      if (h3) titler[a.id] = h3.textContent;
+    });
+    firebaseApp().then(function (f) {
+      f.fs.onSnapshot(f.fs.collection(f.db, "ratings"), function (snap) {
+        var top = snap.docs.map(function (d) {
+          var data = d.data();
+          return { id: d.id, count: data.count || 0, sum: data.sum || 0 };
+        }).filter(function (r) { return r.count > 0 && titler[r.id]; })
+          .map(function (r) { return { id: r.id, count: r.count, snit: r.sum / r.count }; })
+          .sort(function (a, b) { return b.snit - a.snit || b.count - a.count; })
+          .slice(0, 5);
+        if (!top.length) {
+          status.textContent = "Ingen vurderinger endnu — vær den første til at vurdere et eksperiment.";
+          liste.replaceChildren();
+          return;
+        }
+        status.textContent = "Baseret på besøgendes vurderinger:";
+        liste.replaceChildren.apply(liste, top.map(function (r) {
+          return el("li", null, [
+            el("a", { href: "#" + r.id, text: titler[r.id] }),
+            el("span", { class: "populaer-snit", text: r.snit.toFixed(1) + "/5 (" + r.count + ")" })
+          ]);
+        }));
+      }, function () {
+        status.textContent = "Kunne ikke hente de mest populære eksperimenter lige nu.";
+      });
+    }).catch(function () {
+      boks.hidden = true;
     });
   });
 
