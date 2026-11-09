@@ -45,6 +45,13 @@ img/            Læg dine billeder her
 
 Forsiden rummer også web-eksperimenter med CSS, SVG, Canvas og WebGL. Animationerne respekterer reduceret bevægelse, og canvas-effekterne sættes på pause, når de ikke er synlige.
 
+Idébogen på legepladsen (`legeplads.html#skitsejournal`) er en rigtig, personlig
+funktion: du kan skrive dine egne idéer, markere og slette dem. Det gemmes kun
+lokalt i din browser (`localStorage`, nøglen `legeplads-skitsejournal`) — ingen
+konto, ingen server, og det følger derfor ikke med til en anden enhed. Første
+besøg vises tre eksempel-idéer; så snart du selv ændrer noget, er det dine
+egne data.
+
 ### Ret indholdet på legepladsen
 
 Mange af legepladsens demoer viser rigtigt indhold, som ligger i `data/`. Ret dér, så følger alle demoerne med:

@@ -1445,7 +1445,7 @@
 .hero-scene-controls { display: flex; justify-content: center; gap: 7px; }
 .hero-scene-controls button { width: 11px; height: 11px; padding: 0; border: 1px solid var(--fjord); border-radius: 50%; background: transparent; cursor: pointer; }
 .hero-scene-controls button[aria-current="true"] { background: var(--fjord); box-shadow: 0 0 0 3px var(--fjord-soft); }
-.hero-scene-controls button:focus-visible, .hero-scene-arrows button:focus-visible, .type-scene-actions button:focus-visible, .ripple-invite-open:focus-visible, .calendar-form button:focus-visible { outline: 2px solid var(--sun); outline-offset: 2px; }
+.hero-scene-controls button:focus-visible, .hero-scene-arrows button:focus-visible, .type-scene-actions button:focus-visible, .ripple-invite-open:focus-visible, .calendar-form button:focus-visible, .sketch-add button:focus-visible { outline: 2px solid var(--sun); outline-offset: 2px; }
 .hero-scene-arrows { display: flex; justify-content: space-between; gap: 8px; }
 .hero-scene-arrows button, .type-scene-actions button { padding: 6px 9px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); font: 500 .63rem var(--font-body); cursor: pointer; }
 
@@ -1480,11 +1480,20 @@
 .sketch-page::before { position: absolute; top: 0; bottom: 0; left: 17px; width: 1px; background: #d69a8d; content: ""; }
 .sketch-heading span { color: #8a6d4e; font: 700 .5rem var(--font-body); letter-spacing: .11em; }
 .sketch-heading h4 { margin: 2px 0 4px; font: italic 700 1.05rem/1 var(--font-display); }
-.sketch-task { display: flex; align-items: center; gap: 7px; min-height: 25px; color: #3d524b; font: 500 .68rem var(--font-display); cursor: pointer; }
-.sketch-task input { width: 13px; height: 13px; margin: 0; accent-color: #52786b; }
-.sketch-task i { margin-left: auto; color: #b8795d; font-style: normal; }
-.sketch-task:has(input:checked) span { color: #7d8d84; text-decoration: line-through; }
-.sketch-task:has(input:checked) i { color: #537b69; }
+.sketch-list { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.sketch-task { display: flex; align-items: center; gap: 4px; min-height: 25px; }
+.sketch-task label { display: flex; flex: 1; align-items: center; gap: 7px; min-width: 0; color: #3d524b; font: 500 .68rem var(--font-display); cursor: pointer; }
+.sketch-task label span { overflow-wrap: anywhere; }
+.sketch-task input { width: 13px; height: 13px; margin: 0; flex-shrink: 0; accent-color: #52786b; }
+.sketch-task:has(input:checked) label span { color: #7d8d84; text-decoration: line-through; }
+.sketch-delete { flex-shrink: 0; width: 18px; height: 18px; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: #b8795d; font: 700 .85rem/1 var(--font-body); line-height: 1; cursor: pointer; opacity: .55; transition: opacity .15s ease, background-color .15s ease, color .15s ease; }
+.sketch-delete:hover, .sketch-delete:focus-visible { opacity: 1; background: rgba(184,121,93,.14); color: #96583f; }
+.sketch-empty { margin: 2px 0; color: #7c8076; font: italic .66rem/1.4 var(--font-display); }
+.sketch-add { display: flex; gap: 6px; margin-top: 2px; }
+.sketch-add input { flex: 1; min-width: 0; padding: 5px 8px; border: 1px solid #d3c8b2; border-radius: 5px; background: #fffdf6; color: #354640; font: .66rem var(--font-body); }
+.sketch-add input:focus { outline: 2px solid #52786b; outline-offset: 1px; }
+.sketch-add button { flex-shrink: 0; width: 26px; height: 26px; border: 0; border-radius: 5px; background: #52786b; color: #fff; font: 700 .9rem/1 var(--font-body); cursor: pointer; }
+.sketch-add button:hover { background: #3d5c51; }
 .sketch-note { margin: 2px 0; color: #9a5e50; font: italic .68rem/1.35 var(--font-display); }
 .sketch-progress { color: #7c8076; font-size: .55rem; text-align: right; }
 

@@ -1272,17 +1272,21 @@
           </article>
 
           <article class="experiment reveal" data-kategori="ui" id="skitsejournal" data-codepen="journal håndskrevet klassisk">
-            <div class="experiment-heading"><span class="experiment-number">109</span><div><h3>En idébog med plads til kruseduller</h3><p>Et lille bullet-journal-inspireret opslag, hvor du kan markere, hvad der er værd at undersøge.</p></div></div>
+            <div class="experiment-heading"><span class="experiment-number">109</span><div><h3>En idébog med plads til kruseduller</h3><p>Et bullet-journal-inspireret opslag: skriv dine egne idéer, markér og slet dem — det huskes i denne browser.</p></div></div>
             <div class="demo demo-sketch-journal">
               <div class="sketch-page">
                 <div class="sketch-heading"><span>FELTBOG · SIDE 07</span><h4>Idéer jeg vil følge</h4></div>
-                <label class="sketch-task"><input type="checkbox" data-sketch-task><span>Spørge nogen, der ved mere</span><i aria-hidden="true">✳</i></label>
-                <label class="sketch-task"><input type="checkbox" data-sketch-task><span>Tegne den første skitse</span><i aria-hidden="true">✳</i></label>
-                <label class="sketch-task"><input type="checkbox" data-sketch-task><span>Prøve en lille version af</span><i aria-hidden="true">✳</i></label>
+                <ul class="sketch-list" data-sketch-list></ul>
+                <form class="sketch-add" data-sketch-add>
+                  <label class="visually-hidden" for="sketch-add-input">Ny idé</label>
+                  <input id="sketch-add-input" type="text" data-sketch-input maxlength="80" placeholder="Skriv en ny idé …" autocomplete="off">
+                  <button type="submit" aria-label="Tilføj idéen">+</button>
+                </form>
                 <p class="sketch-note">“En god idé må gerne begynde som en krusedulle.”</p>
-                <span class="sketch-progress" data-sketch-progress aria-live="polite">0 af 3 idéer markeret</span>
+                <span class="sketch-progress" data-sketch-progress aria-live="polite">0 af 0 idéer markeret</span>
               </div>
             </div>
+            <p class="demo-note">Dine idéer gemmes kun i denne browser — ingen konto, intet sendes nogen steder.</p>
           </article>
 
           <article class="experiment reveal" data-kategori="ui" id="kalenderbygger" data-codepen="google calender event TEST">
