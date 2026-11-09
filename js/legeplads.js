@@ -1919,16 +1919,110 @@
     });
   }
 
-  var sketchTasks = document.querySelectorAll("[data-sketch-task]");
+  // Idébogen (#skitsejournal): en rigtig, personlig og vedvarende liste, gemt
+  // kun i denne browser (ingen konto, intet sendes nogen steder). Første
+  // besøg sår listen med de 3 oprindelige eksempel-idéer; herefter er det
+  // 100% brugerens egne punkter.
+  var SKETCH_STORAGE_KEY = "legeplads-skitsejournal";
+  var sketchList = document.querySelector("[data-sketch-list]");
   var sketchProgress = document.querySelector("[data-sketch-progress]");
-  if (sketchTasks.length && sketchProgress) {
-    function updateSketchProgress() {
-      var checked = Array.from(sketchTasks).filter(function (task) { return task.checked; }).length;
-      sketchProgress.textContent = checked + " af " + sketchTasks.length + " idéer markeret";
+  var sketchAddForm = document.querySelector("[data-sketch-add]");
+  var sketchInput = sketchAddForm ? sketchAddForm.querySelector("[data-sketch-input]") : null;
+  if (sketchList && sketchProgress && sketchAddForm && sketchInput) {
+    var SKETCH_DEFAULTS = [
+      "Spørge nogen, der ved mere",
+      "Tegne den første skitse",
+      "Prøve en lille version af"
+    ];
+
+    function loadSketchIdeas() {
+      try {
+        var raw = localStorage.getItem(SKETCH_STORAGE_KEY);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return SKETCH_DEFAULTS.map(function (text) {
+        return { id: sketchId(), text: text, done: false };
+      });
     }
-    sketchTasks.forEach(function (task) {
-      task.addEventListener("change", updateSketchProgress);
+
+    function saveSketchIdeas() {
+      try { localStorage.setItem(SKETCH_STORAGE_KEY, JSON.stringify(sketchIdeas)); } catch (e) {}
+    }
+
+    function sketchId() {
+      return typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2);
+    }
+
+    var sketchIdeas = loadSketchIdeas();
+
+    function updateSketchProgress() {
+      var total = sketchIdeas.length;
+      if (!total) {
+        sketchProgress.textContent = "Ingen idéer endnu — skriv den første herunder";
+        return;
+      }
+      var checked = sketchIdeas.filter(function (idea) { return idea.done; }).length;
+      sketchProgress.textContent = checked + " af " + total + " idéer markeret";
+    }
+
+    function renderSketchIdeas() {
+      sketchList.replaceChildren();
+      if (!sketchIdeas.length) {
+        var empty = document.createElement("li");
+        empty.className = "sketch-empty";
+        empty.textContent = "Feltbogen er tom lige nu.";
+        sketchList.appendChild(empty);
+      }
+      sketchIdeas.forEach(function (idea) {
+        var li = document.createElement("li");
+        li.className = "sketch-task";
+
+        var label = document.createElement("label");
+        var checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = idea.done;
+        checkbox.addEventListener("change", function () {
+          idea.done = checkbox.checked;
+          saveSketchIdeas();
+          updateSketchProgress();
+        });
+        var span = document.createElement("span");
+        span.textContent = idea.text;
+        label.appendChild(checkbox);
+        label.appendChild(span);
+
+        var deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "sketch-delete";
+        deleteButton.setAttribute("aria-label", "Slet idéen: " + idea.text);
+        deleteButton.textContent = "×";
+        deleteButton.addEventListener("click", function () {
+          sketchIdeas = sketchIdeas.filter(function (other) { return other.id !== idea.id; });
+          saveSketchIdeas();
+          renderSketchIdeas();
+          updateSketchProgress();
+        });
+
+        li.appendChild(label);
+        li.appendChild(deleteButton);
+        sketchList.appendChild(li);
+      });
+    }
+
+    sketchAddForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var text = sketchInput.value.trim();
+      if (!text) return;
+      sketchIdeas.push({ id: sketchId(), text: text, done: false });
+      saveSketchIdeas();
+      renderSketchIdeas();
+      updateSketchProgress();
+      sketchInput.value = "";
+      sketchInput.focus();
     });
+
+    renderSketchIdeas();
+    updateSketchProgress();
   }
 
   var calendarForm = document.querySelector("[data-calendar-form]");
