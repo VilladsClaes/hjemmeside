@@ -79,6 +79,30 @@ window.VC_DATA.projekter = {
       bidrag: "Design, kode og indhold — inklusive legepladsen, musik fra Last.fm og en delt opgaveliste.",
       kompetencer: ["HTML og CSS", "JavaScript", "Git og GitHub Actions"],
       link: "https://github.com/VilladsClaes/hjemmeside"
+    },
+    {
+      id: "techtree",
+      navn: "TechTree (Læringstræet)",
+      kategori: "Undervisning & webudvikling",
+      tema: ["laering", "web"],
+      farve: "sage",
+      titel: "Et tech tree for folkeskolens læringsmål",
+      resume: "Læringstræet gør alle Fælles Mål fra børnehaveklasse til 10. klasse til noder i et unlock-træ: eleven vurderer sig selv med stjerner og låser nye mål op, læreren følger med og vurderer, og forældre kan følge barnet og arbejde med livsfærdigheder derhjemme.",
+      bidrag: "Udviklet som et undervisningsværktøj med backend i ASP.NET Core og frontend i React/TypeScript. Hvert mål har piktogram, oplæsning og en forskningsbaseret begrundelse med kildehenvisninger.",
+      kompetencer: ["ASP.NET Core", "React og TypeScript", "Undervisningsdesign"],
+      link: "https://techtree.villadsclaes.dk"
+    },
+    {
+      id: "anemetteolesen",
+      navn: "anemetteolesen.dk",
+      kategori: "Kundeprojekt — webudvikling",
+      tema: ["web"],
+      farve: "berry",
+      titel: "Hjemmeside for forfatter og urtekyndig Anemette Olesen",
+      resume: "En hjemmeside bygget for Anemette Olesen fra Skarresøhus Forlag, der siden 1980'erne har skrevet, fortalt og undervist om urter, lægeplanter, vilde spiselige planter og grøn mad. Siden viser hendes bøger og kommende foredrag/naturvandringer.",
+      bidrag: "Webudvikling som kundeopgave — design og kode til en andens indhold, ikke mit eget.",
+      kompetencer: ["Webudvikling", "Kundesamarbejde"],
+      link: "https://anemetteolesen.dk"
     }
   ]
 };

@@ -40,6 +40,16 @@ window.VC_DATA.faq = {
       svar: "Ja. Hele siden er ren HTML, CSS og JavaScript uden byggetrin, og koden ligger offentligt tilgængelig på GitHub under VilladsClaes/hjemmeside."
     },
     {
+      emne: "arbejde",
+      titel: "Hvad er TechTree (Læringstræet)?",
+      svar: "Det er et undervisningsværktøj, jeg har bygget, hvor folkeskolens læringsmål fra børnehaveklasse til 10. klasse bliver til noder i et unlock-træ. Eleven vurderer sig selv med stjerner, læreren følger med, og forældre kan følge barnet derhjemme."
+    },
+    {
+      emne: "arbejde",
+      titel: "Har du lavet hjemmesider for andre?",
+      svar: "Ja — blandt andet anemetteolesen.dk, som jeg har udviklet som kundeprojekt for forfatter og urtekyndig Anemette Olesen fra Skarresøhus Forlag."
+    },
+    {
       emne: "praktisk",
       titel: "Hvordan kontakter jeg dig?",
       svar: "Nemmeste vej er mail: villadsclaes@gmail.com — jeg svarer gerne på spørgsmål om undervisning, webudvikling eller projekterne her på siden."
