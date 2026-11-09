@@ -65,6 +65,7 @@ connectGoogleBtn.addEventListener("click", () => startOauth("googleOauthStart"))
 
 let unsubscribeSubmissions = null;
 let unsubscribeClaims = null;
+let unsubscribeQuotes = null;
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -77,6 +78,7 @@ onAuthStateChanged(auth, (user) => {
     signedInView.hidden = true;
     if (unsubscribeSubmissions) unsubscribeSubmissions();
     if (unsubscribeClaims) unsubscribeClaims();
+    if (unsubscribeQuotes) unsubscribeQuotes();
   }
 });
 
@@ -144,9 +146,12 @@ function subscribeQueues() {
   const rejectSubmission = httpsCallable(functions, "rejectSubmission");
   const approveClaim = httpsCallable(functions, "approveClaim");
   const rejectClaim = httpsCallable(functions, "rejectClaim");
+  const approveQuote = httpsCallable(functions, "approveQuote");
+  const rejectQuote = httpsCallable(functions, "rejectQuote");
 
   const submissionsList = document.querySelector('[data-queue="submissions"]');
   const claimsList = document.querySelector('[data-queue="claims"]');
+  const quotesList = document.querySelector('[data-queue="quotes"]');
 
   if (unsubscribeSubmissions) unsubscribeSubmissions();
   unsubscribeSubmissions = onSnapshot(
@@ -193,6 +198,30 @@ function subscribeQueues() {
             data.claimantContact || "",
             (id) => approveClaim({ id }),
             (id) => rejectClaim({ id })
+          )
+        );
+      });
+    }
+  );
+
+  if (unsubscribeQuotes) unsubscribeQuotes();
+  unsubscribeQuotes = onSnapshot(
+    query(collection(db, "pendingQuotes"), orderBy("createdAt", "desc")),
+    (snapshot) => {
+      if (snapshot.empty) {
+        renderEmpty(quotesList, "Ingen ventende citater.");
+        return;
+      }
+      quotesList.replaceChildren();
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        quotesList.appendChild(
+          approvalRow(
+            docSnap.id,
+            data.text,
+            data.author ? `Fra: ${data.author}` : "",
+            (id) => approveQuote({ id }),
+            (id) => rejectQuote({ id })
           )
         );
       });

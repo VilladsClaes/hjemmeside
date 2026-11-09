@@ -90,6 +90,29 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    // "pendingQuotes" / "quotes": den delte citatmaskine på legeplads.html
+    // (eksperiment #92). Besøgende må foreslå citater; kun ejeren må
+    // godkende/afvise (via opgaveliste-admin.html). "quotes" er de godkendte
+    // citater, som alle må læse, men kun Cloud Functions (Admin SDK) må
+    // skrive til — præcis samme mønster som "pendingSubmissions"/"tasks".
+    match /pendingQuotes/{quoteId} {
+      allow read: if isOwner() || isSubmitter(resource.data);
+      allow update, delete: if isOwner();
+      allow create: if
+        isNonEmptyShortString(request.resource.data.text, 280) &&
+        isOptionalShortString(request.resource.data.author, 80) &&
+        isOwnOptionalUid(request.resource.data.uid) &&
+        request.resource.data.status == 'pending' &&
+        request.resource.data.keys().hasOnly([
+          'text', 'author', 'status', 'createdAt', 'uid'
+        ]);
+    }
+
+    match /quotes/{quoteId} {
+      allow read: if true;
+      allow write: if false; // kun Cloud Functions (Admin SDK) må skrive
+    }
+
     // "ratings": delt, anonym vurdering af legepladsens eksperimenter
     // (legeplads.html). Hvert dokument er KUN et aggregeret tal — ingen
     // individuelle stemmer eller uid'er gemmes. Klienten skriver direkte

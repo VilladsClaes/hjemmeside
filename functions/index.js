@@ -4,7 +4,14 @@ const { initializeApp } = require("firebase-admin/app");
 
 initializeApp();
 
-const { approveSubmission, rejectSubmission, approveClaim, rejectClaim } = require("./src/approvals");
+const {
+  approveSubmission,
+  rejectSubmission,
+  approveClaim,
+  rejectClaim,
+  approveQuote,
+  rejectQuote,
+} = require("./src/approvals");
 const { msOauthStart, msOauthCallback } = require("./src/oauthMicrosoft");
 const { googleOauthStart, googleOauthCallback } = require("./src/oauthGoogle");
 const { pullTaskChanges } = require("./src/scheduled");
@@ -14,6 +21,10 @@ exports.approveSubmission = approveSubmission;
 exports.rejectSubmission = rejectSubmission;
 exports.approveClaim = approveClaim;
 exports.rejectClaim = rejectClaim;
+
+// Godkendelse/afvisning af citater foreslået til legepladsens citatmaskine
+exports.approveQuote = approveQuote;
+exports.rejectQuote = rejectQuote;
 
 // Étgangs OAuth-forbindelse til Microsoft To Do (primær udbyder)
 exports.msOauthStart = msOauthStart;

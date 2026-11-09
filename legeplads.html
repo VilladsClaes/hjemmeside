@@ -1078,11 +1078,32 @@
           </article>
 
           <article class="experiment reveal" data-kategori="ui" id="citatvaelger" data-codepen="baggrund api ændr tekst hero fullskærm social tweet">
-            <div class="experiment-heading"><span class="experiment-number">92</span><div><h3>En lille maskine til store tanker</h3><p>Skift mellem korte, lokale citater uden API-kald eller eksterne tjenester.</p></div></div>
+            <div class="experiment-heading"><span class="experiment-number">92</span><div><h3>En lille maskine til store tanker</h3><p>Citater delt af besøgende — bladr rundt, eller indsend selv et nyt til godkendelse.</p></div></div>
             <div class="demo demo-quote-machine" data-quote-machine>
               <span class="quote-kicker" data-quote-category>Om læring</span>
               <blockquote><p data-quote-text>Man lærer mere, når man tør stille det næste spørgsmål.</p></blockquote>
               <div class="quote-controls"><button type="button" data-quote-previous>← Forrige</button><span data-quote-count aria-live="polite">1 af 4</span><button type="button" data-quote-next>Næste →</button></div>
+              <details class="quote-submit">
+                <summary>Indsend dit eget citat</summary>
+                <form class="quote-submit-form" data-quote-form>
+                  <div class="field">
+                    <label for="quote-submit-text">Dit citat <span aria-hidden="true">*</span></label>
+                    <textarea id="quote-submit-text" name="text" maxlength="280" rows="3" required></textarea>
+                  </div>
+                  <div class="field">
+                    <label for="quote-submit-author">Dit navn (valgfrit)</label>
+                    <input type="text" id="quote-submit-author" name="author" maxlength="80">
+                  </div>
+                  <div class="field honeypot" aria-hidden="true">
+                    <label for="quote-submit-website">Lad dette felt stå tomt</label>
+                    <input type="text" id="quote-submit-website" name="website" tabindex="-1" autocomplete="off">
+                  </div>
+                  <div class="quote-submit-actions">
+                    <button class="btn btn-primary btn-small" type="submit">Send til godkendelse</button>
+                    <span class="form-status" data-quote-form-status role="status" aria-live="polite"></span>
+                  </div>
+                </form>
+              </details>
             </div>
           </article>
 

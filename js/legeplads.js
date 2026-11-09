@@ -1678,31 +1678,8 @@
     });
   }
 
-  var quoteMachine = document.querySelector("[data-quote-machine]");
-  if (quoteMachine) {
-    var quotes = [
-      { category: "Om læring", text: "Man lærer mere, når man tør stille det næste spørgsmål." },
-      { category: "Om sprog", text: "De rigtige ord kan gøre en svær tanke lettere at dele." },
-      { category: "Om fællesskab", text: "En idé vokser, når flere får lov til at bygge videre på den." },
-      { category: "Om nysgerrighed", text: "Et lille forsøg kan åbne en helt ny retning." }
-    ];
-    var quoteIndex = 0;
-    var quoteText = quoteMachine.querySelector("[data-quote-text]");
-    var quoteCategory = quoteMachine.querySelector("[data-quote-category]");
-    var quoteCount = quoteMachine.querySelector("[data-quote-count]");
-    function showQuote(index) {
-      quoteIndex = (index + quotes.length) % quotes.length;
-      quoteText.textContent = quotes[quoteIndex].text;
-      quoteCategory.textContent = quotes[quoteIndex].category;
-      quoteCount.textContent = (quoteIndex + 1) + " af " + quotes.length;
-    }
-    quoteMachine.querySelector("[data-quote-previous]").addEventListener("click", function () {
-      showQuote(quoteIndex - 1);
-    });
-    quoteMachine.querySelector("[data-quote-next]").addEventListener("click", function () {
-      showQuote(quoteIndex + 1);
-    });
-  }
+  // Citatmaskinen (#citatvaelger) er flyttet til js/legeplads-levende.js,
+  // da den nu er en rigtig, delt funktion drevet af Firebase (se dér).
 
   var softFocus = document.querySelector("#soft-focus-strength");
   var softFocusValue = document.querySelector("[data-soft-focus-value]");
