@@ -235,14 +235,6 @@
     });
   });
 
-  document.querySelectorAll(".ticket").forEach(function (ticket) {
-    ticket.addEventListener("click", function () {
-      var expanded = ticket.getAttribute("aria-expanded") === "true";
-      ticket.setAttribute("aria-expanded", String(!expanded));
-      ticket.querySelector(".ticket-detail").hidden = expanded;
-    });
-  });
-
   document.querySelectorAll(".tilt-card").forEach(function (card) {
     function resetTilt() {
       card.style.setProperty("--tilt-x", "0deg");

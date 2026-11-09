@@ -38,7 +38,7 @@ js/invitation.js  Koder/afkoder invitationens data (base64url) og genererer .ics
 js/stavning.js  Koder/afkoder det stavede ord til og fra URL'ens hash-fragment (base64url) og læser det op
 js/citat.js     Tegner citat-kortet på canvas (ordombrydning, skriftstørrelse-tilpasning) og eksporterer som PNG
 js/replik.js    Koder/afkoder replikkens bobleform og tekst til og fra URL'ens hash-fragment (base64url)
-data/           Indholdet bag legepladsen: projekter, CV, ordnet og undervisning
+data/           Indholdet bag legepladsen: projekter, CV, ordnet, undervisning og FAQ
 api/lastfm.ashx Henter mine seneste numre fra Last.fm (med ?vis=top: månedens kunstnere)
 img/            Læg dine billeder her
 ```
@@ -55,6 +55,7 @@ Mange af legepladsens demoer viser rigtigt indhold, som ligger i `data/`. Ret d�
 | `data/cv.js` | Forløb, kompetenceområder, værktøjer, sprog, værdier | Tidslinje, trin, medaljer, periodisk system, værdier |
 | `data/ordnet.js` | Begreber med over-/underbegreber, dele og associationer | Semantisk netværk, ordkort, ordbog |
 | `data/undervisning.js` | Huskespilsæt, exit ticket, timer, materialer, stavealfabet | Værktøjerne til klassen |
+| `data/faq.js` | Spørgsmål og svar om mig og mine projekter | Billetkort (FAQ) |
 
 `cv.html` og forsiden er stadig skrevet i ren HTML (så de kan printes og læses uden JavaScript), så husk at rette dem også.
 

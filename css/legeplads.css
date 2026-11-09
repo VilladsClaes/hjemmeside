@@ -168,9 +168,10 @@
 .ticket::before { left: -9px; }.ticket::after { right: -9px; }
 .ticket-label { color: var(--sage); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
 .ticket strong { font: 500 1rem var(--font-display); }
-.ticket-detail { max-height: 0; overflow: hidden; color: var(--muted); font-size: .78rem; transition: max-height .3s ease, margin .3s ease; }
-.ticket[aria-expanded="true"] .ticket-detail { max-height: 60px; margin-top: 4px; }
+.ticket-detail { max-height: 0; overflow: hidden; color: var(--muted); font-size: .78rem; line-height: 1.4; transition: max-height .3s ease, margin .3s ease; }
+.ticket[aria-expanded="true"] .ticket-detail { max-height: 140px; margin-top: 4px; }
 .ticket-sun .ticket-label { color: #9a6a13; }
+.ticket-fjord .ticket-label { color: var(--fjord); }
 .demo-tilt { display: grid; place-items: center; perspective: 700px; }
 .tilt-card { position: relative; display: grid; width: min(100%, 300px); min-height: 176px; align-content: center; gap: 7px; padding: 22px; overflow: hidden; border-radius: 14px; background: linear-gradient(140deg, var(--fjord), #52796f); color: white; box-shadow: 0 16px 30px rgba(31,42,51,.18); transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); transition: transform .16s ease-out; transform-style: preserve-3d; }
 .tilt-card .eyebrow { margin: 0; color: #d5e4df; font-size: .68rem; }
