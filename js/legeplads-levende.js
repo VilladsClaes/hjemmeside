@@ -1,5 +1,5 @@
 // Legepladsens demoer med rigtigt indhold.
-// Indholdet kommer fra data/*.js (projekter, CV, ordnet og undervisning) og fra levende kilder:
+// Indholdet kommer fra data/*.js (projekter, CV, ordnet, undervisning og FAQ) og fra levende kilder:
 // Last.fm (via api/lastfm.ashx), Open-Meteo, GitHubs offentlige API og den delte opgaveliste i Firebase.
 // Filen kører før js/legeplads.js og bygger hver demo ind i sit <div data-levende="…">.
 (function () {
@@ -567,6 +567,26 @@
       return p;
     });
     demo.replaceChildren(el("div", { class: "curtain-gallery", role: "group", "aria-label": "Mine værdier" }, paneler), status);
+  });
+
+  // Billetkort: rigtige spørgsmål og svar om mig og mine projekter (data/faq.js)
+  hver("faq", function (demo) {
+    var faq = DATA.faq || { emner: {}, liste: [] };
+    var billetter = faq.liste.map(function (sp) {
+      var emne = faq.emner[sp.emne] || { navn: sp.emne, farve: "sage" };
+      var klasse = "ticket" + (emne.farve && emne.farve !== "sage" ? " ticket-" + emne.farve : "");
+      var detalje = el("span", { class: "ticket-detail", hidden: true, text: sp.svar });
+      var knap = el("button", { type: "button", class: klasse, "aria-expanded": "false" }, [
+        el("span", { class: "ticket-label", text: emne.navn }), el("strong", { text: sp.titel }), detalje
+      ]);
+      knap.addEventListener("click", function () {
+        var expanded = knap.getAttribute("aria-expanded") === "true";
+        knap.setAttribute("aria-expanded", String(!expanded));
+        detalje.hidden = expanded;
+      });
+      return knap;
+    });
+    demo.replaceChildren.apply(demo, billetter);
   });
 
   // ======================================================================
