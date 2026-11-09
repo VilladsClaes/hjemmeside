@@ -1814,6 +1814,106 @@
   });
 
   // ======================================================================
+  // CITATMASKINE — delt citatmaskine på legeplads.html (eksperiment #92).
+  // Besøgende kan bladre blandt citater og selv indsende nye, som (efter
+  // godkendelse af ejeren på opgaveliste-admin.html) deles med alle.
+  // (Firestore-collections "pendingQuotes"/"quotes", se firestore.rules)
+  // ======================================================================
+  var quoteMachine = document.querySelector("[data-quote-machine]");
+  if (quoteMachine) {
+    // De 4 oprindelige citater — altid tilgængelige som fallback, selv hvis
+    // Firebase ikke er konfigureret eller ikke kan nås.
+    var SEED_CITATER = [
+      { category: "Om læring", text: "Man lærer mere, når man tør stille det næste spørgsmål." },
+      { category: "Om sprog", text: "De rigtige ord kan gøre en svær tanke lettere at dele." },
+      { category: "Om fællesskab", text: "En idé vokser, når flere får lov til at bygge videre på den." },
+      { category: "Om nysgerrighed", text: "Et lille forsøg kan åbne en helt ny retning." }
+    ];
+    var citater = SEED_CITATER.slice();
+    var citatIndex = 0;
+    var citatText = quoteMachine.querySelector("[data-quote-text]");
+    var citatKategori = quoteMachine.querySelector("[data-quote-category]");
+    var citatTaeller = quoteMachine.querySelector("[data-quote-count]");
+    var citatForm = quoteMachine.querySelector("[data-quote-form]");
+    var citatFormStatus = quoteMachine.querySelector("[data-quote-form-status]");
+
+    function visCitat(index) {
+      if (!citater.length) return;
+      citatIndex = (index + citater.length) % citater.length;
+      var c = citater[citatIndex];
+      citatText.textContent = c.text;
+      citatKategori.textContent = c.category || (c.author ? "— " + c.author : "Fra en besøgende");
+      citatTaeller.textContent = (citatIndex + 1) + " af " + citater.length;
+    }
+    visCitat(0);
+
+    quoteMachine.querySelector("[data-quote-previous]").addEventListener("click", function () { visCitat(citatIndex - 1); });
+    quoteMachine.querySelector("[data-quote-next]").addEventListener("click", function () { visCitat(citatIndex + 1); });
+
+    firebaseApp().then(function (f) {
+      f.fs.onSnapshot(f.fs.query(f.fs.collection(f.db, "quotes"), f.fs.orderBy("createdAt", "asc")), function (snap) {
+        var delte = snap.docs.map(function (d) {
+          var data = d.data();
+          return { text: data.text, author: data.author || null };
+        });
+        citater = SEED_CITATER.concat(delte);
+        visCitat(citatIndex);
+      }, function () {
+        // Beholder blot de 4 oprindelige citater, hvis de delte ikke kan hentes.
+      });
+    }).catch(function () {});
+
+    if (citatForm) {
+      var sidsteCitatIndsendelse = 0;
+      var CITAT_COOLDOWN_MS = 30 * 1000;
+      citatForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        // Honeypot: et skjult felt, som kun bots udfylder.
+        var data = new FormData(citatForm);
+        if (String(data.get("website") || "").trim()) {
+          citatFormStatus.textContent = "Tak!";
+          citatForm.reset();
+          return;
+        }
+
+        var nu = Date.now();
+        if (nu - sidsteCitatIndsendelse < CITAT_COOLDOWN_MS) {
+          citatFormStatus.textContent = "Vent lidt før du sender endnu et citat.";
+          return;
+        }
+
+        var tekst = String(data.get("text") || "").trim();
+        if (!tekst) {
+          citatFormStatus.textContent = "Skriv venligst et citat.";
+          return;
+        }
+        var forfatter = String(data.get("author") || "").trim() || null;
+        var sendKnap = citatForm.querySelector("button[type=submit]");
+        sendKnap.disabled = true;
+
+        firebaseApp().then(function (f) {
+          return f.fs.addDoc(f.fs.collection(f.db, "pendingQuotes"), {
+            text: tekst,
+            author: forfatter,
+            status: "pending",
+            createdAt: f.fs.serverTimestamp(),
+            uid: null
+          });
+        }).then(function () {
+          sidsteCitatIndsendelse = nu;
+          citatFormStatus.textContent = "Tak! Dit citat afventer godkendelse, før det deles med andre.";
+          citatForm.reset();
+        }).catch(function () {
+          citatFormStatus.textContent = "Kunne ikke sende citatet lige nu — prøv igen om lidt.";
+        }).finally(function () {
+          sendKnap.disabled = false;
+        });
+      });
+    }
+  }
+
+  // ======================================================================
   // KATEGORIER — rigtigt indhold eller ren UI-leg
   // ======================================================================
   var filterbar = document.querySelector("[data-kategori-filter]");

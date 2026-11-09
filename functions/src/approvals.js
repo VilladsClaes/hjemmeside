@@ -110,4 +110,45 @@ function buildDescription(description, contactName, contactEmail) {
   return lines.join("\n").trim();
 }
 
-module.exports = { approveSubmission, rejectSubmission, approveClaim, rejectClaim };
+// Godkendelse/afvisning af citater foreslået på legeplads.html (citatmaskinen,
+// eksperiment #92). Til forskel fra opgavelisten er der ingen ekstern
+// udbyder at synkronisere med — citatet flyttes blot fra "pendingQuotes" til
+// den offentligt læsbare "quotes"-collection.
+const approveQuote = onCall(async (request) => {
+  assertOwner(request);
+  const { id } = request.data || {};
+  if (!id) throw new HttpsError("invalid-argument", "Mangler id på citatet.");
+
+  const db = getFirestore();
+  const ref = db.collection("pendingQuotes").doc(id);
+  const snap = await ref.get();
+  if (!snap.exists) throw new HttpsError("not-found", "Citatet findes ikke (måske allerede behandlet).");
+  const quote = snap.data();
+
+  const quoteRef = await db.collection("quotes").add({
+    text: quote.text,
+    author: quote.author || null,
+    submitterUid: quote.uid || null,
+    createdAt: FieldValue.serverTimestamp(),
+  });
+
+  await ref.delete();
+  return { quoteId: quoteRef.id };
+});
+
+const rejectQuote = onCall(async (request) => {
+  assertOwner(request);
+  const { id } = request.data || {};
+  if (!id) throw new HttpsError("invalid-argument", "Mangler id på citatet.");
+  await getFirestore().collection("pendingQuotes").doc(id).delete();
+  return { ok: true };
+});
+
+module.exports = {
+  approveSubmission,
+  rejectSubmission,
+  approveClaim,
+  rejectClaim,
+  approveQuote,
+  rejectQuote,
+};

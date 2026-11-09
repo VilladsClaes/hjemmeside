@@ -32,7 +32,7 @@ replik.html     Skriv en replik i en talebobbel, og del den med et rigtigt link 
 css/style.css   Al styling. Farverne ligger som variabler øverst i filen
 js/main.js      Hilsen, tema, menu, scroll-animation, interaktive værksteder og musik
 js/legeplads.js Interaktioner til legepladsens små UI-demoer
-js/legeplads-levende.js  Legepladsens demoer med rigtigt indhold (data og live-kilder)
+js/legeplads-levende.js  Legepladsens demoer med rigtigt indhold (data, live-kilder og den delte citatmaskine)
 js/nedtaelling.js  Koder/afkoder nedtællingens data til og fra URL'ens hash-fragment (base64url)
 js/invitation.js  Koder/afkoder invitationens data (base64url) og genererer .ics-kalenderfiler
 js/stavning.js  Koder/afkoder det stavede ord til og fra URL'ens hash-fragment (base64url) og læser det op
@@ -58,7 +58,7 @@ Mange af legepladsens demoer viser rigtigt indhold, som ligger i `data/`. Ret d�
 
 `cv.html` og forsiden er stadig skrevet i ren HTML (så de kan printes og læses uden JavaScript), så husk at rette dem også.
 
-Live-demoerne henter selv data: Last.fm (via `api/lastfm.ashx`), vejret i Højbjerg fra Open-Meteo og min offentlige aktivitet fra GitHub. Ingen af dem kræver nøgler i browseren. Alle 122 eksperimenter kan også vurderes af besøgende (1-5) — en rigtig, delt funktion i Firebase, se afsnittet om den delte opgaveliste nedenfor.
+Live-demoerne henter selv data: Last.fm (via `api/lastfm.ashx`), vejret i Højbjerg fra Open-Meteo og min offentlige aktivitet fra GitHub. Ingen af dem kræver nøgler i browseren. Alle 122 eksperimenter kan også vurderes af besøgende (1-5) — en rigtig, delt funktion i Firebase, se afsnittet om den delte opgaveliste nedenfor. Citatmaskinen (eksperiment #92) er på samme måde en rigtig, delt funktion: besøgende kan indsende egne citater, se afsnittet "Bonus: delt citatmaskine" nedenfor.
 
 ## Opsætning af den delte opgaveliste (Firebase + Microsoft To Do)
 
@@ -169,6 +169,34 @@ funktion intet ekstra ud over at redeploye de opdaterede regler:
 
 ```bash
 firebase deploy --only firestore:rules
+```
+
+### Bonus: delt citatmaskine
+
+Samme Firebase-projekt bruges også til en rigtig, delt citatmaskine på
+`legeplads.html` (eksperiment #92, "En lille maskine til store tanker"):
+besøgende kan bladre mellem citater med "← Forrige"/"Næste →", og selv
+indsende deres eget citat (plus et valgfrit navn) via et lille skema i
+demoen. Til forskel fra vurderingerne er citater rigtig tekst fra besøgende,
+så de kræver godkendelse, før de deles med andre — ligesom opgavelistens
+forslag:
+
+- Et indsendt citat havner i `pendingQuotes` (kun oprettelse er tilladt fra
+  klienten, se `firestore.rules`).
+- Du godkender/afviser på `opgaveliste-admin.html` (samme login som
+  opgavelisten), under "Ventende citater til citatmaskinen".
+- Et godkendt citat flyttes af Cloud Function'en `approveQuote` til den
+  offentligt læsbare collection `quotes` (klienten kan kun læse, aldrig
+  skrive direkte til den).
+- De 4 oprindelige citater fra lanceringen vises altid som "seed"-indhold
+  sammen med alle godkendte citater — citatmaskinen virker derfor også, hvis
+  Firebase ikke er sat op (den falder blot tilbage til kun at vise de 4).
+
+Er Firebase og Cloud Functions allerede sat op (Trin 1-4 ovenfor), kræver
+denne funktion blot en redeploy af både regler og functions:
+
+```bash
+firebase deploy --only firestore:rules,functions
 ```
 
 ## Opsætning (skal kun gøres én gang)
