@@ -30,6 +30,7 @@
         <li><a href="#personaer">Personaer</a></li>
         <li data-musik-link hidden><a href="#musik">Musik</a></li>
         <li><a href="#familie">Familie</a></li>
+        <li><a href="#live-afstand">Afstand til mig</a></li>
         <li><a href="legeplads.html">Legeplads</a></li>
         <li><a href="opgaveliste.html">Opgaveliste</a></li>
         <li><a href="nedtaelling.html">Nedtælling</a></li>
@@ -673,6 +674,23 @@
       </div>
     </section>
 
+    <!-- ============ LIVE AFSTAND ============ -->
+    <section class="section" id="live-afstand">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Live afstand</span>
+          <h2>Hvor langt væk er jeg fra dig lige nu?</h2>
+          <p>Min telefon deler løbende min position med en sikker server-funktion. Giver du samtykke til at dele din egen placering, beregner funktionen afstanden mellem os — og sender kun selve afstanden tilbage. Hverken din eller min præcise position bliver nogensinde vist eller sendt til nogens browser.</p>
+        </div>
+        <div class="distance-widget card reveal">
+          <p class="distance-intro">Din placering bruges kun til denne ene udregning, sendes direkte til en Cloud Function, og gemmes ikke noget sted.</p>
+          <button class="btn btn-primary" type="button" data-distance-btn>Vis afstand til mig</button>
+          <p class="distance-result" data-distance-result hidden></p>
+          <span class="distance-status" data-distance-status aria-live="polite"></span>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ KONTAKT ============ -->
     <section class="section" id="kontakt" style="padding-top: 0">
       <div class="wrap">
@@ -741,6 +759,8 @@
     </div>
   </footer>
 
+  <script src="js/firebase-config.js"></script>
   <script src="js/main.js"></script>
+  <script type="module" src="js/live-afstand.js"></script>
 </body>
 </html>

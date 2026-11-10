@@ -90,6 +90,15 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    // Villads' seneste GPS-position (fra OwnTracks, via Cloud Function
+    // "reportLocation"). Må ALDRIG være læsbar eller skrivbar fra klienten —
+    // kun Cloud Functions (Admin SDK) må tilgå den. Afstanden til en
+    // besøgende beregnes udelukkende server-side af "getDistanceToVisitor",
+    // som kun returnerer selve afstanden, aldrig koordinaterne.
+    match /location/{document=**} {
+      allow read, write: if false;
+    }
+
     // "pendingQuotes" / "quotes": den delte citatmaskine på legeplads.html
     // (eksperiment #92). Besøgende må foreslå citater; kun ejeren må
     // godkende/afvise (via opgaveliste-admin.html). "quotes" er de godkendte
