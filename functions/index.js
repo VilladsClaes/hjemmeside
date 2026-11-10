@@ -15,6 +15,7 @@ const {
 const { msOauthStart, msOauthCallback } = require("./src/oauthMicrosoft");
 const { googleOauthStart, googleOauthCallback } = require("./src/oauthGoogle");
 const { pullTaskChanges } = require("./src/scheduled");
+const { reportLocation, getDistanceToVisitor } = require("./src/location");
 
 // Godkendelse/afvisning af besøgendes forslag (kaldes fra opgaveliste-admin.html)
 exports.approveSubmission = approveSubmission;
@@ -37,3 +38,9 @@ exports.googleOauthCallback = googleOauthCallback;
 // Planlagt synkronisering: henter ændringer (fuldført/omdøbt/slettet) fra
 // den aktive udbyder tilbage til den offentlige side.
 exports.pullTaskChanges = pullTaskChanges;
+
+// Live afstand til besøgende: modtager Villads' GPS-position fra OwnTracks
+// (reportLocation), og beregner server-side afstanden til en besøgende, der
+// har givet samtykke til at dele sin egen placering (getDistanceToVisitor).
+exports.reportLocation = reportLocation;
+exports.getDistanceToVisitor = getDistanceToVisitor;

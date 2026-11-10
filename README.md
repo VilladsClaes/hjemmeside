@@ -38,6 +38,7 @@ js/invitation.js  Koder/afkoder invitationens data (base64url) og genererer .ics
 js/stavning.js  Koder/afkoder det stavede ord til og fra URL'ens hash-fragment (base64url) og læser det op
 js/citat.js     Tegner citat-kortet på canvas (ordombrydning, skriftstørrelse-tilpasning) og eksporterer som PNG
 js/replik.js    Koder/afkoder replikkens bobleform og tekst til og fra URL'ens hash-fragment (base64url)
+js/live-afstand.js  Besøgendes samtykke-flow for at se "live afstand til mig" (forsidens #live-afstand-sektion)
 data/           Indholdet bag legepladsen: projekter, CV, ordnet, undervisning og FAQ
 api/lastfm.ashx Henter mine seneste numre fra Last.fm (med ?vis=top: månedens kunstnere)
 img/            Læg dine billeder her
@@ -66,7 +67,7 @@ Mange af legepladsens demoer viser rigtigt indhold, som ligger i `data/`. Ret d�
 
 `cv.html` og forsiden er stadig skrevet i ren HTML (så de kan printes og læses uden JavaScript), så husk at rette dem også.
 
-Live-demoerne henter selv data: Last.fm (via `api/lastfm.ashx`), vejret i Højbjerg fra Open-Meteo og min offentlige aktivitet fra GitHub. Ingen af dem kræver nøgler i browseren. Alle 122 eksperimenter kan også vurderes af besøgende (1-5) — en rigtig, delt funktion i Firebase, se afsnittet om den delte opgaveliste nedenfor. Citatmaskinen (eksperiment #92) er på samme måde en rigtig, delt funktion: besøgende kan indsende egne citater, se afsnittet "Bonus: delt citatmaskine" nedenfor.
+Live-demoerne henter selv data: Last.fm (via `api/lastfm.ashx`), vejret i Højbjerg fra Open-Meteo og min offentlige aktivitet fra GitHub. Ingen af dem kræver nøgler i browseren. Alle 122 eksperimenter kan også vurderes af besøgende (1-5) — en rigtig, delt funktion i Firebase, se afsnittet om den delte opgaveliste nedenfor. Citatmaskinen (eksperiment #92) er på samme måde en rigtig, delt funktion: besøgende kan indsende egne citater, se afsnittet "Bonus: delt citatmaskine" nedenfor. Forsiden har også en "live afstand"-sektion (`#live-afstand`), der — med besøgendes samtykke — viser hvor langt væk Villads er lige nu, baseret på hans live GPS-position; se afsnittet "Bonus: live afstand til besøgende" nedenfor.
 
 ## Opsætning af den delte opgaveliste (Firebase + Microsoft To Do)
 
@@ -202,6 +203,75 @@ forslag:
 
 Er Firebase og Cloud Functions allerede sat op (Trin 1-4 ovenfor), kræver
 denne funktion blot en redeploy af både regler og functions:
+
+```bash
+firebase deploy --only firestore:rules,functions
+```
+
+### Bonus: live afstand til besøgende
+
+Samme Firebase-projekt bruges også til en helt ny, selvstændig funktion på
+forsiden: en "live afstand"-sektion (`index.html#live-afstand`), der viser
+besøgende hvor langt væk Villads er fra dem lige nu, fx "Jeg er 142 meter fra
+dig" eller "Jeg er 3,2 km fra dig".
+
+```
+Villads' telefon (OwnTracks)  ──POST──▶  Cloud Function "reportLocation"  ──▶  Firestore "location/current"
+                                                                                        │
+Besøgendes browser (samtykke)  ──lat/lng──▶  Cloud Function "getDistanceToVisitor" ◀────┘
+                                                      │
+                                              kun afstanden sendes tilbage
+```
+
+**Privatliv er grundlæggende her:** Villads' rå koordinater sendes aldrig til
+eller er tilgængelige for browseren/besøgende — hverken i UI'et eller i
+netværkstrafikken. Afstanden beregnes udelukkende server-side
+(Haversine-formlen) i Cloud Function'en `getDistanceToVisitor`, som kun
+returnerer selve afstanden (plus hvor længe siden positionen blev opdateret).
+Positionen gemmes i Firestore-collection'en `location`, som
+`firestore.rules` eksplicit gør utilgængelig for enhver klient — kun Cloud
+Functions (Admin SDK) kan læse/skrive den.
+
+#### Trin 1 — Installér og konfigurér OwnTracks på telefonen
+
+Funktionen er bygget til **OwnTracks** (ikke GPSLogger), fordi det er den
+eneste af de to, der understøtter både iOS og Android.
+
+1. Installér OwnTracks: [App Store](https://apps.apple.com/app/owntracks/id692424691)
+   (iOS) eller [Google Play](https://play.google.com/store/apps/details?id=org.owntracks.android)
+   (Android).
+2. Generér en hemmelig token og gem den som Firebase-secret:
+   ```bash
+   node -e "console.log(require('crypto').randomBytes(24).toString('hex'))"
+   firebase functions:secrets:set LOCATION_REPORT_TOKEN
+   ```
+3. Åbn OwnTracks' indstillinger (⚙) → **Connection**:
+   - **Mode**: `HTTP`
+   - **Host/URL**: `https://REGION-PROJEKT-ID.cloudfunctions.net/reportLocation?token=DIN_HEMMELIGE_TOKEN`
+     (brug din egen Cloud Functions-region og projekt-id, se Firebase-konsollen)
+   - **Identification** → **Tracker ID**: valgfrit 2-tegns id, fx `VC` (kræves
+     af OwnTracks' HTTP-mode, bruges ikke af hjemmesiden).
+4. Under **Advanced**, sæt gerne et rimeligt rapporteringsinterval (fx hvert
+   1.-5. minut, eller lad OwnTracks rapportere ved bevægelse) — hyppigere
+   opdateringer giver en mere præcis "live"-afstand.
+5. Tryk "Send nu" (eller vent på næste automatiske rapport) for at teste at
+   positionen bliver gemt.
+
+> Bruger du i stedet GPSLogger (kun Android), kan du opnå noget lignende ved
+> at konfigurere et "Custom URL"-logging-mål med samme URL og en JSON-body
+> der matcher feltnavnene `lat`/`lon`/`tst`/`_type=location` — men det er
+> **ikke** det, der er testet og dokumenteret her, og understøtter ikke iOS.
+
+#### Trin 2 — Juster (valgfrit) hvor gammel en position må være
+
+`MAX_LOCATION_AGE_MINUTES` i `functions/.env` styrer hvor mange minutter en
+gemt position højst må være gammel, før siden i stedet viser en besked om at
+positionen er for gammel (standard: 30 minutter).
+
+#### Trin 3 — Deploy
+
+Er Firebase og Cloud Functions allerede sat op (Trin 1-4 i opgavelisten
+ovenfor), kræver denne funktion blot:
 
 ```bash
 firebase deploy --only firestore:rules,functions

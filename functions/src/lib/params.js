@@ -23,6 +23,14 @@ const GOOGLE_LIST_TITLE = defineString("GOOGLE_LIST_TITLE", { default: "Fra hjem
 
 const TOKEN_ENCRYPTION_KEY = defineSecret("TOKEN_ENCRYPTION_KEY");
 
+// --- Live afstand til besøgende (GPS fra OwnTracks) ---
+// Hemmelig token der skal matche ?token=... på reportLocation-endpointet,
+// sat via `firebase functions:secrets:set LOCATION_REPORT_TOKEN`.
+const LOCATION_REPORT_TOKEN = defineSecret("LOCATION_REPORT_TOKEN");
+// Hvor gammel den gemte position må være (i minutter), før den regnes for
+// for upålidelig til at vise en afstand.
+const MAX_LOCATION_AGE_MINUTES = defineString("MAX_LOCATION_AGE_MINUTES", { default: "30" });
+
 module.exports = {
   OWNER_EMAIL,
   ACTIVE_PROVIDER,
@@ -36,4 +44,6 @@ module.exports = {
   GOOGLE_REDIRECT_URI,
   GOOGLE_LIST_TITLE,
   TOKEN_ENCRYPTION_KEY,
+  LOCATION_REPORT_TOKEN,
+  MAX_LOCATION_AGE_MINUTES,
 };
